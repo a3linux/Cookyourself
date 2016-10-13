@@ -33,3 +33,6 @@ nosetests.xml
 
 # Mac OS file
 .DS_Store
+
+# database
+db.sqlite3
