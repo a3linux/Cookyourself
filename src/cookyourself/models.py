@@ -54,7 +54,7 @@ class Ingredient(models.Model):
 
 class Instruction(models.Model):
     content = models.CharField(max_length=1024)
-    tutorial = models.ForeignKey(Instruction, blank=True, null=True)
+    tutorial = models.ForeignKey(Tutorial, blank=True, null=True)
 
     def __str__(self):
         return self.content
