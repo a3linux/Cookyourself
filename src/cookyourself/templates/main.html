@@ -1,1 +1,90 @@
 {% extends "base.html" %}
+
+{% block individual_css %}
+    {% load static from staticfiles %}
+    <link href="{% static 'cookyourself/css/main.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block main_body %}
+    </br>
+    <blockquote class="text-center">If, for the sake of love and delicacy, I must pay. I'd rather give my life away</br>
+        <small>― adapted from Sándor Petőfi</small>
+    </blockquote>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="col-md-3">
+                        <img class="img-thumbnail post_picture" src="#" alt="Dish">
+                        <hr>
+                        <h5>
+                            Dish name
+                        </h5>
+                    </div>
+                    <div class="col-md-3">
+                        <img class="img-thumbnail post_picture" src="#" alt="Dish">
+                        <hr>
+                        <h5>
+                            Dish name
+                        </h5>
+                    </div>
+                    <div class="col-md-3">
+                        <img class="img-thumbnail post_picture" src="#" alt="Dish">
+                        <hr>
+                        <h5>
+                            Dish name
+                        </h5>
+                    </div>
+                </div>
+            </div>
+            </br>
+            <div class="col-sm-3">
+                <div class="sidebar-module">
+                    <h5>Filter by:</h5><br>
+                    <div class="dropdown">
+                        <button class="btn btn-cookyourself dropdown-toggle" type="button" id="dropdownMenu1"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            Dish style
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li><a href="#">Chinese</a></li>
+                            <li><a href="#">Korean</a></li>
+                            <li><a href="#">Japanese</a></li>
+                            <li><a href="#">Indian</a></li>
+                            <li><a href="#">American</a></li>
+                            <li><a href="#">French</a></li>
+                        </ul>
+                    </div>
+                    </br>
+                    <div class="dropdown">
+                        <button class="btn btn-cookyourself dropdown-toggle" type="button" id="dropdownMenu1"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            Popularity
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li><a href="#">Daily</a></li>
+                            <li><a href="#">Weekly</a></li>
+                            <li><a href="#">Monthly</a></li>
+                            <li><a href="#">All the time</a></li>
+                        </ul>
+                    </div>
+                    </br>
+                    <div class="dropdown">
+                        <button class="btn btn-cookyourself dropdown-toggle" type="button" id="dropdownMenu1"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            Price
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li><a href="#">Low to high</a></li>
+                            <li><a href="#">High to Low</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
