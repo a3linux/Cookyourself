@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
@@ -15,13 +16,13 @@ class UserProfile(models.Model):
 class Post(models.Model):
     author = models.ForeignKey(UserProfile)
     # Posts are related to particular dish
-    dish = models.ForeignKey(Dish)
+    dish = models.ForeignKey('Dish')
     content = models.TextField(max_length=1024)
     # current date & time will be added.
     created_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return "Post: " content + ", by " + str(author)
+        return "Post: " + content + ", by " + str(author)
 
 class Comment(models.Model):
     author = models.ForeignKey(UserProfile)
@@ -32,7 +33,7 @@ class Comment(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return "Comment: " content + ", by " + str(author)
+        return "Comment: " + content + ", by " + str(author)
 
 class Image(models.Model):
     name = models.CharField(max_length=128)
@@ -54,13 +55,13 @@ class Ingredient(models.Model):
 
 class Instruction(models.Model):
     content = models.CharField(max_length=1024)
-    tutorial = models.ForeignKey(Tutorial, blank=True, null=True)
+    tutorial = models.ForeignKey('Tutorial', blank=True, null=True)
 
     def __str__(self):
         return self.content
 
 class Tutorial(models.Model):
-    dish = models.OneToOneField(Dish, related_name='tutorial')
+    dish = models.OneToOneField('Dish', related_name='tutorial')
     video = models.URLField(blank=True, null=True)
 
     def __str__(self):

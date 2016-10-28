@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+import cookyourself.views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^cookyourself/', include('cookyourself.urls')),
+    url(r'^$', cookyourself.views.index),
 ]

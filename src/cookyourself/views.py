@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.shortcuts import render_to_response
+
 
 # Create your views here.
-def index(self):
-    return HttpResponse("Here's the text of the Web page.", content_type="text/plain")
+def index(request):
+    return render_to_response('main.html')

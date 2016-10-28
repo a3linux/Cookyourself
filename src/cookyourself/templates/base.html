@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- Font awesome CSS -->
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- Moment Javascript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.2/moment.min.js"></script>
+
+    <!-- Base CSS and JS -->
+    {% load static from staticfiles %}
+    <link href="{% static 'cookyourself/css/base.css' %}" rel="stylesheet">
+    {% load static from staticfiles %}
+    <script src="{% static 'cookyourself/js/base.js' %}" type="text/javascript">
+    </script>
+
+    <!-- Individual page configuration -->
+    {% block title %}
+        <title>cookyourself base page</title>
+    {% endblock %}
+    {% block individual_css %}{% endblock %}
+    {% block individual_js %}{% endblock %}
+</head>
+
+<body>
+<div id="base-holder">
+    <div class="base-masthead">
+        <div class="container">
+            <nav class="base-nav">
+                <div class="navbar-header">
+                    {% load static from staticfiles %}
+                    <img alt="Cookyourself" height="50px"
+                         src="{% static 'cookyourself/images/cookyourself_logo.png' %}">
+                    <a class="base-nav-item" href="#">Cookyourself</a>
+                </div>
+                <form class="navbar-form navbar-left" id="navBarSearchForm">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Find a recipe">
+                    </div>
+                    <button type="submit" class="btn btn-default">Search</button>
+                </form>
+                <div class="navbar-header">
+                    <a class="base-nav-item" href="#">Home</a>
+                    <a class="base-nav-item" href="#">Sharing</a>
+                </div>
+
+                <ul class="nav nav-pills pull-right">
+                    <li class="base-nav-item" href="#">Log In</li>
+                    <li class="base-nav-item" href="#">Sign Up</li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    {% block main_body %}
+        <p class="text-center">Specify the main body for your page</p>
+    {% endblock %}
+
+    <footer id="base-footer">
+        <div class="second-bar">
+            <div class="container">
+                <h5 class="logo"><a href="#"> &copy; Cookyourself <span id="clock"></span></a></h5>
+                <div class="social-icons">
+                    <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
+                    <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
+                    <a href="#" class="google"><i class="fa fa-google-plus"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</div>
+</body>
+</html>
