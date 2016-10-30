@@ -1,0 +1,38 @@
+.dish-pic{
+	height : 350px;
+	width : 550px;
+}
+.dish-info{
+	float: right;
+}
+#ingredient{
+	padding-bottom:10px;
+}
+#instruction{
+	padding-bottom:30px;
+}
+#comments{
+	padding-bottom:100px;
+}
+#ingre-list{
+	border: 1px solid #000;
+	padding:10px;
+}
+#mapCanvas{
+	float: right;
+}
+.portrait{
+  	width:50px;
+  	height:50px;
+  	margin-top:5px;
+}
+.comment-message{
+  	padding:20px;
+  	padding-top:40px;
+}
+.comment-post-meta {
+ 	font-size:10px;
+  	display:flex;
+  	display:inline;
+  	font-style:italic;
+}
