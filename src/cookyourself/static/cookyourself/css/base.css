@@ -41,6 +41,7 @@
 
 #toggleButton {
     background-color: #9fa3a9;
+    border:1px solid orange;
 }
 
 /* Active state gets a caret at the bottom */

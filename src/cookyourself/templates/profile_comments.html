@@ -1,0 +1,44 @@
+{% extends "profile_base.html" %}
+{% load static from staticfiles %}
+{% block title %}
+    <title>profile comments</title>
+{% endblock %}
+{% block favorite_made_comments %}
+
+    <div id="profile_dishes_container" class="container">
+        <h3> Comments </h3>
+        <hr>
+        <section id="comments_section" class="jumbotron">
+            </br>
+            <div class="row">
+                <div class="col-sm-5">
+                    <textarea name="item" style="resize: none" rows="2" cols="60"
+                              placeholder="Any comments?"></textarea>
+                </div>
+                <div class="col-sm-2">
+                    <input class="btn-cookyourself" type="submit" value="Post">
+                </div>
+            </div>
+            <div class="media">
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object" src="{% static 'cookyourself/images/p2.jpg' %}"
+                             class="img-rounded"
+                             alt="" height="50px">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <p class="lead">
+                        <a href="">Lucy</a>
+                    </p>
+                    <small><span class="glyphicon glyphicon-time"></span>&nbsp;September 5, 2016</small>
+                </div>
+            </div>
+
+            <h5>
+                I found a lot of awesome recipes here. Cool!
+            </h5>
+        </section>
+    </div>
+
+{% endblock %}

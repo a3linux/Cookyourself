@@ -1,0 +1,20 @@
+#profile_dishes_container {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#profile_info_section {
+    padding: 10px 20px 10px 20px;
+}
+
+#profile_info_avatar {
+    padding: 10px 20px 10px 40px;
+}
+
+.profile_info_text {
+    color: darkgrey;
+}
+
+#comments_section {
+    padding: 10px 20px 10px 20px;
+}
