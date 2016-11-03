@@ -17,6 +17,9 @@
     <!-- Base CSS -->
     {% load static from staticfiles %}
     <link href="{% static 'cookyourself/css/base.css' %}" rel="stylesheet">
+    <!-- Footer CSS -->
+    {% load static from staticfiles %}
+    <link href="{% static 'cookyourself/css/footer.css' %}" rel="stylesheet">
     <!-- Buttons CSS -->
     {% load static from staticfiles %}
     <link href="{% static 'cookyourself/css/buttons.css' %}" rel="stylesheet">
@@ -34,52 +37,60 @@
 </head>
 
 <body>
-<div id="base-holder">
-    <div class="base-masthead">
-        <div class="container">
-            <nav class="base-nav">
-                <div class="navbar-header">
-                    {% load static from staticfiles %}
-                    <img alt="Cookyourself" height="50px"
-                         src="{% static 'cookyourself/images/cookyourself_logo.png' %}">
-                    <a class="base-nav-item" href="#">Cookyourself</a>
-                </div>
-                <form class="navbar-form navbar-left" id="navBarSearchForm">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Find a recipe">
-                    </div>
-                    <button type="submit" class="btn btn-cookyourself">Search</button>
-                </form>
-                <div class="navbar-header">
-                    <a class="base-nav-item" href="#">Home</a>
-                    <a class="base-nav-item" href="#">Sharing</a>
-                </div>
 
-                <ul class="nav nav-pills pull-right">
+<div class="base-masthead">
+    <nav class="base-nav">
+        <div class="container">
+            <div class="navbar-header">
+                <button id="toggleButton" type="button" class="navbar-toggle" data-toggle="collapse"
+                        data-target="#baseNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                {% load static from staticfiles %}
+                <img alt="Cookyourself" height="50px"
+                     src="{% static 'cookyourself/images/cookyourself_logo.png' %}">
+                <a class="base-nav-item" href="#">Cookyourself</a>
+            </div>
+            <form class="navbar-form navbar-left" id="navBarSearchForm">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Find a recipe">
+                </div>
+                <button type="submit" class="btn btn-cookyourself">Search</button>
+            </form>
+            <div class="collapse navbar-collapse" id="baseNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="base-nav-item" href="#">Home</li>
+                    <li class="base-nav-item" href="#">Sharing</li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
                     <li class="base-nav-item" href="#">Log In</li>
                     <li class="base-nav-item" href="#">Sign Up</li>
                 </ul>
-            </nav>
+            </div>
         </div>
-    </div>
+    </nav>
+</div>
 
+<div class="content">
     {% block main_body %}
         <p class="text-center">Specify the main body for your page</p>
     {% endblock %}
+</div>
 
-    <footer id="base-footer">
-        <div class="second-bar">
-            <div class="container">
-                <h5 class="logo"><a href="#"> &copy; Cookyourself <span id="clock"></span></a></h5>
-                <div class="social-icons">
-                    <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
-                    <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
-                    <a href="#" class="google"><i class="fa fa-google-plus"></i></a>
-                </div>
+<footer id="base-footer">
+    <div class="second-bar">
+        <div class="container">
+            <h5 class="logo"><a href="#"> &copy; Cookyourself <span id="clock"></span></a></h5>
+            <div class="social-icons">
+                <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
+                <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
+                <a href="#" class="google"><i class="fa fa-google-plus"></i></a>
             </div>
         </div>
-    </footer>
+    </div>
+</footer>
 
-</div>
 </body>
 </html>
