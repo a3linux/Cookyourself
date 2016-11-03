@@ -1,0 +1,120 @@
+#base-footer {
+    background-color: #f47d42;
+    color: white;
+    bottom: 0;
+    height: 50px;
+    left: 0;
+    position: relative;
+    right: 0;
+}
+
+#base-footer .row {
+    margin-bottom: 60px;
+}
+
+#base-footer .info {
+    text-align: justify;
+    color: #afb0b1;
+}
+
+#base-footer ul {
+    list-style-type: none;
+    padding-left: 0;
+    line-height: 1.7;
+}
+
+#base-footer h5 {
+    font-size: 18px;
+    color: white;
+    font-weight: bold;
+    margin-top: 30px;
+}
+
+#base-footer .logo {
+    margin-top: 10px;
+}
+
+#base-footer .second-bar .logo a {
+    color: #9fa3a9;
+    font-size: 15px;
+    float: left;
+    font-weight: bold;
+    line-height: 45px;
+    margin: 0;
+    padding: 0;
+}
+
+#base-footer .second-bar .logo a:hover {
+    color: white;
+}
+
+#base-footer a {
+    color: #d2d1d1;
+    text-decoration: none;
+}
+
+#base-footer a:hover,
+#base-footer a:focus {
+    text-decoration: none;
+    color: white;
+}
+
+#base-footer .second-bar {
+    text-align: center;
+    background-color: #f47d42;
+    text-align: center;
+}
+
+#base-footer .second-bar a {
+    font-size: 18px;
+    color: #9fa3a9;
+    padding: 10px;
+    transition: 0.2s;
+    line-height: 45px;
+}
+
+#base-footer .second-bar a:hover {
+    text-decoration: none;
+}
+
+#base-footer .social-icons {
+    float: right;
+}
+
+#base-footer .facebook:hover {
+    color: #0077e2;
+}
+
+#base-footer .google:hover {
+    color: #ef1a1a;
+}
+
+#base-footer .twitter:hover {
+    color: #00aced;
+}
+
+/* CSS used for positioning the footers at the bottom of the page. */
+/* You can remove this. */
+
+html{
+    height: 100%;
+}
+
+body{
+    display: flex;
+    display: -webkit-flex;
+    flex-direction: column;
+    -webkit-flex-direction: column;
+    height: 100%;
+}
+
+.content{
+   flex: 1 0 auto;
+   -webkit-flex: 1 0 auto;
+   min-height: 200px;
+}
+
+#base-footer {
+   flex: 0 0 auto;
+   -webkit-flex: 0 0 auto;
+}
