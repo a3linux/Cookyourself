@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static from staticfiles %}
+{% block title %}
+<title>Shoppinglist</title>
+{% endblock %}
+{% block individual_css %}
+<link href="{% static 'cookyourself/css/shoppinglist.css' %}" rel="stylesheet">
+{% endblock %}
+{% block main_body %}
+<div class="container slist-base">
+  <div class="page-header">
+    <h1>Your shopping List<br><small>We deliver the best and cheapest ones for you</small></h1>
+  </div>
+  <div class="row">
+    <div class="col-md-8">
+      <div class="jumbotron jumbotron-wide">
+        <h2>Seasonings</h2>
+        <hr>
+        <div class="list-group slist-category">
+          <li href="#" class="list-group-item inline-headers">
+            <h4>honey</h4>
+            <span class="pull-right icon-remove-parent">
+              <span class="glyphicon glyphicon-remove icon-remove"></span>
+            </span>
+          </li>
+          <li href="#" class="list-group-item">soy sauce</li>
+          <li href="#" class="list-group-item">olive oil</li>
+          <li href="#" class="list-group-item">salt</li>
+          <li href="#" class="list-group-item">sugar</li>
+        </div>
+        <h2>Meat</h2>
+        <hr>
+        <div class="list-group">
+          <a href="#" class="list-group-item">pork</a>
+          <a href="#" class="list-group-item">chicken tender</a>
+          <a href="#" class="list-group-item">shrimp</a>
+        </div>
+        <div class="row">
+          <p class="col-xs-offset-9 col-xs-3">
+            <a class="btn btn-primary btn-lg" href="#" role="button">Print</a>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="jumbotron jumbotron-wide inline-headers align-h3-to-p">
+        <h2>Price</h2>
+        <hr>
+        <p class="text-right">$20</p>
+        <p class="text-right">$30</p>
+        <hr>
+        <h3>Total</h3>
+        <span class="pull-right"><p>$50</p></span>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

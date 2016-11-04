@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static from staticfiles %}
+{% block title %}
+<title>Recommendation</title>
+{% endblock %}
+{% block individual_css %}
+<link href="{% static 'cookyourself/css/recommendation.css' %}" rel="stylesheet">
+{% endblock %}
+{% block main_body %}
+<div class="container">
+  <div class="page-header">
+    <h1>Recommendation<br><small>Let us plan your meal!</small></h1>
+  </div>
+  <ul class="nav nav-tabs nav-justified">
+    <li class="active"><a href="#">Pick One</a></li>
+    <li><a href="#">Weekly Plan</a></li>
+    <li><a href="#">Upload Item</a></li>
+  </ul>
+  <div class="container-fluid nav-tab-content">
+    <div class="row jumbotron-group">
+      <div class="col-md-6">
+        <div class="jumbotron jumbotron-wide text-center">
+          <h3>Block1</h3>
+          <hr>
+          <img class="img-fluid" src="http://images.media-allrecipes.com/userphotos/560x315/549979.jpg">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="jumbotron jumbotron-wide">
+          <h2>Block2</h2>
+        </div>
+      </div>
+    </div>
+    <div class="text-center">
+      <button class="btn btn-primary">Try again!</button>
+    </div>
+  </div>
+</div>
+{% endblock %}

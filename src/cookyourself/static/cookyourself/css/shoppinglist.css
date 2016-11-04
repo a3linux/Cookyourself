@@ -1,0 +1,29 @@
+body {
+  background-color: #F2F0EB;
+}
+
+.jumbotron {
+  background-color: #FFFFFF;
+}
+.slist-category a {
+
+}
+.inline-headers h3,
+.inline-headers h4 {
+  display: inline-block;
+  vertical-align: baseline;
+}
+.align-h3-to-p h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+.icon-remove-parent {
+  width: 15px;
+  height: 40px;
+  display:table;
+}
+.icon-remove {
+  color: #F2F0EB;
+  display:table-cell;
+  vertical-align:middle;
+}
