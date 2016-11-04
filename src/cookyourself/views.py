@@ -15,4 +15,4 @@ def recommendation(request):
     return render(request, 'recommendation.html')
 
 def profile(request, id=0):
-    return render(request, 'profile_i_made_it.html')
+    return render(request, 'profile.html')

@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% load  static from staticfiles %}
+
+{% block title %}
+<title>profile base</title>
+{% endblock %}
+{% block individual_css %}
+<link href="{% static 'cookyourself/css/profile.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block main_body %}
+<div class="container">
+  <section id="profile_info_section" class="jumbotron">
+    <div class="row">
+      <div class="col-xs-12 col-md-4 col-lg-4">
+        <a href="#">
+          <img src="{% static 'cookyourself/images/p1.jpg' %}" class="img-rounded"
+          id="profile_info_avatar">
+        </a>
+      </div>
+      <div class="col-xs-6 col-md-8 col-lg-4">
+        <h2>
+          <a href="#">Alice</a>
+        </h2>
+        <div class="profile_info_text">
+          <Strong>Female</Strong>&nbsp;
+          <strong><span class="glyphicon glyphicon-map-marker"></span>&nbsp;Pennsylvania</strong>&nbsp;
+          <strong>2016-10-31 Join in</strong><br>
+        </div>
+        <br>
+        <h4>Enjoy delicious food!</h4><br>
+      </div>
+    </div>
+  </section>
+
+  <div id="profile_dishes_container">
+    <div class="btn-group btn-group-justified" role="group" aria-label="...">
+      <div class="btn-group" role="group">
+        <button type="button" class="btn btn-warning" data-toggle="tab" href="#profile-favorites">Favorites</button>
+      </div>
+      <div class="btn-group" role="group">
+        <button type="button" class="btn btn-warning" data-toggle="tab" href="#profile-i-made">I made it</button>
+      </div>
+      <div class="btn-group" role="group">
+        <button type="button" class="btn btn-warning" data-toggle="tab" href="#profile-comments">Comments</button>
+      </div>
+    </div>
+    <br>
+  </div>
+
+  <div id="profile_dishes_container" class="tab-content">
+    <div id="profile-favorites" class="tab-pane fade in active">
+      <div class="row">
+        <div class="col-xs-12 col-md-4 col-lg-4">
+          <img class="img-thumbnail post_picture" width="100%" height="100%"
+          src="{% static 'cookyourself/images/tofu.jpg' %}" alt="Dish">
+          <hr>
+          <h5>
+            Tofu and Veggies in Peanut Sauce
+          </h5>
+        </div>
+      </div>
+    </div>
+
+    <div id="profile-i-made" class="tab-pane fade">
+      <div class="row">
+        <div class="col-xs-12 col-md-4 col-lg-4">
+          <img class="img-thumbnail post_picture" width="100%" height="100%"
+          src="{% static 'cookyourself/images/tofu.jpg' %}" alt="Dish">
+          <hr>
+          <h5>
+            Tofu and Veggies in Peanut Sauce
+          </h5>
+        </div>
+        <div class="col-xs-12 col-md-4 col-lg-4">
+          <img class="img-thumbnail post_picture" width="100%" height="100%"
+          src="{% static 'cookyourself/images/shrimp.jpg' %}" alt="Dish">
+          <hr>
+          <h5>
+            Lemon Ginger Shrimp
+          </h5>
+        </div>
+        <div class="col-xs-12 col-md-4 col-lg-4">
+          <img class="img-thumbnail post_picture" width="100%" height="100%"
+          src="{% static 'cookyourself/images/fish.jpg' %}" alt="Dish">
+          <hr>
+          <h5>
+            Fish on a Plank
+          </h5>
+        </div>
+      </div>
+    </div>
+
+    <div id="profile-comments" class="tab-pane fade">
+      <h3> Comments </h3>
+      <hr>
+      <section id="comments_section" class="jumbotron">
+        </br>
+        <div class="row">
+          <div class="col-sm-5">
+            <textarea name="item" style="resize: none" rows="2" cols="60"
+            placeholder="Any comments?"></textarea>
+          </div>
+          <div class="col-sm-2">
+            <input class="btn-cookyourself" type="submit" value="Post">
+          </div>
+        </div>
+        <div class="media">
+          <div class="media-left">
+            <a href="#">
+              <img class="media-object" src="{% static 'cookyourself/images/p2.jpg' %}"
+              class="img-rounded"
+              alt="" height="50px">
+            </a>
+          </div>
+          <div class="media-body">
+            <p class="lead">
+              <a href="">Lucy</a>
+            </p>
+            <small><span class="glyphicon glyphicon-time"></span>&nbsp;September 5, 2016</small>
+          </div>
+        </div>
+
+        <h5>
+          I found a lot of awesome recipes here. Cool!
+        </h5>
+      </section>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

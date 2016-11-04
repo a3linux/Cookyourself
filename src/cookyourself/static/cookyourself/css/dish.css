@@ -1,6 +1,7 @@
 .dish-pic{
-	height : 350px;
-	width : 550px;
+	/*height : 350px;
+	width : 550px;*/
+	width : 100%;
 }
 .dish-info{
 	float: right;

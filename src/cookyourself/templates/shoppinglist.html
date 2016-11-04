@@ -16,30 +16,60 @@
       <div class="jumbotron jumbotron-wide">
         <h2>Seasonings</h2>
         <hr>
-        <div class="list-group slist-category">
-          <li href="#" class="list-group-item inline-headers">
-            <h4>honey</h4>
+        <ul class="list-group slist-category">
+          <li class="list-group-item">honey
             <span class="pull-right icon-remove-parent">
-              <span class="glyphicon glyphicon-remove icon-remove"></span>
+              <button class="btn-list-remove"><span class="glyphicon glyphicon-remove icon-remove"></span></button>
             </span>
           </li>
-          <li href="#" class="list-group-item">soy sauce</li>
-          <li href="#" class="list-group-item">olive oil</li>
-          <li href="#" class="list-group-item">salt</li>
-          <li href="#" class="list-group-item">sugar</li>
-        </div>
+          <li class="list-group-item">soy sauce
+            <span class="pull-right icon-remove-parent">
+              <button class="btn-list-remove"><span class="glyphicon glyphicon-remove icon-remove"></span></button>
+            </span>
+          </li>
+          <li class="list-group-item">olive oil
+            <span class="pull-right icon-remove-parent">
+              <button class="btn-list-remove"><span class="glyphicon glyphicon-remove icon-remove"></span></button>
+            </span>
+          </li>
+          <li class="list-group-item">salt
+            <span class="pull-right icon-remove-parent">
+              <button class="btn-list-remove"><span class="glyphicon glyphicon-remove icon-remove"></span></button>
+            </span>
+          </li>
+          <li class="list-group-item">sugar
+            <span class="pull-right icon-remove-parent">
+              <button class="btn-list-remove"><span class="glyphicon glyphicon-remove icon-remove"></span></button>
+            </span>
+          </li>
+        </ul>
         <h2>Meat</h2>
         <hr>
-        <div class="list-group">
-          <a href="#" class="list-group-item">pork</a>
-          <a href="#" class="list-group-item">chicken tender</a>
-          <a href="#" class="list-group-item">shrimp</a>
+        <ul class="list-group">
+          <li href="#" class="list-group-item">pork
+            <span class="pull-right icon-remove-parent">
+              <button class="btn-list-remove"><span class="glyphicon glyphicon-remove icon-remove"></span></button>
+            </span>
+          </li>
+          <li href="#" class="list-group-item">chicken tender
+            <span class="pull-right icon-remove-parent">
+              <button class="btn-list-remove"><span class="glyphicon glyphicon-remove icon-remove"></span></button>
+            </span>
+          </li>
+          <li href="#" class="list-group-item">shrimp
+            <span class="pull-right icon-remove-parent">
+              <button class="btn-list-remove"><span class="glyphicon glyphicon-remove icon-remove"></span></button>
+            </span>
+          </li>
+        </ul>
+        <div class="clearfix">
+          <button class="btn btn-primary btn-lg pull-right" href="#" role="button">Print</button>
         </div>
-        <div class="row">
-          <p class="col-xs-offset-9 col-xs-3">
-            <a class="btn btn-primary btn-lg" href="#" role="button">Print</a>
-          </p>
-        </div>
+        <!-- <div class="row">
+          <div class="col-md-offset-9 col-md-3 col-sm-offset-10 col-sm-2 col-xs-offset-8 col-xs-4">
+            <button class="btn btn-primary btn-lg" href="#" role="button">Print</button>
+          </div>
+        </div> -->
       </div>
     </div>
     <div class="col-md-4">
@@ -51,6 +81,14 @@
         <hr>
         <h3>Total</h3>
         <span class="pull-right"><p>$50</p></span>
+      </div>
+
+      <div class="jumbotron jumbotron-wide clearfix inline-headers align-h3-to-p">
+        <h3>Send it to me</h3>
+        <div class="form-group">
+          <input type="text" class="form-control" id="email">
+        </div>
+        <input class="btn btn-primary btn-lg pull-right" href="#" type="submit" value="Send"></input>
       </div>
     </div>
   </div>

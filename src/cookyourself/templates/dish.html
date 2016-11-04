@@ -1,111 +1,111 @@
 {% extends "base.html" %}
 {% load static from staticfiles %}
 {% block title %}
-    <title>dish page</title>
+<title>dish page</title>
 {% endblock %}
 {% block individual_css %}
-    <link href="{% static 'cookyourself/css/dish.css' %}" rel="stylesheet">
+<link href="{% static 'cookyourself/css/dish.css' %}" rel="stylesheet">
 {% endblock %}
 {% block individual_js %}
-    <script src="{% static 'cookyourself/js/gmap.js' %}" type="text/javascript"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5P23s1JdyGUCx1RZxs7Qv84P5ff1Ocl0&callback=getLocation&libraries=places"></script>
+<script src="{% static 'cookyourself/js/gmap.js' %}" type="text/javascript"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5P23s1JdyGUCx1RZxs7Qv84P5ff1Ocl0&callback=getLocation&libraries=places"></script>
 {% endblock %}
 {% block main_body %}
 <section class="jumbotron">
-    <div class="container">
-        <div class="row">
-            <div class=col-sm-6>
-  			    <img class="dish-pic" alt="dish1" 
-  			    src="{% static 'cookyourself/images/dish1.jpg' %}">
-            </div>
-            <div class=col-sm-5>
-            	<div class="dish-info">
-            		<p> Honey glazed chicken </p>
-            		<h5> Recipe by: <a href="#">jbrink1</a></h5>
-            		<h5> Style: American </h5>
-            		<h5> Price: $5 </h5>
-            	</div>
-            </div>
+  <div class="container">
+    <div class="row">
+      <div class=col-sm-6>
+        <img class="dish-pic" alt="dish1"
+        src="{% static 'cookyourself/images/dish1.jpg' %}">
+      </div>
+      <div class=col-sm-5>
+        <div class="dish-info">
+          <p> Honey glazed chicken </p>
+          <h5> Recipe by: <a href="#">jbrink1</a></h5>
+          <h5> Style: American </h5>
+          <h5> Price: $5 </h5>
         </div>
+      </div>
     </div>
+  </div>
 </section>
 <div class="container" id="ingredient">
-	<div class="row">
-		<h3> Ingredients</h3>
-		<hr>
-		<div class=col-sm-6 id="ingre-list">	
-			<ul>
-          		<li><a href="#">+</a> 1/4 cup honey</li>
-          		<li><a href="#">+</a> 2 tablespoons soy sauce</li>
-          		<li>
-          			<a href="#">+</a> 2 skinless, boneless checken breast halves, cut into bite-size pieces
-          		</li>
-          		<li><a href="#">+</a> 1/2 tablespoons olive oil</li>
-  		  		<li><a href="#">+</a> Add all ingredients to list</li>
-        	</ul>
-        </div>
-        <div class="col-sm-4 col-sm-offset-2" id="mapCanvas">
-          <h4> Nearest store</h4>
-        	<div id="map" style="width:100%;height:180px"></div>
-        </div>
-	</div>
+  <div class="row">
+    <h3> Ingredients</h3>
+    <hr>
+    <div class=col-sm-6 id="ingre-list">
+      <ul>
+        <li><a href="#">+</a> 1/4 cup honey</li>
+        <li><a href="#">+</a> 2 tablespoons soy sauce</li>
+        <li>
+          <a href="#">+</a> 2 skinless, boneless checken breast halves, cut into bite-size pieces
+        </li>
+        <li><a href="#">+</a> 1/2 tablespoons olive oil</li>
+        <li><a href="#">+</a> Add all ingredients to list</li>
+      </ul>
+    </div>
+    <div class="col-sm-4 col-sm-offset-2" id="mapCanvas">
+      <h4> Nearest store</h4>
+      <div id="map" style="width:100%;height:180px"></div>
+    </div>
+  </div>
 </div>
 <div class="container" id="instruction">
-	<div class="row">
-		<h3> Instructions </h3>
-		<hr>
-		<div class=col-sm-8>
-			<ol>
-				<li>Whisk honey, soy sauce, and red pepper flakes in a bowl.</li>
-				<li>Heat olive oil in a skillet over medium heat; cook and stir chicken in hot oil until lightly brown, about 5 minutes. Pour honey mixture into skillet and continue to cook and stir until chicken is no longer pink in the center and sauce is thickened, about 5 minutes more.</li>
-	    	</ol>
-	    </div>
-	</div>
+  <div class="row">
+    <h3> Instructions </h3>
+    <hr>
+    <div class=col-sm-8>
+      <ol>
+        <li>Whisk honey, soy sauce, and red pepper flakes in a bowl.</li>
+        <li>Heat olive oil in a skillet over medium heat; cook and stir chicken in hot oil until lightly brown, about 5 minutes. Pour honey mixture into skillet and continue to cook and stir until chicken is no longer pink in the center and sauce is thickened, about 5 minutes more.</li>
+      </ol>
+    </div>
+  </div>
 </div>
 <div class="container" id="comments">
-	<div class="row">
-		<h3> Comments </h3>
-		<hr>
-        <div class="row">
-        	<div class="col-sm-1 text-center">
-            	<img class="portrait img-circle" src="{% static 'cookyourself/images/p1.jpg' %}" alt="p1">
-            	<p class="name"><a href="#">Alice</a></p>
-          	</div>
-          	<div class="col-sm-5">
-        		<textarea id="comment-text" name="item" style="resize: none" rows="2" cols="40" placeholder="Any comments?"></textarea>
-    		</div>
-    		<div class="col-sm-2">
-        		<input id="comment-button" type="submit" value="Post">
-    		</div>
+  <div class="row">
+    <h3> Comments </h3>
+    <hr>
+    <div class="row">
+      <div class="col-sm-1 text-center">
+        <img class="portrait img-circle" src="{% static 'cookyourself/images/p1.jpg' %}" alt="p1">
+        <p class="name"><a href="#">Alice</a></p>
+      </div>
+      <div class="col-sm-5">
+        <textarea id="comment-text" name="item" style="resize: none" rows="2" cols="40" placeholder="Any comments?"></textarea>
+      </div>
+      <div class="col-sm-2">
+        <input id="comment-button" type="submit" value="Post">
+      </div>
+    </div>
+    <div class="row comment-message">
+      <div class="col-sm-1 text-center">
+        <img class="portrait img-circle" src="{% static 'cookyourself/images/p1.jpg' %}" alt="p1">
+        <p class="name"><a href="#">Alice</a></p>
+      </div>
+      <div class="col-sm-5">
+        <p>It's a great recipe!</p>
+        <div class="row comment-info">
+          <div class="col-sm-4">
+            <p class="comment-post-meta">September 6, 2016</p>
+          </div>
         </div>
-		<div class="row comment-message">
-			<div class="col-sm-1 text-center">
-            	<img class="portrait img-circle" src="{% static 'cookyourself/images/p1.jpg' %}" alt="p1">
-            	<p class="name"><a href="#">Alice</a></p>
-          	</div>
-          	<div class="col-sm-5">
-            	<p>It's a great recipe!</p>
-            	<div class="row comment-info">
-            		<div class="col-sm-4">
-                		<p class="comment-post-meta">September 6, 2016</p>
-            		</div>
-            	</div>
-	    	</div>
-		</div>
-		<div class="row comment-message">
-			<div class="col-sm-1 text-center">
-            	<img class="portrait img-circle" src="{% static 'cookyourself/images/p2.jpg' %}" alt="p2">
-            	<p class="name"><a href="#">Arial</a></p>
-          	</div>
-          	<div class="col-sm-5">
-            	<p>Too sweet I think, so I add less honey~</p>
-            	<div class="row comment-info">
-            		<div class="col-sm-4">
-                		<p class="comment-post-meta">September 5, 2016</p>
-            		</div>
-            	</div>
-	    	</div>
-		</div>
-	</div>
+      </div>
+    </div>
+    <div class="row comment-message">
+      <div class="col-sm-1 text-center">
+        <img class="portrait img-circle" src="{% static 'cookyourself/images/p2.jpg' %}" alt="p2">
+        <p class="name"><a href="#">Arial</a></p>
+      </div>
+      <div class="col-sm-5">
+        <p>Too sweet I think, so I add less honey~</p>
+        <div class="row comment-info">
+          <div class="col-sm-4">
+            <p class="comment-post-meta">September 5, 2016</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}

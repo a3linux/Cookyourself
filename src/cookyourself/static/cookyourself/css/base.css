@@ -5,6 +5,17 @@
 /*
  * Override Bootstrap's default container.
  */
+@media (min-width: 768px) and (max-width: 800px) {
+  .container {
+        width: 768px;
+  }
+}
+
+@media (min-width: 800px) and (max-width: 992px) {
+  .container {
+       width: 800px;
+  }
+}
 
 @media (min-width: 1200px) {
     .container {
@@ -28,7 +39,7 @@
 /* Nav links */
 .base-nav-item {
     position: relative;
-    display: inline-block;
+    display: inline;
     padding: 15px;
     font-weight: 500;
     color: #cdddeb;
@@ -65,31 +76,72 @@
 }
 
 #navBarSearchForm input[type=text] {
-    width: 200px !important;
+    width: 250px !important;
 }
+
+/* Reference from
+  http://stackoverflow.com/questions/27592974/how-to-prevent-bootstrap-3-3-3-1-navbar-form-going-into-separate-line-on-mobil
+  https://output.jsbin.com/sudide/1/  */
+@media (min-width:0px) and (max-width:767px) {
+	.navbar {
+	    display: table;
+	    width: 100%;
+	}
+	.navbar-brand,
+	.navbar-search,
+	.navbar-toggle { display: table-cell }
+	.navbar-search {
+	    padding: 7.5px 15px;
+	    width: 1%;
+	}
+}
+@media (max-width:400px) {
+	.navbar-search {
+	    padding: 7.5px 15px;
+	    float: left;
+	    clear: both;
+	    width: 100%;
+	}
+}
+/* Expand to the whole space */
+@media (min-width:768px) {
+	.navbar-search {
+	    float: left;
+	    margin: 7.5px 5px;
+	}
+}
+@media (min-width:768px) and (max-width:800px) {
+  .nav>li>a {
+      position: relative;
+      display: block;
+      padding: 15px 10px;
+  }
+}
+/*@media (max-width: 768px) {
+    .nav
+    .navbar-form {
+        margin-right: 0px;
+        margin-left: 0px;
+    }
+}*/
 
 
 /*
  * jumbotron setting
  */
-
-@media (max-width: 768px) {
-    .navbar-form {
-        margin-right: 0px;
-        margin-left: 0px;
-    }
+.jumbotron-single {
+  margin-bottom: 20px;
 }
-
-
 .jumbotron-wide {
    padding: 20px;
-   margin-bottom: 0;
+   margin-bottom: 20px;
 }
 .jumbotron-wide img {
     width:100%;
 }
 @media screen and (min-width: 768px){
-  .container-fluid .jumbotron {
-     padding: 20px;
+  .container .jumbotron {
+     padding-right: 30px;
+     padding-left: 30px;
   }
 }

@@ -5,11 +5,7 @@ body {
 .jumbotron {
   background-color: #FFFFFF;
 }
-.slist-category a {
-
-}
-.inline-headers h3,
-.inline-headers h4 {
+.inline-headers h3 {
   display: inline-block;
   vertical-align: baseline;
 }
@@ -17,13 +13,28 @@ body {
   margin-top: 0;
   margin-bottom: 15px;
 }
+
 .icon-remove-parent {
   width: 15px;
   height: 40px;
-  display:table;
+}
+.btn-list-remove {
+  margin-top: -0.5em;
 }
 .icon-remove {
   color: #F2F0EB;
-  display:table-cell;
-  vertical-align:middle;
+}
+.icon-remove-parent button {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    outline: none;
+    border: 0;
+    background: transparent;
+}
+li.list-group-item > span {
+  display: none;
+}
+li.list-group-item:hover > span {
+  display: inline;
 }

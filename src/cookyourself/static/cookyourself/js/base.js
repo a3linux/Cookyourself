@@ -4,14 +4,16 @@
 
 $(document).ready(function () {
 
-    var clockElement = document.getElementById("clock");
-    function updateClock(clock) {
-        // clock.innerHTML = new Date(Date.now()).toLocaleString()
-        clock.innerHTML = moment().format('MMM D, YYYY, h:mm:ss a')
-    }
-    updateClock(clockElement);
+    document.getElementById("timestamp").innerHTML = String(new Date().getFullYear());
 
-    setInterval(function () {
-        updateClock(clockElement);
-    }, 60000);
+    // var clockElement = document.getElementById("clock");
+    // function updateClock(clock) {
+    //     clock.innerHTML = moment().format('MMM D, YYYY, h:mm:ss a')
+    //     // MMM D, YYYY, h:mm:ss a
+    // }
+    // updateClock(clockElement);
+    //
+    // setInterval(function () {
+    //     updateClock(clockElement);
+    // }, 60000);
 });
