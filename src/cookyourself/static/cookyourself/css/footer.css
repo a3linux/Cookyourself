@@ -113,6 +113,13 @@ body{
    -webkit-flex: 1 0 auto;
    /*min-height: 100%;*/
     min-height: 200px;
+    margin-top: 50px;
+}
+
+@media (max-width: 768px) {
+  .content {
+    margin-top: 125px;
+  }
 }
 
 #base-footer {
