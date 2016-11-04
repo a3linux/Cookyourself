@@ -13,22 +13,22 @@
 {% block main_body %}
 <section class="jumbotron">
   <div class="container">
-    <div class="row">
-      <div class=col-sm-6>
-        <img class="dish-pic" alt="dish1"
-        src="{% static 'cookyourself/images/dish1.jpg' %}">
+    <div class="row col-equal-height">
+      <div class="col-md-6 col-sm-6 col-xs-12">
+        <img class="img-thumbnail dish-pic" alt="dish1" src="{% static 'cookyourself/images/dish1.jpg' %}">
       </div>
-      <div class=col-sm-5>
+      <div class="col-md-6 col-sm-6 col-xs-12">
         <div class="dish-info">
-          <p> Honey glazed chicken </p>
-          <h5> Recipe by: <a href="#">jbrink1</a></h5>
-          <h5> Style: American </h5>
-          <h5> Price: $5 </h5>
+          <h3> Honey glazed chicken </h3>
+          <p> Recipe by: <a href="#">jbrink1</a></p>
+          <p> Style: American </p>
+          <p> Price: $5 </p>
         </div>
       </div>
     </div>
   </div>
 </section>
+
 <div class="container" id="ingredient">
   <div class="row">
     <h3> Ingredients</h3>

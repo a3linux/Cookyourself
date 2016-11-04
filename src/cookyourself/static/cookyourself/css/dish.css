@@ -4,7 +4,8 @@
 	width : 100%;
 }
 .dish-info{
-	float: right;
+	text-align: left;
+	/*vertical-align: middle;*/
 }
 #ingredient{
 	padding-bottom:10px;
