@@ -1,0 +1,11 @@
+ul.dropdown-menu {
+    background-color: #eb8f34;
+    width: inherit;
+}
+
+.dropdown-menu {
+  left: 50%;
+  right: 50%;
+  text-align: center;
+  transform: translate(50%, 0);
+}
