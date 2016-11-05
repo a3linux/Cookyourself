@@ -1,12 +1,42 @@
+
+.container-fluid {
+	width: 90%;
+	margin-top:10px;
+}
+#jcont.container {
+	width: 90%;
+	margin-bottom:0;
+}
+.breadcrumb {
+	margin-bottom: 0;
+	background-color: #e6e6e6;
+    white-space: nowrap;
+}
+#bottom.breadcrumb{
+	margin-top: 0;
+}
+#bottom.breadcrumb > li + li:before{
+	color: #ccc;
+    content: " ";
+    padding: 0 5px;
+}
+.breadcrumb > li + li:before {
+    color: #ccc;
+    content: "> ";
+    padding: 0 5px;
+}
+.glyphicon-star {
+	color:#f47d42;
+}
+#btop.jumbotron {
+	margin-top: 0;
+	background-color: #f2f2f2;
+}
 .dish-pic{
-	/*height : 350px;
-	width : 550px;*/
-	width : 100%;
+	height : 80%;
+	width : 80%;
 }
-.dish-info{
-	text-align: left;
-	/*vertical-align: middle;*/
-}
+
 #ingredient{
 	padding-bottom:10px;
 }
@@ -37,4 +67,8 @@
   	display:flex;
   	display:inline;
   	font-style:italic;
+}
+.recipe-navbar div {
+    height: 60px;
+    font-size: 17px;
 }
