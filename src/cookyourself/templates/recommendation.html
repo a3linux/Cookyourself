@@ -1,43 +1,68 @@
 {% extends "base.html" %}
 {% load static from staticfiles %}
 {% block title %}
-<title>Recommendation</title>
+  <title>Recommendation</title>
 {% endblock %}
 {% block individual_css %}
-<link href="{% static 'cookyourself/css/recommendation.css' %}" rel="stylesheet">
+  <link href="{% static 'cookyourself/css/recommendation.css' %}" rel="stylesheet">
 {% endblock %}
+
 {% block main_body %}
-<div class="container">
-  <div class="page-header">
-    <h1>Recommendation<br><small>Let us plan your meal!</small></h1>
-  </div>
+  <div class="container">
+    <div class="page-header">
+      <h1>Recommendation<br>
+        <small>Let us plan your meal!</small>
+      </h1>
+    </div>
 
-  <ul class="nav nav-tabs nav-justified">
-    <li class="active"><a href="#">Pick One</a></li>
-    <li><a href="#">Weekly Plan</a></li>
-    <li><a href="#">Upload Item</a></li>
-  </ul>
+    <ul class="nav nav-tabs nav-justified">
+      <li class="active"><a href="#">Pick One</a></li>
+      <li><a href="#">Weekly Plan</a></li>
+      <li><a href="#">Upload Item</a></li>
+    </ul>
 
-  <div class="container-fluid tab-content">
-    <div class="row">
-      <div class="col-md-6">
-        <div class="jumbotron jumbotron-wide text-center">
-          <h3>Steak</h3>
-          <hr>
-          <img class="img-thumbnail" src="http://images.media-allrecipes.com/userphotos/560x315/549979.jpg">
+    {#    <div class="btn-group btn-group-justified" role="group" aria-label="...">#}
+    {#      <div class="btn-group" role="group">#}
+    {#        <button type="button" class="btn btn-cookyourself active" data-toggle="tab" href="#">Pick One</button>#}
+    {#      </div>#}
+    {#      <div class="btn-group" role="group">#}
+    {#        <button type="button" class="btn btn-warning" data-toggle="tab" href="#">Weekly Plan</button>#}
+    {#      </div>#}
+    {#      <div class="btn-group" role="group">#}
+    {#        <button type="button" class="btn btn-warning" data-toggle="tab" href="#">Upload Item</button>#}
+    {#      </div>#}
+    {#    </div>#}
+
+    <div class="container-fluid tab-content">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="jumbotron jumbotron-wide text-center">
+            <h3>Steak</h3>
+            <hr>
+            <img class="img-thumbnail" src="http://images.media-allrecipes.com/userphotos/560x315/549979.jpg"
+                 width="100%" height="100%">
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="jumbotron jumbotron-wide text-center">
+            <h3>Chicken Scallopini</h3>
+            <hr>
+            <img class="img-thumbnail" src="http://images.media-allrecipes.com/userphotos/250x250/928953.jpg"
+                 width="100%" height="100%">
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="jumbotron jumbotron-wide text-center">
+            <h3>Parmesan Chicken Bake</h3>
+            <hr>
+            <img class="img-thumbnail" src="http://images.media-allrecipes.com/userphotos/600x600/1010419.jpg"
+                 width="100%" height="100%">
+          </div>
         </div>
       </div>
-      <div class="col-md-6">
-        <div class="jumbotron jumbotron-wide text-center">
-          <h3>Chicken Scallopini</h3>
-          <hr>
-          <img class="img-thumbnail" src="http://images.media-allrecipes.com/userphotos/250x250/928953.jpg">
-        </div>
+      <div class="text-center">
+        <button class="btn btn-warning">Try again</button>
       </div>
     </div>
-    <div class="text-center">
-      <button class="btn btn-primary">Try again!</button>
-    </div>
   </div>
-</div>
 {% endblock %}
