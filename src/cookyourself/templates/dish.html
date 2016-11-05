@@ -22,11 +22,11 @@
 <div class="container" id="jcont">
   <div class="jumbotron" id="btop">
         <div class="row">
-            <div class="col-lg-8 col-md-8">
+            <div class="col-lg-4 col-md-8 col-sm-8 col-sm-offset-2 col-xs-8 col-xs-offset-2">
   			      <img class="dish-pic" alt="dish1" 
   			      src="{% static 'cookyourself/images/dish1.jpg' %}">
             </div>
-            <div class="col-lg-4 col-md-4 dish-info">
+            <div class="col-lg-4 col-md-4 col-sm-8 col-sm-offset-2 col-xs-8 col-xs-offset-2 text-center dish-info">
             		<p> Honey glazed chicken </p>
                 <h4>
                 <span class="glyphicon glyphicon-star" aria-hidden="true"></span> 
@@ -43,30 +43,39 @@
                 <h5 class="description">"My family love this dish! I learned it from
                                         my grandmother, who is an excellent cooker. Now
                                         I'm excellent too lol. Try it if you love chiken." 
-                                        </h5>
+                </h5>
             </div>
         </div>
       </div>
     </div>
 <div class="container-fluid" id="below">
-     <div class="navbar navbar-default">
-        <div class="navbar-offcanvas offcanvas">
+     <div class="navbar navbar-default" id="nav">
+          <div class="navbar-header">
+             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#likeNavbar"
+          aria-expanded="false" aria-controls="navbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+            <p class="navbar-brand">Like it?</p>
+          </div>
+        <div id="likeNavbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li><a href="#">
               <span class="glyphicon glyphicon-heart"></span>
-              <span>Save</span>
+              <span class="nav-item">Save</span>
             </a></li>
             <li><a href="#">
               <span class="glyphicon glyphicon-ok"></span>
-              <span>I Made It</span>
+              <span class="nav-item">I Made It</span>
             </a></li>
             <li><a href="#">
               <span class="glyphicon glyphicon-new-window"></span>
-              <span>Share</span>
+              <span class="nav-item">Share</span>
             </a></li>
             <li><a href="#">
                <span class="glyphicon glyphicon-print"></span>
-               <span>Print</span>
+               <span class="nav-item">Print</span>
             </a></li>
           </ul>
         </div><!--/.nav-collapse -->
@@ -104,50 +113,40 @@
 	    </div>
 	</div>
 </div>
-<div class="container" id="comments">
-	<div class="row">
-		<h3> Comments </h3>
-		<hr>
+<div class="container" id="comment">
+      <h3> Comments </h3>
+      <hr>
+      <section id="comments_section" class="jumbotron">
+        </br>
         <div class="row">
-        	<div class="col-lg-1">
-            	<img class="portrait img-circle" src="{% static 'cookyourself/images/p1.jpg' %}" alt="p1">
-            	<p class="name"><a href="#">Alice</a></p>
-          	</div>
-          	<div class="col-lg-5">
-        		<textarea id="comment-text" name="item" style="resize: none" rows="2" cols="40" placeholder="Any comments?"></textarea>
-    		</div>
-    		<div class="col-lg-2 ">
-        		<input id="comment-button" type="submit" value="Post">
-    		</div>
+          <div class="col-xs-12 col-md-5 col-lg-4">
+            <textarea name="item" style="resize: none" rows="2" cols="40%"
+            placeholder="Any comments?"></textarea>
+          </div>
+          <div class="col-xs-12 col-xs-offset-0 col-md-5 col-md-offset-1 col-lg-4 col-lg-offset-1">
+            <input class="btn btn-warning" type="submit" value="Post">
+          </div>
         </div>
-		<div class="row comment-message">
-			<div class="col-lg-1">
-            	<img class="portrait img-circle" src="{% static 'cookyourself/images/p1.jpg' %}" alt="p1">
-            	<p class="name"><a href="#">Alice</a></p>
-          	</div>
-          	<div class="col-lg-5">
-            	<p>It's a great recipe!</p>
-            	<div class="row comment-info">
-            		<div class="col-lg-4">
-                		<p class="comment-post-meta">September 6, 2016</p>
-            		</div>
-            	</div>
-	    	</div>
-		</div>
-		<div class="row comment-message">
-			<div class="col-lg-1">
-            	<img class="portrait img-circle" src="{% static 'cookyourself/images/p2.jpg' %}" alt="p2">
-            	<p class="name"><a href="#">Arial</a></p>
-          	</div>
-          	<div class="col-lg-5">
-            	<p>Too sweet I think, so I add less honey~</p>
-            	<div class="row comment-info">
-            		<div class="col-lg-4">
-                		<p class="comment-post-meta">September 5, 2016</p>
-            		</div>
-            	</div>
-	    	</div>
-		</div>
+        <div class="media">
+          <div class="media-left">
+            <a href="#">
+              <img class="media-object" src="{% static 'cookyourself/images/p2.jpg' %}"
+              class="img-rounded"
+              alt="" height="50px">
+            </a>
+          </div>
+          <div class="media-body">
+            <p class="lead">
+              <a href="">Lucy</a>
+            </p>
+            <small><span class="glyphicon glyphicon-time"></span>&nbsp;September 5, 2016</small>
+          </div>
+        </div>
+
+        <h5>
+          I found a lot of awesome recipes here. Cool!
+        </h5>
+      </section>
 	</div>
 </div>
 {% endblock %}
