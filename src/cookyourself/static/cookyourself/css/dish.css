@@ -1,85 +1,109 @@
 
 .container-fluid {
-	width: 90%;
-	margin-top:10px;
+    width: 90%;
+    margin-top: 10px;
 }
-#below.container-fluid{
-	margin-top:0;
-	width: 90%;
+
+#below.container-fluid {
+    margin-top: 0;
+    width: 90%;
 }
+
 #btop.jumbotron {
-	margin-top: 0;
-	background-color: #f2f2f2;
-	margin-bottom:0;
+    margin-top: 0;
+    background-color: #f2f2f2;
+    margin-bottom: 0;
 }
-.nav-item{
-	color: #ffffff;
-	font-size: 13px;
+
+.nav-item {
+    color: #ffffff;
+    font-size: 13px;
 }
+
 #nav {
-	background-color: #e88f1a;
+    background-color: #e88f1a;
 }
+
 #jcont.container {
-	width: 90%;
-	padding-bottom:0;
+    width: 90%;
+    padding-bottom: 0;
 }
+
 .breadcrumb {
-	margin-bottom: 0;
-	background-color: #e6e6e6;
+    margin-bottom: 0;
+    background-color: #e6e6e6;
     white-space: nowrap;
 }
+
 .breadcrumb > li + li:before {
     color: #ccc;
     content: "> ";
     padding: 0 5px;
 }
+
 .description {
-	font-family: arial;
-	font-size: 15px;
-	font-style: italic;
+    font-family: arial;
+    font-size: 15px;
+    font-style: italic;
 }
 
 .glyphicon-star {
-	color:#f47d42;
+    color: #f47d42;
 }
 
-.dish-pic{
-	height : 80%;
-	width : 80%;
+.dish-pic {
+    height: 90%;
+    width: 90%;
 }
 
-#ingredient{
-	padding-bottom:10px;
+@media screen and (min-width: 1200px) {
+    .dish-pic {
+        height: 80%;
+        width: 80%;
+    }
 }
-#instruction{
-	padding-bottom:30px;
+
+
+#ingredient {
+    padding-bottom: 10px;
 }
-#ingre-list{
-	border: 1px solid #000;
-	padding:10px;
+
+#instruction {
+    padding-bottom: 30px;
 }
-#mapCanvas{
-	float: right;
+
+#ingre-list {
+    border: 1px solid #000;
+    padding: 10px;
 }
-.portrait{
-  	width:50px;
-  	height:50px;
-  	margin-top:5px;
+
+#mapCanvas {
+    float: right;
 }
-.comment-message{
-  	padding:20px;
-  	padding-top:40px;
+
+.portrait {
+    width: 50px;
+    height: 50px;
+    margin-top: 5px;
 }
+
+.comment-message {
+    padding: 20px;
+    padding-top: 40px;
+}
+
 .comment-post-meta {
- 	font-size:10px;
-  	display:flex;
-  	display:inline;
-  	font-style:italic;
+    font-size: 10px;
+    display: flex;
+    display: inline;
+    font-style: italic;
 }
+
 .recipe-navbar div {
     height: 60px;
     font-size: 17px;
 }
+
 #comments_section {
     padding: 10px 20px 10px 20px;
 }

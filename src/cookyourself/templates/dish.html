@@ -1,152 +1,156 @@
 {% extends "base.html" %}
 {% load static from staticfiles %}
 {% block title %}
-    <title>dish page</title>
+  <title>dish page</title>
 {% endblock %}
 {% block individual_css %}
-    <link href="{% static 'cookyourself/css/dish.css' %}" rel="stylesheet">
+  <link href="{% static 'cookyourself/css/dish.css' %}" rel="stylesheet">
 {% endblock %}
 {% block individual_js %}
 {% endblock %}
 {% block main_body %}
-<div class="container-fluid">
-  <ol class="breadcrumb">
-    <li><a href="#">Home</a></li>
-    <li><a href="#">Recipes</a></li>
-    <li><a href="#">World Cuisine</a></li>
-    <li><a href="#">American</a></li>
-    <li class="active">chicken</li>        
-  </ol>
-</div>
+  <div class="container-fluid">
+    <ol class="breadcrumb">
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Recipes</a></li>
+      <li><a href="#">World Cuisine</a></li>
+      <li><a href="#">American</a></li>
+      <li class="active">chicken</li>
+    </ol>
+  </div>
 
-<div class="container" id="jcont">
-  <div class="jumbotron" id="btop">
-        <div class="row">
-            <div class="col-lg-4 col-md-8 col-sm-8 col-sm-offset-2 col-xs-8 col-xs-offset-2">
-  			      <img class="dish-pic" alt="dish1" 
-  			      src="{% static 'cookyourself/images/dish1.jpg' %}">
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-8 col-sm-offset-2 col-xs-8 col-xs-offset-2 text-center dish-info">
-            		<p> Honey glazed chicken </p>
-                <h4>
-                <span class="glyphicon glyphicon-star" aria-hidden="true"></span> 
-                <span class="glyphicon glyphicon-star" aria-hidden="true"></span> 
-                <span class="glyphicon glyphicon-star" aria-hidden="true"></span> 
-                <span class="glyphicon glyphicon-star" aria-hidden="true"></span> 
-                <span class="glyphicon glyphicon-star" aria-hidden="true"></span> 
-                </h4>
-                <h5> <a href="#">I made it</a> | <a href="#">2 reviews</a></h5>
-                <h5> Recipe by: <a href="#">jbrink1</a></h5>
-                <h5> Style: American </h5>
-                <h5> Price: $5 </h5>
-                <br>
-                <h5 class="description">"My family love this dish! I learned it from
-                                        my grandmother, who is an excellent cooker. Now
-                                        I'm excellent too lol. Try it if you love chiken." 
-                </h5>
-            </div>
+  <div class="container" id="jcont">
+    <div class="jumbotron" id="btop">
+      <div class="row">
+        <div class="col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2  col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-0 text-center">
+          <img class="dish-pic" alt="dish1"
+               src="{% static 'cookyourself/images/dish1.jpg' %}">
+        </div>
+        <div
+            class="col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-4 col-lg-offset-0 text-center dish-info">
+          <p> Honey glazed chicken </p>
+          <h4>
+            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+          </h4>
+          <h5><a href="#">I made it</a> | <a href="#">2 reviews</a></h5>
+          <h5> Recipe by: <a href="#">jbrink1</a></h5>
+          <h5> Style: American </h5>
+          <h5> Price: $5 </h5>
+          <br>
+          <h5 class="description">"My family love this dish! I learned it from
+            my grandmother, who is an excellent cooker. Now
+            I'm excellent too lol. Try it if you love chiken."
+          </h5>
         </div>
       </div>
     </div>
-<div class="container-fluid" id="below">
-     <div class="navbar navbar-default" id="nav">
-          <div class="navbar-header">
-             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#likeNavbar"
-          aria-expanded="false" aria-controls="navbar">
+  </div>
+  <div class="container-fluid" id="below">
+    <div class="navbar navbar-default" id="nav">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#likeNavbar"
+                aria-expanded="false" aria-controls="navbar">
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-            <p class="navbar-brand">Like it?</p>
-          </div>
-        <div id="likeNavbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="#">
-              <span class="glyphicon glyphicon-heart"></span>
-              <span class="nav-item">Save</span>
-            </a></li>
-            <li><a href="#">
-              <span class="glyphicon glyphicon-ok"></span>
-              <span class="nav-item">I Made It</span>
-            </a></li>
-            <li><a href="#">
-              <span class="glyphicon glyphicon-new-window"></span>
-              <span class="nav-item">Share</span>
-            </a></li>
-            <li><a href="#">
-               <span class="glyphicon glyphicon-print"></span>
-               <span class="nav-item">Print</span>
-            </a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
+        <p class="navbar-brand">Like it?</p>
       </div>
-</div>
+      <div id="likeNavbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li><a href="#">
+            <span class="glyphicon glyphicon-heart"></span>
+            <span class="nav-item">Save</span>
+          </a></li>
+          <li><a href="#">
+            <span class="glyphicon glyphicon-ok"></span>
+            <span class="nav-item">I Made It</span>
+          </a></li>
+          <li><a href="#">
+            <span class="glyphicon glyphicon-new-window"></span>
+            <span class="nav-item">Share</span>
+          </a></li>
+          <li><a href="#">
+            <span class="glyphicon glyphicon-print"></span>
+            <span class="nav-item">Print</span>
+          </a></li>
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </div>
 
 
 
-<div class="container" id="ingredient">
-	<div class="row">
-		<h3> Ingredients</h3>
-		<hr>
-		<div class=col-lg-8 id="ingre-list">	
-			<ul>
+  <div class="container" id="ingredient">
+    <div class="row">
+      <h3> Ingredients</h3>
+      <hr>
+      <div class=col-lg-8 id="ingre-list">
+        <ul>
           <li><a href="#">+</a> 1/4 cup honey</li>
           <li><a href="#">+</a> 2 tablespoons soy sauce</li>
           <li>
-             <a href="#">+</a> 2 skinless, boneless checken breast halves, cut into bite-size pieces
+            <a href="#">+</a> 2 skinless, boneless checken breast halves, cut into bite-size pieces
           </li>
           <li><a href="#">+</a> 1/2 tablespoons olive oil</li>
-  		  	<li><a href="#">+</a> Add all ingredients to list</li>
-        	</ul>
-        </div>
-	</div>
-</div>
-<div class="container" id="instruction">
-	<div class="row">
-		<h3> Instructions </h3>
-		<hr>
-		<div class=col-lg-8>
-			<ol>
-				<li>Whisk honey, soy sauce, and red pepper flakes in a bowl.</li>
-				<li>Heat olive oil in a skillet over medium heat; cook and stir chicken in hot oil until lightly brown, about 5 minutes. Pour honey mixture into skillet and continue to cook and stir until chicken is no longer pink in the center and sauce is thickened, about 5 minutes more.</li>
-	    	</ol>
-	    </div>
-	</div>
-</div>
-<div class="container" id="comment">
-      <h3> Comments </h3>
+          <li><a href="#">+</a> Add all ingredients to list</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="container" id="instruction">
+    <div class="row">
+      <h3> Instructions </h3>
       <hr>
-      <section id="comments_section" class="jumbotron">
-        </br>
-        <div class="row">
-          <div class="col-xs-12 col-md-5 col-lg-4">
+      <div class=col-lg-8>
+        <ol>
+          <li>Whisk honey, soy sauce, and red pepper flakes in a bowl.</li>
+          <li>Heat olive oil in a skillet over medium heat; cook and stir chicken in hot oil until lightly brown, about
+            5 minutes. Pour honey mixture into skillet and continue to cook and stir until chicken is no longer pink in
+            the center and sauce is thickened, about 5 minutes more.
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <div class="container" id="comment">
+    <h3> Comments </h3>
+    <hr>
+    <section id="comments_section" class="jumbotron">
+      </br>
+      <div class="row">
+        <div class="col-xs-12 col-md-5 col-lg-4">
             <textarea name="item" style="resize: none" rows="2" cols="40%"
-            placeholder="Any comments?"></textarea>
-          </div>
-          <div class="col-xs-12 col-xs-offset-0 col-md-5 col-md-offset-1 col-lg-4 col-lg-offset-1">
-            <input class="btn btn-warning" type="submit" value="Post">
-          </div>
+                      placeholder="Any comments?"></textarea>
         </div>
-        <div class="media">
-          <div class="media-left">
-            <a href="#">
-              <img class="media-object" src="{% static 'cookyourself/images/p2.jpg' %}"
-              class="img-rounded"
-              alt="" height="50px">
-            </a>
-          </div>
-          <div class="media-body">
-            <p class="lead">
-              <a href="">Lucy</a>
-            </p>
-            <small><span class="glyphicon glyphicon-time"></span>&nbsp;September 5, 2016</small>
-          </div>
+        <div class="col-xs-12 col-xs-offset-0 col-md-5 col-md-offset-1 col-lg-4 col-lg-offset-1">
+          <input class="btn btn-warning" type="submit" value="Post">
         </div>
+      </div>
+      <div class="media">
+        <div class="media-left">
+          <a href="#">
+            <img class="media-object" src="{% static 'cookyourself/images/p2.jpg' %}"
+                 class="img-rounded"
+                 alt="" height="50px">
+          </a>
+        </div>
+        <div class="media-body">
+          <p class="lead">
+            <a href="">Lucy</a>
+          </p>
+          <small><span class="glyphicon glyphicon-time"></span>&nbsp;September 5, 2016</small>
+        </div>
+      </div>
 
-        <h5>
-          I found a lot of awesome recipes here. Cool!
-        </h5>
-      </section>
-	</div>
-</div>
+      <h5>
+        I found a lot of awesome recipes here. Cool!
+      </h5>
+    </section>
+  </div>
+  </div>
 {% endblock %}
