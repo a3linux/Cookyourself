@@ -3,9 +3,18 @@
 	width: 90%;
 	margin-top:10px;
 }
+#below.container-fluid{
+	margin-top:0;
+	width: 90%;
+}
+#btop.jumbotron {
+	margin-top: 0;
+	background-color: #f2f2f2;
+	margin-bottom:0;
+}
 #jcont.container {
 	width: 90%;
-	margin-bottom:0;
+	padding-bottom:0;
 }
 .breadcrumb {
 	margin-bottom: 0;
@@ -20,6 +29,12 @@
     content: " ";
     padding: 0 5px;
 }
+.description {
+	font-family: arial;
+	font-size: 15px;
+	font-style: italic;
+
+}
 .breadcrumb > li + li:before {
     color: #ccc;
     content: "> ";
@@ -28,10 +43,7 @@
 .glyphicon-star {
 	color:#f47d42;
 }
-#btop.jumbotron {
-	margin-top: 0;
-	background-color: #f2f2f2;
-}
+
 .dish-pic{
 	height : 80%;
 	width : 80%;
