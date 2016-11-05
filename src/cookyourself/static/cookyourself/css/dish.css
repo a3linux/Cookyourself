@@ -107,3 +107,17 @@
 #comments_section {
     padding: 10px 20px 10px 20px;
 }
+#video{
+	margin-bottom:20px;
+	margin-left:50px;
+}
+.text {
+	font-size: 18px;
+}
+#star {
+	color: #ffffff;
+	font-size: 18px;
+}
+#bheart{
+	border-width: 0px;
+}
