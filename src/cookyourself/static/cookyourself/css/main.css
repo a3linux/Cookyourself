@@ -1,11 +1,21 @@
+/*
+Main background picture is from DS 10th Anniversary Wallpapers by Julie Lee
+http://www.designsponge.com/wp-content/uploads/2014/08/JuliesKitchen_DS_wallpaper_pink_2560x1440.jpg
+*/
+
 ul.dropdown-menu {
     background-color: #eb8f34;
     width: inherit;
 }
 
 .dropdown-menu {
-  left: 50%;
-  right: 50%;
-  text-align: center;
-  transform: translate(50%, 0);
+    left: 50%;
+    right: 50%;
+    text-align: center;
+    transform: translate(50%, 0);
+}
+
+#main_background {
+    background-image: url('../images/main_background.jpg');
+    height: 340px;
 }

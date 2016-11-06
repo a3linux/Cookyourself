@@ -1,15 +1,16 @@
 {% extends "base.html" %}
 {% load static from staticfiles %}
 {% block individual_css %}
-<link href="{% static 'cookyourself/css/main.css' %}" rel="stylesheet">
+  <link href="{% static 'cookyourself/css/main.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block main_body %}
-  <div class="jumbotron jumbotron-main">
-    <h3 class="text-center">If, for the sake of love and delicacy, I must pay. I'd rather give my life
+  <div id="main_background" class="jumbotron jumbotron-main">
+    <br><br>
+    <h2 class="text-center">If, for the sake of love and delicacy, I must pay. I'd rather give my life
       away.</br></br>
       <small>― adapted from Sándor Petőfi</small>
-    </h3>
+    </h2>
   </div>
 
   <div class="container">
@@ -69,18 +70,18 @@
                src="{% static 'cookyourself/images/tofu.jpg' %}" alt="Dish">
         </a>
         <hr>
-        <h5>
+        <h5 class="text-center">
           Tofu and Veggies in Peanut Sauce
         </h5>
       </div>
       <div class="col-xs-12 col-md-4 col-lg-4">
         <a href="{% url 'dish' '2' %}">
           <img class="img-thumbnail post_picture" width="100%" height="100%"
-               src="{% static 'cookyourself/images/shrimp.jpg' %}" alt="Dish">
+               src="http://images.media-allrecipes.com/userphotos/560x315/3606763.jpg" alt="Dish">
         </a>
         <hr>
-        <h5>
-          Lemon Ginger Shrimp
+        <h5 class="text-center">
+          Greek Lemon Chicken and Potatoes
         </h5>
       </div>
       <div class="col-xs-12 col-md-4 col-lg-4">
@@ -89,7 +90,7 @@
                src="{% static 'cookyourself/images/fish.jpg' %}" alt="Dish">
         </a>
         <hr>
-        <h5>
+        <h5 class="text-center">
           Fish on a Plank
         </h5>
       </div>
