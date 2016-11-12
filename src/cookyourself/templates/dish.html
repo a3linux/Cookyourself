@@ -115,10 +115,14 @@
       </div>
     </div>
     {% endif %}
-
+    
     <div class="row">
       <div class=col-lg-8>
-        <p class="text"> {{instruction.content}}<p>
+        <ol>
+        {% for instruction in instructions %}
+          <li><p class="text">{{instruction.content}}</p></li>
+        {% endfor %}
+        </ol>
       </div>
     </div>
   </div>
@@ -136,24 +140,25 @@
           <input class="btn btn-warning" type="submit" value="Post">
         </div>
       </div>
-      {% for %}
+      {% for post in posts%}
       <div class="media">
         <div class="media-left">
           <a href="#">
-            <img class="media-object" src="{% static 'cookyourself/images/p2.jpg' %}"
+            <img class="media-object" src="{{post.author.photo.url}}"
                  class="img-rounded"
                  alt="" height="50px">
           </a>
         </div>
         <div class="media-body">
-          <h4><a href="">Lucy</a></h4>
-          <small><span class="glyphicon glyphicon-time"></span>&nbsp;September 5, 2016</small>
+          <h4><a href="">{{post.author.user.username}}</a></h4>
+          <small><span class="glyphicon glyphicon-time"></span>&nbsp;{{post.created_on}}</small>
         </div>
 
         <h5>
-          I found a lot of awesome recipes here. Cool!
+          {{post.content}}
         </h5>
-
+      </div>
+      {% endfor %}
     </section>
   </div>
   </div>

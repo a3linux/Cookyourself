@@ -4,8 +4,8 @@ from cookyourself.models import *
 
 # Create your views here.
 def index(request):
-    dishes = Dish.objects.all().order_by('-popularity') #default order
-    context = {'dishes': dishes}
+    #dishes = Dish.objects.all().order_by('-popularity') #default order
+    #context = {'dishes': dishes}
     return render(request, 'main.html', context)
 
 def dish(request, id=0):
