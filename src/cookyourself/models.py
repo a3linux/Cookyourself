@@ -13,6 +13,27 @@ class UserProfile(models.Model):
     def __str__(self):
         return str(self.user)
 
+
+# One-to-many-image-field reference:
+# https://www.quora.com/What-is-the-best-way-to-implement-one-to-many-image-field-in-Django
+class Image(models.Model):
+    name = models.CharField(max_length=128)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+    image = models.ImageField(upload_to='img/', blank=True, null=True)
+
+    def __str__(self):
+        return "IMG_" + self.name
+
+class Ingredient(models.Model):
+    name = models.CharField(max_length=128)
+    price = models.IntegerField(blank=True, null=True)
+    images = GenericRelation(Image)
+
+    def __str__(self):
+        return self.name
+
 class Post(models.Model):
     author = models.ForeignKey(UserProfile)
     # Posts are related to particular dish
@@ -35,23 +56,6 @@ class Comment(models.Model):
     def __str__(self):
         return "Comment: " + content + ", by " + str(author)
 
-class Image(models.Model):
-    name = models.CharField(max_length=128)
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
-    content_object = GenericForeignKey('content_type', 'object_id')
-    image = models.ImageField(upload_to='img/', blank=True, null=True)
-
-    def __str__(self):
-        return "IMG_" + self.name
-
-class Ingredient(models.Model):
-    name = models.CharField(max_length=128)
-    price = models.IntegerField(blank=True, null=True)
-    images = GenericRelation(Image)
-
-    def __str__(self):
-        return self.name
 
 class Instruction(models.Model):
     content = models.CharField(max_length=1024)
@@ -66,6 +70,13 @@ class Tutorial(models.Model):
 
     def __str__(self):
         return "Tutorial for " + str(self.dish)
+
+class Style(models.Model):
+    name = models.CharField(max_length=128)
+    parent = models.ForeignKey("self", blank=True, null=True)
+
+    def __str__(self):
+        return "Style" + self.name
 
 class Dish (models.Model):
     name = models.CharField(max_length=128)
@@ -84,6 +95,32 @@ class Dish (models.Model):
     def __str__(self):
         return self.name
 
+class Unit(models.Model):
+    name = models.CharField(max_length=128)
+    converted_units = models.ManyToManyField("self")
+
+    def __str_(self):
+        return self.name
+
+class RelationBetweenDishIngredient(models.Model):
+    dish = models.ForeignKey(Dish, on_delete=models.CASCADE, related_name='dish')
+    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE, related_name='ingredient')
+    amount = models.IntegerField(blank=True, null=True)
+    unit = models.ForeignKey(Unit, blank=True, null=True)
+
+    def __str__(self):
+        return str(self.dish) + " requires {:d} ".format(self.amount) + \
+        str(self.unit) + ' of ' + str(ingredient)
+
+class RelationBetweenUnits(models.Model):
+    one_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, related_name='one_unit')
+    converted_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, related_name='converted_unit')
+    rate = models.FloatField(blank=True, null=True)
+
+class Cart (models.Model):
+    user = models.ForeignKey(User)
+    ingredients = models.ManyToManyField(Ingredient, blank=True)
+       
 class CrawlerRecord(models.Model):
     url = models.URLField()
     # Current date & time will be added EVERY time the record is saved.
@@ -92,6 +129,3 @@ class CrawlerRecord(models.Model):
     def __str__(self):
         return url + ", Last updated on " + str(self.pdated_on)
 
-class Cart (models.Model):
-    user = models.ForeignKey(User)
-    ingredients = models.ManyToManyField(Ingredient, blank=True)
