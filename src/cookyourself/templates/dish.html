@@ -11,6 +11,7 @@
   <script src="//www.tools4noobs.com/js/main-combined.js"></script>
   <script src="{% static 'cookyourself/js/video.js' %}" type="text/javascript"></script>
 {% endblock %}
+{%if dish%}
 {% block main_body %}
   <div class="container-fluid">
     <ol class="breadcrumb">
@@ -21,7 +22,7 @@
       <li class="active">chicken</li>
     </ol>
   </div>
-
+  
   <div class="container" id="jcont">
     <div class="jumbotron" id="btop">
       <div class="row">
@@ -32,7 +33,7 @@
         </div>
         <div
             class="col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-4 col-lg-offset-0 text-center dish-info">
-          <p> Honey glazed chicken </p>
+          <p> {{dish.name}} </p>
           <h4>
             <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
             <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
@@ -41,13 +42,11 @@
             <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
           </h4>
           <h5><a href="#">I made it</a> | <a href="#">2 reviews</a></h5>
-          <h5> Recipe by: <a href="#">jbrink1</a></h5>
-          <h5> Style: American </h5>
-          <h5> Price: $5 </h5>
+          <h5> Recipe by: <a href="#">{{dish.author}}</a></h5>
+          <h5> Style: {{dish.style}} </h5>
+          <h5> Price: {{dish.price}} </h5>
           <br>
-          <h5 class="description">"My family love this dish! I learned it from
-            my grandmother, who is an excellent cooker. Now
-            I'm excellent too lol. Try it if you love chiken."
+          <h5 class="description">"{{dish.description}}"
           </h5>
         </div>
       </div>
@@ -93,14 +92,10 @@
       <hr>
       <div class=col-lg-8 id="ingre-list">
         <ul>
-          <div><a class="glyphicon glyphicon-check" href="#"></a><span class="text">  1/4 cup honey</span></div>
-          <div><a class="glyphicon glyphicon-check" href="#"></a> <span class="text">  2 tablespoons soy sauce </span>
+          {% for ingredient in dish.ingredients %}
+          <div><a class="glyphicon glyphicon-check" id={{ingredients.id}}></a><span class="text"> {{ingredients.name}} </span></div>
           </div>
-          <div>
-            <a class="glyphicon glyphicon-check" href="#"></a> <span class="text">  2 skinless, boneless checken breast halves, cut into bite-size pieces</span>
-          </div>
-          <div><a class="glyphicon glyphicon-check" href="#"></a> <span class="text">  1/2 tablespoons olive oil </span>
-          </div>
+          {% endfor %}
           <div><a class="glyphicon glyphicon-check" href="#"></a> <span
               class="text">  Add all ingredients to list </span></div>
         </ul>
@@ -112,23 +107,18 @@
     <hr>
 
     <div class="row">
+    {% if tutorial.video %}
       <div id="video" class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
         <div class="video-container">
-          <div id="player"></div>
+          <div id="player" data-video={{tutorial.video}}></div>
         </div>
       </div>
     </div>
+    {% endif %}
 
     <div class="row">
       <div class=col-lg-8>
-        <ol>
-          <li><p class="text">Whisk honey, soy sauce, and red pepper flakes in a bowl.</p></li>
-          <li><p class="text">Heat olive oil in a skillet over medium heat; cook and stir chicken in hot oil until
-            lightly brown, about
-            5 minutes. Pour honey mixture into skillet and continue to cook and stir until chicken is no longer pink in
-            the center and sauce is thickened, about 5 minutes more.</p>
-          </li>
-        </ol>
+        <p class="text"> {{instruction.content}}<p>
       </div>
     </div>
   </div>
@@ -146,6 +136,7 @@
           <input class="btn btn-warning" type="submit" value="Post">
         </div>
       </div>
+      {% for %}
       <div class="media">
         <div class="media-left">
           <a href="#">
@@ -158,12 +149,13 @@
           <h4><a href="">Lucy</a></h4>
           <small><span class="glyphicon glyphicon-time"></span>&nbsp;September 5, 2016</small>
         </div>
-      </div>
 
-      <h5>
-        I found a lot of awesome recipes here. Cool!
-      </h5>
+        <h5>
+          I found a lot of awesome recipes here. Cool!
+        </h5>
+
     </section>
   </div>
   </div>
 {% endblock %}
+{% endif %}

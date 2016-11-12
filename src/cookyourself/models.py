@@ -56,19 +56,22 @@ class Ingredient(models.Model):
 class Instruction(models.Model):
     content = models.CharField(max_length=1024)
     tutorial = models.ForeignKey('Tutorial', blank=True, null=True)
-
+# foreignkey blank?
     def __str__(self):
         return self.content
 
 class Tutorial(models.Model):
     dish = models.OneToOneField('Dish', related_name='tutorial')
-    video = models.URLField(blank=True, null=True)
+    videoid = models.CharField(max_length=20, blank=True, null=True) #just video id will be better
 
     def __str__(self):
         return "Tutorial for " + str(self.dish)
 
 class Dish (models.Model):
     name = models.CharField(max_length=128)
+    author = models.ForeignKey(UserProfile) #recipe's author  
+    price = models.IntegerField(blank=True, null=True) #dish's price
+    description = models.CharField(max_length=1024) #dish's description
     style = models.CharField(max_length=128, blank=True, null=True)
     popularity = models.IntegerField(default=0)
     # Not sure whether it should be optinal field (Posts)
@@ -88,3 +91,7 @@ class CrawlerRecord(models.Model):
 
     def __str__(self):
         return url + ", Last updated on " + str(self.pdated_on)
+
+class Cart (models.Model):
+    user = models.ForeignKey(User)
+    ingredients = models.ManyToManyField(Ingredient, blank=True)
