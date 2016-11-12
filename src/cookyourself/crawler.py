@@ -8,12 +8,7 @@ DEBUG = False
 def is_all_caps(input_str):
     return input_str == input_str.upper()
 
-class AllRecipeCrawler:
-    base_url = 'http://allrecipes.com/recipe/'
-
-    def __init__(self):
-        self.ing_parser = IngredientParser()
-
+class Crawler:
     def get_soup_text(self, soup, tag):
         tmp = soup.select(tag)
         return tmp[0].text.strip() if tmp else None
@@ -23,12 +18,57 @@ class AllRecipeCrawler:
         return tmp[0].attrs.get(attr) if tmp else None
 
     def get_soup_list(self, soup, tag):
+        return soup.select(tag)
+
+    def get_soup_list_text(self, soup, tag):
         tmp = soup.select(tag)
         return [a.text.strip() for a in tmp] if tmp else None
 
-    def get_soup_first_child_text(self, soup, tag, child_tag):
-        tmp = soup.select(tag + " > " + child_tag)
+    def get_soup_first_direct_child_text(self, soup, tag, child_tag):
+        tmp = soup.select(tag + ' > ' + child_tag)
         return tmp[0].text.strip() if tmp else None
+
+    def get_soup_child_list(self, soup, tag, child_tag):
+        tmp = soup.select(tag + ' ' + child_tag)
+        return [item.text.strip() for item in tmp]
+
+class DGCrawler(Crawler):
+    base_url = 'http://www.dollargeneral.com/'
+    query_url = 'http://www.dollargeneral.com/catalogsearch/result/?q='
+    max_page = 1
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:32.0) Gecko/20100101 Firefox/32.0',
+    }
+    def fetch_cookie_for_first_time(self):
+        r = requests.get(DGCrawler.base_url, headers=DGCrawler.headers)
+        tokens = next(token for token in r.headers['Set-Cookie'].split(';') if 'visid_incap' in token)
+        if not tokens:
+            return None
+        cookie = next(token.strip() for token in tokens.split(',') if 'visid_incap' in token)
+        return cookie
+
+    def search_price_by_string(self, query):
+        if not DGCrawler.headers.get('Cookie'):
+            DGCrawler.headers['Cookie'] = self.fetch_cookie_for_first_time()
+
+        r = requests.get(DGCrawler.query_url + query,
+                          headers=DGCrawler.headers)
+        if r.status_code != 200:
+            return
+
+        soup = BeautifulSoup(r.text, "html.parser")
+        items = self.get_soup_list(soup, 'div.product-item-details')
+        products = [(item.findChild('a', attrs={'class':'product-item-link'}).text.strip(),
+                     item.findChild('span', attrs={'class':'price'}).text.strip()[1:])
+                     for item in items]
+
+        print(products)
+
+class AllRecipeCrawler(Crawler):
+    base_url = 'http://allrecipes.com/recipe/'
+
+    def __init__(self):
+        self.ing_parser = IngredientParser()
 
     def get_recipe_by_id(self, id):
         info = {}
@@ -48,16 +88,16 @@ class AllRecipeCrawler:
 
         # remove illustration after ',', remove categories, remove the last three non-ingredient items
         ingreds = self.ing_parser.parse([ingred.split(',')[0]
-                    for ingred in self.get_soup_list(soup, 'span.recipe-ingred_txt')[:-3]
+                    for ingred in self.get_soup_list_text(soup, 'span.recipe-ingred_txt')[:-3]
                     if not is_all_caps(ingred)])
 
         # remove empty instructions
-        instrs = list(filter(None, self.get_soup_list(soup, 'span.recipe-directions__list--item')))
-        styles = self.get_soup_list(soup, 'span.toggle-similar__title')[2:]
+        instrs = list(filter(None, self.get_soup_list_text(soup, 'span.recipe-directions__list--item')))
+        styles = self.get_soup_list_text(soup, 'span.toggle-similar__title')[2:]
         prept = self.get_soup_attr(soup, 'time[itemprop="prepTime"]', 'datetime')
         cookt = self.get_soup_attr(soup, 'time[itemprop="cookTime"]', 'datetime')
         totalt = self.get_soup_attr(soup, 'time[itemprop="totalTime"]', 'datetime')
-        cal = self.get_soup_first_child_text(soup, 'span[class="calorie-count"]', 'span')
+        cal = self.get_soup_first_direct_child_text(soup, 'span[class="calorie-count"]', 'span')
         servings = self.get_soup_attr(soup, 'meta#metaRecipeServings', 'content')
 
         info['name'] = name
@@ -72,21 +112,10 @@ class AllRecipeCrawler:
         info['total_time'] = totalt
         info['servings'] = servings
 
-        if DEBUG:
-            print('=============================================================')
-            print('ID: {:d}'.format(id))
-            print('Name: {0}\nDes: {1}\nImg: {2}'.format(name, des, img))
-            print('Ingreds: ' + str(ingreds))
-            print('Instrs: ' + str(instrs))
-            print('Styles: ' + str(styles))
-            print('Prep: {0}\nCook: {1}\nTotal: {2}'.format(prept, cookt, totalt))
-            print('Calorie: ' + str(cal))
-            print('Servings: ' + str(servings))
-
         return info
 
 if __name__ == '__main__':
     # for debug
     DEBUG = True
-    crawler = AllRecipeCrawler()
-    crawler.get_recipe_by_id(10000)
+    crawler = DGCrawler()
+    crawler.search_price_by_string('cheese')

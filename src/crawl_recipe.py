@@ -75,7 +75,7 @@ for i in range(0, NUM_PER_SEARCH):
             instr.save()
         tutorial.save()
 
-        image = Image(content_object=dish, image=info['img'], name='PIC_'+str(curr_id))
+        image = DishImage(dish=dish, image=info['img'], name=info['name'])
         image.save()
         dish.save()
 

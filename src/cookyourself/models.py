@@ -1,8 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.contrib.contenttypes.fields import GenericRelation
-from django.contrib.contenttypes.fields import GenericForeignKey
-from django.contrib.contenttypes.models import ContentType
+# from django.contrib.contenttypes.fields import GenericRelation
+# from django.contrib.contenttypes.fields import GenericForeignKey
+# from django.contrib.contenttypes.models import ContentType
 
 # Create your models here.
 class UserProfile(models.Model):
@@ -16,11 +16,12 @@ class UserProfile(models.Model):
 
 # One-to-many-image-field reference:
 # https://www.quora.com/What-is-the-best-way-to-implement-one-to-many-image-field-in-Django
-class Image(models.Model):
+class DishImage(models.Model):
     name = models.CharField(max_length=128)
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
-    content_object = GenericForeignKey('content_type', 'object_id')
+    # content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    # object_id = models.PositiveIntegerField()
+    # content_object = GenericForeignKey('content_type', 'object_id')
+    dish = models.ForeignKey('Dish', on_delete=models.CASCADE, related_name='image', blank=True, null=True)
     image = models.ImageField(upload_to='img/', blank=True, null=True)
 
     def __str__(self):
@@ -29,7 +30,7 @@ class Image(models.Model):
 class Ingredient(models.Model):
     name = models.CharField(max_length=128)
     price = models.IntegerField(blank=True, null=True)
-    images = GenericRelation(Image)
+    # images = GenericRelation(Image)
 
     def __str__(self):
         return self.name
@@ -51,7 +52,7 @@ class Dish(models.Model):
                                          through='RelationBetweenDishIngredient',
                                          blank=True)
     calories = models.IntegerField(blank=True, null=True)
-    images = GenericRelation(Image)
+    # images = GenericRelation(Image)
     # current date & time will be added.
     created_on = models.DateTimeField(auto_now_add=True)
 
