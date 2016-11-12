@@ -17,7 +17,7 @@ def dish(request, id=0):
     else:
         dish= Dish.objects.get(id=id)
         tutorial= Tutorial.objects.get(dish=dish)
-        instruction = instruction.objects.get(tutorial=tutorial)
+        instructions = instruction.objects.filter(tutorial=tutorial)
         # tutorial & instruction?
         posts= Post.objects.filter(dish=dish)
         Comments={}
@@ -25,7 +25,7 @@ def dish(request, id=0):
             comment=Comment.objects.filter(post=post)
             Comments[post.id]=comment
         context = {'dish': dish, 'tutorial': tutorial, 
-                   'instruction': instruction, 'posts': posts, 
+                   'instructions': instructions, 'posts': posts, 
                    'comments': Comments} 
 
     return render(request, 'dish.html', context)
