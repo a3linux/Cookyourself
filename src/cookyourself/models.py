@@ -105,7 +105,7 @@ class Unit(models.Model):
 class RelationBetweenDishIngredient(models.Model):
     dish = models.ForeignKey(Dish, on_delete=models.CASCADE, related_name='dish')
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE, related_name='ingredient')
-    amount = models.IntegerField(blank=True, null=True)
+    amount = models.FloatField(blank=True, null=True)
     unit = models.ForeignKey(Unit, blank=True, null=True)
 
     def __str__(self):
