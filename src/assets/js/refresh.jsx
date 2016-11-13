@@ -17,25 +17,22 @@ function Dish(props) {
 
 var DishList = React.createClass({
     getInitialState: function () {
-        // console.info("enter getInitialState")
         // the dishes array will be populated via AJAX.
         return {
             all: [],        //used to store all the dishes
             dishes: [],     //used to store dishes
             maxID: 0,       //maxID for dishes
-            loading: false  //the status of loading
+            loading: 0      //the status of loading: 0 - not loading, 1 - loading, 2 - nothing to load
         };
     },
 
     componentDidMount: function () {
-        // console.info("enter componentDidMount")
         // when the components loads, refresh the images.
         this.refresh();
     },
 
     componentDidUpdate: function () {
-        // We need to tell the carousel to refresh when the content changes.
-        // This is to ensure that it's displayed correctly.
+        // resize the image we have rendered
         this.imageResize();
     },
 
@@ -63,16 +60,17 @@ var DishList = React.createClass({
         // console.log(currMaxID);
 
         // Empty the current array. This will trigger a render
-        this.setState({dishes: [], loading: true});
+        this.setState({dishes: [], loading: 1});
 
         $.get(url).done(function (data) {
             if (!data || !data.sets || !data.sets.length) {
                 console.log("no more dishes");
+                self.setState({loading: 2});
                 return;
             }
 
             var dishes = data.sets.map(function (p) {
-                console.log(p.url)
+                // console.log(p.url)
                 return {
                     id: p.id,
                     name: p.name,
@@ -83,7 +81,7 @@ var DishList = React.createClass({
             var newMaxID = currMaxID + data.sets.length; //FIXME
             // console.log(newMaxID)
             //update the component's state. This will trigger a render
-            self.setState({all: self.state.all.concat(dishes), loading: false, maxID: newMaxID});
+            self.setState({all: self.state.all.concat(dishes), loading: 0, maxID: newMaxID});
         });
     },
 
@@ -91,13 +89,17 @@ var DishList = React.createClass({
         var refreshButton;
 
         // Make the refresh button spin and disabled it while loading.
-        if (this.state.loading) {
+        if (this.state.loading == 0) {
+            refreshButton = <div className="col-xs-12 col-md-12 col-lg-12 div-refresh">
+                <a className="btn-refresh outline" onClick={this.refresh}>Load more...</a>
+            </div>
+        } else if (this.state.loading == 1) {
             refreshButton = <div className="col-xs-12 col-md-12 col-lg-12">
                 <a className="btn-refresh outline" visibility="hidden"></a>
             </div>
         } else {
             refreshButton = <div className="col-xs-12 col-md-12 col-lg-12 div-refresh">
-                <a className="btn-refresh outline" onClick={this.refresh}>Load more...</a>
+                <a className="btn-refresh outline" onClick={this.refresh}>Over all...</a>
             </div>
         }
         // Return the component content. dishes can be rendered by looping through.
