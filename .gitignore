@@ -43,5 +43,4 @@ db.sqlite3
 #react.js
 bundles
 node_modules
-package.json
-
+webpack-stats.json

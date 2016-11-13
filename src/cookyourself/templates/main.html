@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static from staticfiles %}
+{% load render_bundle from webpack_loader %}
 {% block individual_css %}
   <link href="{% static 'cookyourself/css/main.css' %}" rel="stylesheet">
 {% endblock %}
@@ -66,20 +67,23 @@
 
     </br>
 
-    <div class="row">
-    {% for set in sets %}
-      <div class="col-xs-12 col-md-4 col-lg-4">
-        <a href="{% url 'dish' set.dish.id %}">
-          <img class="img-thumbnail main_pic" width="100%" height="100%"
-               src="{{ set.image }}" alt="Dish">
-        </a>
-        <hr>
-        <h5 class="text-center">
-          {{set.dish.name}}
-        </h5>
-      </div>
-      {% endfor %}
-    </div>
+{#    <div class="row">#}
+{#    {% for set in sets %}#}
+{#      <div class="col-xs-12 col-md-4 col-lg-4">#}
+{#        <a href="{% url 'dish' set.dish.id %}">#}
+{#          <img class="img-thumbnail main_pic" width="100%" height="100%"#}
+{#               src="{{ set.image }}" alt="Dish">#}
+{#        </a>#}
+{#        <hr>#}
+{#        <h5 class="text-center">#}
+{#          {{set.dish.name}}#}
+{#        </h5>#}
+{#      </div>#}
+{#      {% endfor %}#}
+{#    </div>#}
+
+   <div id="content"></div>
+        {% render_bundle 'main' %}
   </div>
 
 {% endblock %}

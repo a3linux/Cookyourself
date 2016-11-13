@@ -1,0 +1,34 @@
+{
+  "name": "ubuntu",
+  "version": "1.0.0",
+  "description": "cookyourself",
+  "main": "webpack.config.js",
+  "dependencies": {},
+  "devDependencies": {
+    "babel-core": "^6.18.2",
+    "babel-loader": "^6.2.7",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-react": "^6.16.0",
+    "jquery": "^3.1.1",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "webpack": "^1.13.3",
+    "webpack-bundle-tracker": "0.0.93"
+  },
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CMU-Web-Application-Development/Team205.git"
+  },
+  "keywords": [
+    "cookyourself"
+  ],
+  "author": "yulunt wennad yunpengx",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CMU-Web-Application-Development/Team205/issues"
+  },
+  "homepage": "https://github.com/CMU-Web-Application-Development/Team205#readme"
+}

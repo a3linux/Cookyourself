@@ -4,13 +4,26 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
-var PictureList = React.createClass({
+function Dish(props) {
+    return (
+        <div className="col-xs-12 col-md-4 col-lg-4">
+            <a href={'/cookyourself/dish/' + props.id}>
+                <img className="img-thumbnail main_pic" width="100%" height="100%"
+                     src={props.url} alt="Dish"/></a>
+            <h5 className="text-center">{props.name}</h5>
+        </div>
+    );
+}
+
+var DishList = React.createClass({
     getInitialState: function () {
         // console.info("enter getInitialState")
-        // the pictures array will be populated via AJAX.
+        // the dishes array will be populated via AJAX.
         return {
-            pictures: [],
-            loading: false
+            all: [],        //used to store all the dishes
+            dishes: [],     //used to store dishes
+            maxID: 0,       //maxID for dishes
+            loading: false  //the status of loading
         };
     },
 
@@ -28,18 +41,21 @@ var PictureList = React.createClass({
 
     refresh: function () {
         var self = this;
-        var url = '/cookyourself/loaddata'; // specify the url to get images that we need to render
+        var currMaxID = this.state.maxID; //the current maxID
+        var url = '/cookyourself/loadmore/' + currMaxID; // specify the url to get images that we need to render
+        // console.log(currMaxID);
 
         // Empty the current array. This will trigger a render
-        this.setState({pictures: [], loading: true});
+        this.setState({dishes: [], loading: true});
 
-        $.getJSON(url, function (result) {
-            if (!result || !result.data || !result.data.length) {
-                console.log("no more pictures");
+        $.get(url).done(function (data) {
+            if (!data || !data.sets || !data.sets.length) {
+                console.log("no more dishes");
                 return;
             }
 
-            var pictures = result.data.map(function (p) {
+            var dishes = data.sets.map(function (p) {
+                console.log(p.url)
                 return {
                     id: p.id,
                     name: p.name,
@@ -47,8 +63,10 @@ var PictureList = React.createClass({
                 };
             });
 
+            var newMaxID = currMaxID + data.sets.length; //FIXME
+            // console.log(newMaxID)
             //update the component's state. This will trigger a render
-            self.setState({pictures: pictures, loading: false});
+            self.setState({all: self.state.all.concat(dishes), loading: false, maxID: newMaxID});
         });
     },
 
@@ -57,27 +75,29 @@ var PictureList = React.createClass({
 
         // Make the refresh button spin and disabled it while loading.
         if (this.state.loading) {
-            refreshButton = <div className="btn-warning" visibility="hidden"></div>
+            refreshButton = <div className="col-xs-12 col-md-12 col-lg-12">
+                <button className="btn btn-cookyourself btn-lg outline" visibility="hidden"></button>
+            </div>
         } else {
-            refreshButton = <div className="btn-warning" onClick={this.refresh}></div>
+            refreshButton = <div className="col-xs-12 col-md-12 col-lg-12 div-refresh">
+                <button className="btn btn-cookyourself btn-lg outline" onClick={this.refresh}>LoadMore...</button>
+            </div>
         }
-        // Return the component content. Pictures can be rendered by looping through.
+        // Return the component content. dishes can be rendered by looping through.
         return (
-            <div className="PictureList">
-                {
-                    this.state.pictures.map(function (value) {
-                        return <div className="col-xs-12 col-md-4 col-lg-4">
-                            <a href={'/cookyourself/dish/' + value.id}>
-                                <img className="img-thumbnail post_picture" width="100%" height="100%"
-                                     src={value.url} alt="Dish"/></a>
-                            <h5 className="text-center">{value.name}</h5>
-                        </div>
-                    })
-                }
+            <div>
+                <div className="DishList">
+                    {
+                        this.state.all.map(function (value) {
+                            return (<Dish id={value.id} name={value.name} url={value.url}/>)
+                        })
+                    }
+                </div>
+                <br/>
                 {refreshButton}
             </div>
         )
     }
 });
 
-ReactDOM.render(<PictureList/>, document.getElementById('container'));
+ReactDOM.render(<DishList/>, document.getElementById('content'));

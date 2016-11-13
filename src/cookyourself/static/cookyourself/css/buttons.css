@@ -109,3 +109,29 @@
 /******************************************************
 	ADD MORE BELOW
 ******************************************************/
+.div-refresh {
+    position: relative;
+    font-size: 15px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+  }
+
+.btn.outline {
+    background: none;
+    padding: 12px 22px;
+}
+.btn-cookyourself.outline {
+    border: 2px solid #f47d42;
+    color: #f47d42;
+}
+.btn-cookyourself.outline:hover, .btn-cookyourself.outline:focus, .btn-cookyourself.outline:active, .btn-cookyourself.outline.active, .open > .dropdown-toggle.btn-cookyourself {
+    color: #eba259;
+    border-color: #eba259;
+}
+.btn-cookyourself.outline:active, .btn-cookyourself.outline.active {
+    border-color: #b87430;
+    color: #b87430;
+    box-shadow: none;
+}
+
+
