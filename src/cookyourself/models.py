@@ -124,3 +124,20 @@ class CrawlerRecord(models.Model):
 
     def __str__(self):
         return url + ", Last updated on " + str(self.pdated_on)
+
+class Cart(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='cart')
+    ingredients = models.ManyToManyField(Ingredient,
+                                         through='RelationBetweenCartIngredient',
+                                         blank=True)
+
+class RelationBetweenCartIngredient(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='cart')
+    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE, related_name='ingre')
+    amount = models.IntegerField(blank=True, null=True)
+    unit = models.ForeignKey(Unit, blank=True, null=True)
+
+    def __str__(self):
+        return str(self.cart) + " has {:d} ".format(self.amount) + \
+        str(self.unit.name) + ' of ' + str(self.ingredient)
+
