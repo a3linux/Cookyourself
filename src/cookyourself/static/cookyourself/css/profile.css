@@ -18,3 +18,9 @@
 #comments_section {
     padding: 10px 20px 10px 20px;
 }
+
+.profile_pic {
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
