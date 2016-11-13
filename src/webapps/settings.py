@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'cookyourself'
+    'cookyourself',
+    'webpack_loader',
 ]
 
 MIDDLEWARE = [
@@ -119,6 +120,18 @@ PROJECT_ROOT = os.path.dirname(cookyourself.__file__)
 
 # Absolute filesystem path to the directory static files should be clooected to
 STATIC_ROOT = PROJECT_ROOT + 'static/'
+
+STATICFILES_DIRS = (
+    #This lets Django's collectstatic store our bundles
+    os.path.join(BASE_DIR, 'assets'),
+)
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'BUNDLE_DIR_NAME': 'bundles/',
+        'STATS_FILE': os.path.join(BASE_DIR, 'webpack-stats.json'),
+    }
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/

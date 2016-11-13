@@ -37,4 +37,11 @@ nosetests.xml
 # database
 db.sqlite3
 
+#.idea
 .idea
+
+#react.js
+bundles
+node_modules
+package.json
+
