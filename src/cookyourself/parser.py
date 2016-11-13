@@ -14,6 +14,12 @@ input_strs = ['1 (16 ounce) package egg noodles',
               '2 teaspoons white sugar',
               '1 pinch salt']
 
+input_strs = ['Betty Crocker Cream Cheese Frosting 16oz',
+             'Knorr Pasta Sides Alfredo 4.4oz',
+             'Kraft Easy Mac Original - 2.05 oz',
+             'Combos Snacks, 6.3 OZ',
+             "Kay's Naturals Protein Puffs 1.2 OZ, 6CT",]
+
 def generate_unit_set():
     units = set()
     units.add('cup')
@@ -33,6 +39,21 @@ def generate_unit_set():
     units.add('pinch')
     return units
 
+class PriceParser:
+    reg0 = r"(.*?)[-, ]+([0-9\.]+) ?[oO][zZ]"
+    # reg1 = r"([^0-9]*)"
+
+    def parse_list(self, input_strs):
+        return [self.parse(input_str) for input_str in input_strs]
+
+    def parse(self, input_str):
+        pattern = re.compile(PriceParser.reg0)
+        m = pattern.match(input_str)
+        if m:
+            return (m.group(1), float(m.group(2)))
+
+        return (input_str, None)
+
 class IngredientParser:
     units = generate_unit_set()
     reg0 = r"^(?P<num1>[/0-9]+) (?P<num1_1>[/0-9]+) \((?P<num2>[\.0-9]+) (?P<unit2>[^)]+)\) (?P<unit1>[a-zA-Z]+) (?P<name>.*)"
@@ -42,7 +63,7 @@ class IngredientParser:
     reg4 = r"^(?P<num1>[/0-9]+) (?P<name>.*)"
     reg5 = r"^(?P<name>[^0-9]*)"
 
-    def parse(self, input_strs):
+    def parse_list(self, input_strs):
         ingred_set = []
         for input_str in input_strs:
             pattern = re.compile(IngredientParser.reg0)
@@ -86,6 +107,6 @@ class IngredientParser:
         return ingred_set
 
 if __name__ == '__main__':
-    parser = IngredientParser()
-    res = parser.parse(input_strs)
+    parser = PriceParser()
+    res = parser.parse_list(input_strs)
     print(res)

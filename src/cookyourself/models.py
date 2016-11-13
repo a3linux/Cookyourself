@@ -1,8 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-# from django.contrib.contenttypes.fields import GenericRelation
-# from django.contrib.contenttypes.fields import GenericForeignKey
-# from django.contrib.contenttypes.models import ContentType
 
 # Create your models here.
 class UserProfile(models.Model):
@@ -14,13 +11,8 @@ class UserProfile(models.Model):
         return str(self.user)
 
 
-# One-to-many-image-field reference:
-# https://www.quora.com/What-is-the-best-way-to-implement-one-to-many-image-field-in-Django
 class DishImage(models.Model):
     name = models.CharField(max_length=128)
-    # content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    # object_id = models.PositiveIntegerField()
-    # content_object = GenericForeignKey('content_type', 'object_id')
     dish = models.ForeignKey('Dish', on_delete=models.CASCADE, related_name='image', blank=True, null=True)
     image = models.ImageField(upload_to='img/', blank=True, null=True)
 
@@ -30,7 +22,6 @@ class DishImage(models.Model):
 class Ingredient(models.Model):
     name = models.CharField(max_length=128)
     price = models.IntegerField(blank=True, null=True)
-    # images = GenericRelation(Image)
 
     def __str__(self):
         return self.name
@@ -44,7 +35,7 @@ class Style(models.Model):
 
 class Dish(models.Model):
     name = models.CharField(max_length=128)
-    desciption = models.CharField(max_length=256, blank=True, null=True)
+    description = models.CharField(max_length=256, blank=True, null=True)
     style = models.ForeignKey(Style, blank=True, null=True)
     popularity = models.IntegerField(default=0)
     # Not sure whether it should be optinal field (Posts)
@@ -105,7 +96,7 @@ class Unit(models.Model):
 class RelationBetweenDishIngredient(models.Model):
     dish = models.ForeignKey(Dish, on_delete=models.CASCADE, related_name='dish')
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE, related_name='ingredient')
-    amount = models.IntegerField(blank=True, null=True)
+    amount = models.FloatField(blank=True, null=True)
     unit = models.ForeignKey(Unit, blank=True, null=True)
 
     def __str__(self):

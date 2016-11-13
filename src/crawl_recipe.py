@@ -30,14 +30,14 @@ for i in range(0, NUM_PER_SEARCH):
     print("Crawler: {:d}".format(curr_id))
     if not Dish.objects.filter(name=info['name']).exists():
         dish = Dish.objects.create(name=info['name'],
-                desciption=info['description'],
+                description=info['description'],
                 calories=info['calories'],)
 
         tutorial = Tutorial.objects.create(dish=dish)
         instrs = [Instruction.objects.create(content=instr, tutorial=tutorial)
                 for instr in info['instructions']]
 
-        # ingredient tuple (ingred object, amount, unit) 
+        # ingredient tuple (ingred object, amount, unit)
         ingreds = [(Ingredient.objects.create(name=ingred[0]), ingred[1], ingred[2])
                 if not Ingredient.objects.filter(name=ingred[0]).exists()
                 else (Ingredient.objects.get(name=ingred[0]), ingred[1], ingred[2])
@@ -66,6 +66,8 @@ for i in range(0, NUM_PER_SEARCH):
                     elif ingred[2]:
                         relation.unit = Unit.objects.create(name=ingred[2])
                     relation.unit.save()
+            else:
+                relation.amount = 1
 
             ingred[0].save()
             relation.save()
