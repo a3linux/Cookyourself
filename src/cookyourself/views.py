@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from cookyourself.models import *
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 def index(request):
@@ -58,12 +59,21 @@ def profile(request, id=0):
         context = {'profile': profile} 
     return render(request, 'profile.html', context)
 
+@csrf_exempt 
 def add_ingredient(request, id):
     user=request.user
     cart=Cart.objects.filter(user=user)
     if cart:
         cart=Cart.objects.get(user=user)
-        ingredient = ingredient.objects.get(id=id)
-        cart.ingredients.add(ingredient)
-        cart.save()
+    else:
+        new_cart = Cart(user=request.user)
+        new_cart.save()
+    ingredient = ingredient.objects.get(id=id)
+    cart_detail=RelationBetweenCartIngredient.objects.filter(cart=cart, ingredient=ingredient)
+    if cart_detail:
+        cart_detail=cart_detail[0]
+        cart_detail.amount+=1
+        cart_detail.save()
+    else:
+        cart_detail=RelationBetweenCartIngredient.objects.create(cart=cart, ingredient=ingredient, amount=0)
     return HttpResponse("")
