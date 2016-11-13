@@ -64,36 +64,18 @@
     </br>
 
     <div class="row">
+    {% for set in sets %}
       <div class="col-xs-12 col-md-4 col-lg-4">
-        <a href="{% url 'dish' '1' %}">
+        <a href="{% url 'dish' set.dish.id %}">
           <img class="img-thumbnail post_picture" width="100%" height="100%"
-               src="{% static 'cookyourself/images/tofu.jpg' %}" alt="Dish">
+               src="{{ set.image }}" alt="Dish">
         </a>
         <hr>
         <h5 class="text-center">
-          Tofu and Veggies in Peanut Sauce
+          {{set.dish.name}}
         </h5>
       </div>
-      <div class="col-xs-12 col-md-4 col-lg-4">
-        <a href="{% url 'dish' '2' %}">
-          <img class="img-thumbnail post_picture" width="100%" height="100%"
-               src="http://images.media-allrecipes.com/userphotos/560x315/3606763.jpg" alt="Dish">
-        </a>
-        <hr>
-        <h5 class="text-center">
-          Greek Lemon Chicken and Potatoes
-        </h5>
-      </div>
-      <div class="col-xs-12 col-md-4 col-lg-4">
-        <a href="{% url 'dish' '3' %}">
-          <img class="img-thumbnail post_picture" width="100%" height="100%"
-               src="{% static 'cookyourself/images/fish.jpg' %}" alt="Dish">
-        </a>
-        <hr>
-        <h5 class="text-center">
-          Fish on a Plank
-        </h5>
-      </div>
+      {% endfor %}
     </div>
   </div>
 

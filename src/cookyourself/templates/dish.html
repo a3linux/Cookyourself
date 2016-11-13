@@ -29,7 +29,7 @@
         <div
             class="col-xs-12 col-sm-12 col-md-12 col-lg-8 col-lg-offset-0 text-center">
           <img class="dish-pic" alt="dish1"
-               src="{% static 'cookyourself/images/dish1.jpg' %}">
+               src={{image}}>
         </div>
         <div
             class="col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-4 col-lg-offset-0 text-center dish-info">
@@ -52,6 +52,7 @@
       </div>
     </div>
   </div>
+
   <div class="container-fluid" id="below">
     <div class="navbar navbar-default" id="nav">
       <div class="navbar-header">
@@ -92,22 +93,23 @@
       <hr>
       <div class=col-lg-8 id="ingre-list">
         <ul>
-          {% for ingredient in dish.ingredients %}
-          <div><a class="glyphicon glyphicon-check" id={{ingredients.id}}></a><span class="text"> {{ingredients.name}} </span></div>
+          {% for iset in isets %}
+          <div><a class="glyphicon glyphicon-check" id={{ingredients.id}}></a>
+               <!--<span class="text">{{iset.amount}} {%if iset.unit %}{{iset.unit}}{% endif %}  {{iset.ingredient.name}} </span>-->
+               <span class="text">{{iset.detail}}</span>
           </div>
           {% endfor %}
-          <div><a class="glyphicon glyphicon-check" href="#"></a> <span
-              class="text">  Add all ingredients to list </span></div>
         </ul>
       </div>
     </div>
   </div>
+
   <div class="container" id="instruction">
     <h3> Instructions </h3>
     <hr>
-
-    <div class="row">
     {% if tutorial.video %}
+    <div class="row">
+    
       <div id="video" class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
         <div class="video-container">
           <div id="player" data-video={{tutorial.video}}></div>
@@ -115,9 +117,9 @@
       </div>
     </div>
     {% endif %}
-    
+     
     <div class="row">
-      <div class=col-lg-8>
+      <div class="col-lg-8">
         <ol>
         {% for instruction in instructions %}
           <li><p class="text">{{instruction.content}}</p></li>
@@ -126,17 +128,17 @@
       </div>
     </div>
   </div>
-  <div class="container" id="comment">
+
+  <div class="container">
     <h3> Comments </h3>
     <hr>
     <section id="comments_section" class="jumbotron">
-      </br>
       <div class="row">
         <div class="col-xs-12 col-md-5 col-lg-4">
-            <textarea name="item" style="resize: none" rows="2" cols="40%"
+            <textarea name="item" style="resize: none" rows="2" cols="50%"
                       placeholder="Any comments?"></textarea>
         </div>
-        <div class="col-xs-12 col-xs-offset-0 col-md-5 col-md-offset-1 col-lg-4 col-lg-offset-1">
+        <div class="col-xs-12 col-xs-offset-0 col-md-5 col-md-offset-2 col-lg-4 col-lg-offset-2">
           <input class="btn btn-warning" type="submit" value="Post">
         </div>
       </div>
@@ -157,10 +159,12 @@
         <h5>
           {{post.content}}
         </h5>
-      </div>
+      </div> 
       {% endfor %}
-    </section>
+      </section>
   </div>
-  </div>
-{% endblock %}
+
+  {% endblock %}
 {% endif %}
+
+

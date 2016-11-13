@@ -52,7 +52,7 @@
 }
 
 .dish-pic {
-    height: 90%;
+    height: 80%;
     width: 90%;
 }
 
@@ -87,26 +87,13 @@
     margin-top: 5px;
 }
 
-.comment-message {
-    padding: 20px;
-    padding-top: 40px;
-}
-
-.comment-post-meta {
-    font-size: 10px;
-    display: flex;
-    display: inline;
-    font-style: italic;
-}
 
 .recipe-navbar div {
     height: 60px;
     font-size: 17px;
 }
 
-#comments_section {
-    padding: 10px 20px 10px 20px;
-}
+
 #video{
 	margin-bottom:20px;
 }
@@ -119,4 +106,7 @@
 }
 #bheart{
 	border-width: 0px;
+}
+#comments_section {
+    padding: 20px 20px 15px 20px;
 }
