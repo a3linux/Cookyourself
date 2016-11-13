@@ -36,7 +36,24 @@ var DishList = React.createClass({
     componentDidUpdate: function () {
         // We need to tell the carousel to refresh when the content changes.
         // This is to ensure that it's displayed correctly.
-        // this.refresh();
+        this.imageResize();
+    },
+
+    imageResize: function () {
+        $('.main_pic').each(function () {
+            var standardHeight = 200;       // standard height for post images
+            var ratio = 0;                  // used for aspect ratio
+            var width = $(this).width();    // current image width
+            var height = $(this).height();  // current image height
+
+            // check if the current height is larger than the max
+            if (height != standardHeight) {
+                ratio = standardHeight / height;
+                $(this).css("height", standardHeight);
+                $(this).css("width", ratio * width);
+                width = width * ratio;
+            }
+        })
     },
 
     refresh: function () {
@@ -76,11 +93,11 @@ var DishList = React.createClass({
         // Make the refresh button spin and disabled it while loading.
         if (this.state.loading) {
             refreshButton = <div className="col-xs-12 col-md-12 col-lg-12">
-                <button className="btn btn-cookyourself btn-lg outline" visibility="hidden"></button>
+                <a className="btn-refresh outline" visibility="hidden"></a>
             </div>
         } else {
             refreshButton = <div className="col-xs-12 col-md-12 col-lg-12 div-refresh">
-                <button className="btn btn-cookyourself btn-lg outline" onClick={this.refresh}>LoadMore...</button>
+                <a className="btn-refresh outline" onClick={this.refresh}>Load more...</a>
             </div>
         }
         // Return the component content. dishes can be rendered by looping through.

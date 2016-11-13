@@ -13,6 +13,7 @@
 	letter-spacing: 1px;
 	text-transform: uppercase;
 }
+
 .btn:focus, .btn:active:focus, .btn.active:focus {
 	outline: 0 none;
 }
@@ -26,66 +27,83 @@
 	color: #737373;
 	padding: 12px 22px;
 }
+
 .btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .open > .dropdown-toggle.btn-default {
 	background: #FFFFFF;
 	border-color: #949494;
 	color: #737373;
 }
+
 .btn-default:active, .btn-default.active {
 	border-color: #737373;
 	box-shadow: none;
 }
+
 .btn-primary {
 	background: #0099cc;
 	color: #ffffff;
 }
+
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
 	background: #33a6cc;
 }
+
 .btn-primary:active, .btn-primary.active {
 	background: #007299;
 	box-shadow: none;
 }
+
 .btn-success {
 	background: #00bf6f;
 	color: #ffffff;
 }
+
 .btn-success:hover, .btn-success:focus, .btn-success:active, .btn-success.active, .open > .dropdown-toggle.btn-success {
 	background: #39bf87;
 }
+
 .btn-success:active, .btn-success.active {
 	background: #008c52;
 	box-shadow: none;
 }
+
 .btn-info {
 	background: #31cde8;
 	color: #ffffff;
 }
+
 .btn-info:hover, .btn-info:focus, .btn-info:active, .btn-info.active, .open > .dropdown-toggle.btn-info {
 	background: #5fd4e8;
 }
+
 .btn-info:active, .btn-info.active {
 	background: #35a2b5;
 	box-shadow: none;
 }
+
 .btn-warning {
 	background: #eb8f34;
 	color: #ffffff;
 }
+
 .btn-warning:hover, .btn-warning:focus, .btn-warning:active, .btn-warning.active, .open > .dropdown-toggle.btn-warning {
 	background: #eba259;
 }
+
 .btn-warning:active, .btn-warning.active {
 	background: #b87430;
 	box-shadow: none;
 }
+
 .btn-danger {
 	background: #f25454;
 	color: #ffffff;
 }
+
 .btn-danger:hover, .btn-danger:focus, .btn-danger:active, .btn-danger.active, .open > .dropdown-toggle.btn-danger {
 	background: #f26d6d;
 }
+
 .btn-danger:active, .btn-danger.active {
 	background: #bf4343;
 	box-shadow: none;
@@ -98,9 +116,11 @@
 	background: #f47d42;
 	color: #ffffff;
 }
+
 .btn-cookyourself:hover, .btn-cookyourself:focus, .btn-cookyourself:active, .btn-cookyourself.active, .open > .dropdown-toggle.btn-cookyourself {
 	background: #eba259;
 }
+
 .btn-cookyourself:active, .btn-cookyourself.active {
 	background: #b87430;
 	box-shadow: none;
@@ -110,28 +130,42 @@
 	ADD MORE BELOW
 ******************************************************/
 .div-refresh {
-    position: relative;
-    font-size: 15px;
-	margin-top: 10px;
-	margin-bottom: 10px;
-  }
-
-.btn.outline {
-    background: none;
-    padding: 12px 22px;
-}
-.btn-cookyourself.outline {
-    border: 2px solid #f47d42;
-    color: #f47d42;
-}
-.btn-cookyourself.outline:hover, .btn-cookyourself.outline:focus, .btn-cookyourself.outline:active, .btn-cookyourself.outline.active, .open > .dropdown-toggle.btn-cookyourself {
-    color: #eba259;
-    border-color: #eba259;
-}
-.btn-cookyourself.outline:active, .btn-cookyourself.outline.active {
-    border-color: #b87430;
-    color: #b87430;
-    box-shadow: none;
+	position: relative;
 }
 
+.btn-refresh {
+	display: block;
+	margin-top: 30px;
+	margin-left: auto;
+	margin-right: auto;
 
+	height: 140px;
+	width: 140px;
+	border-radius: 50%;
+	border: 2px solid #f47d42;
+	font-size: 15px;
+	z-index: 1;
+	text-decoration: none;
+}
+
+.btn-refresh.outline {
+	background: none;
+	padding: 60px 25px;
+	text-decoration: none;
+}
+
+.btn-refresh.outline {
+	border: 2px solid #f47d42;
+	color: #f47d42;
+}
+
+.btn-refresh.outline:hover, .btn-refresh.outline:focus, .btn-refresh.outline:active, .btn-refresh.outline.active, .open > .dropdown-toggle.btn-refresh {
+	color: #eba259;
+	border-color: #eba259;
+}
+
+.btn-refresh.outline:active, .btn-refresh.outline.active {
+	border-color: #b87430;
+	color: #b87430;
+	box-shadow: none;
+}
