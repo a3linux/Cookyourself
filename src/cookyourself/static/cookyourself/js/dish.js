@@ -3,18 +3,20 @@ function addIngredient (id){
     .done(function(data){
         //updateComment(id);
         //hide the + button or make it grey?
+        alert("ingredient %d added!", id);
     });
 }  
 
 function events_handle(){
-   $("#ingre-list").on("click", ".glyphicon glyphicon-check", function( event ) {
+   $("#ingre-list").on("click", ".glyphicon", function( event ) {
         var id=$(this).attr("id");
         /*if(id == 0)
         {
           addAllIngredient();
         }
         else*/
-        addIngredient(id);
+        alert(id);
+        //addIngredient(id);
    });
 }
 

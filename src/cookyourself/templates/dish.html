@@ -10,6 +10,7 @@
   <script type="text/javascript" async="" src="https://api.flattr.com/js/0.6/load.js?mode=auto"></script>
   <script src="//www.tools4noobs.com/js/main-combined.js"></script>
   <script src="{% static 'cookyourself/js/video.js' %}" type="text/javascript"></script>
+  <script src="{% static 'cookyourself/js/dish.js' %}" type="text/javascript"></script>
 {% endblock %}
 {%if dish%}
 {% block main_body %}
@@ -46,7 +47,7 @@
           <h5> Style: {{dish.style}} </h5>
           <h5> Price: {{dish.price}} </h5>
           <br>
-          <h5 class="description">"{{dish.description}}"
+          <h5 class="description">"{{dish.desciption}}"
           </h5>
         </div>
       </div>
@@ -94,7 +95,7 @@
       <div class=col-lg-8 id="ingre-list">
         <ul>
           {% for iset in isets %}
-          <div><a class="glyphicon glyphicon-check" id={{ingredients.id}}></a>
+          <div><a class="glyphicon glyphicon-check" id={{iset.ingredient.id}}></a>
                <span class="text">{{iset.amount}} {%if iset.unit %}{{iset.unit}}{% endif %}  {{iset.ingredient.name}} </span>
           </div>
           {% endfor %}
