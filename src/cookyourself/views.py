@@ -27,10 +27,12 @@ def dish(request, id=0):
             detail=RelationBetweenDishIngredient.objects.filter(dish=dish,ingredient=ingredient)[0]
             if detail:
                 amount=detail.amount
-                #gitter=detail.gitter
-                #unit=detail.unit
-                #uname=detail.unit.name
-                dic={'ingredient':ingredient,'detail': detail}
+                unit=detail.unit
+                if unit:
+                    uname=detail.unit.name
+                    dic={'ingredient':ingredient,'amount':amount, 'unit': unit.name}
+                else:
+                    dic={'ingredient':ingredient,'amount':amount}
                 ingre_sets.append(dic)
         posts= Post.objects.filter(dish=dish)
         context = {'dish': dish, 'isets':ingre_sets, 'tutorial': tutorial, 

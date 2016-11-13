@@ -95,8 +95,7 @@
         <ul>
           {% for iset in isets %}
           <div><a class="glyphicon glyphicon-check" id={{ingredients.id}}></a>
-               <!--<span class="text">{{iset.amount}} {%if iset.unit %}{{iset.unit}}{% endif %}  {{iset.ingredient.name}} </span>-->
-               <span class="text">{{iset.detail}}</span>
+               <span class="text">{{iset.amount}} {%if iset.unit %}{{iset.unit}}{% endif %}  {{iset.ingredient.name}} </span>
           </div>
           {% endfor %}
         </ul>

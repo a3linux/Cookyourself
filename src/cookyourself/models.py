@@ -106,7 +106,7 @@ class RelationBetweenDishIngredient(models.Model):
     dish = models.ForeignKey(Dish, on_delete=models.CASCADE, related_name='dish')
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE, related_name='ingredient')
     amount = models.IntegerField(blank=True, null=True)
-    unit = models.ForeignKey(Unit, blank=True)
+    unit = models.ForeignKey(Unit, blank=True, null=True)
 
     def __str__(self):
         return str(self.dish) + " requires {:d} ".format(self.amount) + \
