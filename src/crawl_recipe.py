@@ -66,8 +66,6 @@ for i in range(0, NUM_PER_SEARCH):
                     elif ingred[2]:
                         relation.unit = Unit.objects.create(name=ingred[2])
                     relation.unit.save()
-            else:
-                relation.amount = 1
 
             ingred[0].save()
             relation.save()
