@@ -14,11 +14,13 @@ $(document).ready(function () {
     $("#fb-logout").on("click", function( event ) {
         alert("user wants to log out");
         $("#fb-login").show();
-        self.hide();     
+        self.hide();  
+        alert("button hidden finished");   
         FB.logout(function(response){
            // Handle the response object
               console.log("user now logged out");
         });      
+        alert("user logout finished");
    });
 
 });
@@ -79,9 +81,9 @@ $(document).ready(function () {
   //
   // These three cases are handled in the callback function.
 
-  FB.getLoginStatus(function(response) {
+  /*FB.getLoginStatus(function(response) {
     statusChangeCallback(response);
-  });
+  });*/
 
   };
 
