@@ -11,6 +11,7 @@ GLOBAL_LOADMORE_NUM = 18
 
 # Create your views here.
 def index(request):
+    print ("enter index")
     dishes = Dish.objects.all().order_by('-popularity')  # default order
     # dishsets = [{'dish': dish, 'image': DishImage.objects.filter(dish=dish)[0].image} for dish in dishes]
     dishsets = []
@@ -27,16 +28,16 @@ def index(request):
     return render(request, 'main.html', context)
 
 
-def loadmore(request, id):
+def loadmore(request):
+    cookies = request.COOKIES.get('cookies')  # updated in refresh.jsx, used to maintain list of showing pic
     dishes = Dish.objects.all().order_by('-popularity')  # default order
     context = {}
     dishsets = []
     cnt = 0
     for dish in dishes:
-        # print ("dish id: " + str(dish.id))
         if cnt >= GLOBAL_LOADMORE_NUM:
             break
-        if dish.id < int(id):
+        if cookies is not None and str(dish.id) in cookies:
             continue
         d = {}
         d['id'] = dish.id

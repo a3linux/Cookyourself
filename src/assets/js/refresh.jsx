@@ -4,13 +4,33 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
-var Dish = React.createClass({
-    getInitialState: function () {
-        return {
-            canvasId: '',
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
         }
-    },
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
 
+function deleteAllCookies() {
+    var cookies = document.cookie.split(";");
+
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i];
+        var eqPos = cookie.indexOf("=");
+        var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+        document.cookie = name + "=;";
+    }
+}
+
+var Dish = React.createClass({
     render: function () {
         var str = "myCanvas" + this.props.id;
         return (
@@ -34,8 +54,8 @@ var Dish = React.createClass({
             var sy = 0;
             var sw = this.width;    //the url pic width
             var sh = this.height;   //the url pic height
-            var dw = 533;
-            var dh = 300;
+            var dw = 533;           //the width we desire
+            var dh = 300;           //the height we desire
             var dx = 0;
             var dy = 0;
 
@@ -55,10 +75,10 @@ var DishList = React.createClass({
     getInitialState: function () {
         // the dishes array will be populated via AJAX.
         return {
-            all: [],        //used to store all the dishes
-            dishes: [],     //used to store dishes
-            maxID: 0,       //maxID for dishes
-            loading: 0      //the status of loading: 0 - not loading, 1 - loading, 2 - nothing to load
+            all: [],            //used to store all the dishes
+            dishes: [],         //used to store dishes
+            alreadyLogin: 0,    //already login to the page
+            loading: 0          //the status of loading: 0 - not loading, 1 - loading, 2 - nothing to load
         };
     },
 
@@ -90,10 +110,29 @@ var DishList = React.createClass({
     },
 
     refresh: function () {
+        console.log("before:"+document.cookie)
         var self = this;
-        var currMaxID = this.state.maxID; //the current maxID
-        var url = '/cookyourself/loadmore/' + currMaxID; // specify the url to get images that we need to render
-        // console.log(currMaxID);
+        var alreadyLogin = this.state.alreadyLogin; //already Login status
+        var oldCookie = "";
+        var url = '/cookyourself/loadmore';
+        console.log("alreadyLogin:" + alreadyLogin);
+        if (window.performance) {
+            var type = performance.navigation.type;
+            console.log("type:" + type);
+            if (alreadyLogin == 0 && (type == 0 || type == 1 || type == 2)) { //0 - TYPE_NAVIGATE, 1 - TYPE_RELOAD, 2 - TYPE_BACK_FORWARD
+                console.log('refresh cookies');
+                deleteAllCookies();
+                oldCookie = "cookies=";
+            } else {
+                console.log('no need to refresh cookies');
+                oldCookie = document.cookie;
+            }
+        }
+        console.log("after:"+document.cookie)
+        var cookieArray = oldCookie.split(';');
+        var newCookie = [];
+        console.log("oldCookie:" + oldCookie);
+        // console.log("cookieArray:" + cookieArray);
 
         // Empty the current array. This will trigger a render
         this.setState({dishes: [], loading: 1});
@@ -106,7 +145,7 @@ var DishList = React.createClass({
             }
 
             var dishes = data.sets.map(function (p) {
-                // console.log(p.url)
+                newCookie.push(p.id);
                 return {
                     id: p.id,
                     name: p.name,
@@ -114,10 +153,13 @@ var DishList = React.createClass({
                 };
             });
 
-            var newMaxID = currMaxID + data.sets.length; //FIXME
-            // console.log(newMaxID)
+            console.log("newCookie:"+newCookie);
+            var allCookies = cookieArray.concat(newCookie).toString();
+            console.log("allCookies:" + allCookies);
+
+            document.cookie = allCookies;
             //update the component's state. This will trigger a render
-            self.setState({all: self.state.all.concat(dishes), loading: 0, maxID: newMaxID});
+            self.setState({all: self.state.all.concat(dishes), loading: 0, alreadyLogin: 1});
         });
     },
 
