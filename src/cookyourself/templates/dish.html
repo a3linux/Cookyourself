@@ -49,7 +49,7 @@
           <h5> Calories: {{dish.calories}} </h5>
           <h5> Price: {{dish.price}} </h5>
           <br>
-          <h5 class="description">"{{dish.desciption}}"
+          <h5 class="description">"{{dish.description}}"
           </h5>
         </div>
       </div>
@@ -98,7 +98,7 @@
         <ul>
           {% for iset in isets %}
           <div><a class="glyphicon glyphicon-check" id={{iset.ingredient.id}}></a>
-               <span class="text">{{iset.amount}} {%if iset.unit %}{{iset.unit}}{% endif %}  {{iset.ingredient.name}} </span>
+               <span class="text">{{iset.amount|floatformat}} {%if iset.unit %}{{iset.unit}}{% endif %}  {{iset.ingredient.name}} </span>
           </div>
           {% endfor %}
         </ul>
