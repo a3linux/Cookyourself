@@ -1,4 +1,5 @@
 import re
+from .myutil import *
 
 input_strs = ['1 (16 ounce) package egg noodles',
               '1 pound lean ground beef',
@@ -20,6 +21,16 @@ input_strs = ['Betty Crocker Cream Cheese Frosting 16oz',
              'Combos Snacks, 6.3 OZ',
              "Kay's Naturals Protein Puffs 1.2 OZ, 6CT",]
 
+input_strs = ['VeganEgg by Follow Your Heart, 4-Ounce Carton Egg Replacer',
+             "Kauffman's Hand-Picked Fresh Stayman Winesap Apples (Box of 16 Apples)",
+             'Pink Lady Apples - 4 lbs - The Fruit Company',
+             'Gala Apples Fresh Produce Fruit, 3 LB Bag',
+             "Zatarain's New Orleans Style Mixes, Smothered Chicken Rice Mix, 8-Ounce Boxes (Pack of 12)",
+             'KRAFT PHILADELPHIA CREAM CHEESE BRICK ORIGINAL 8 OZ PACK OF 4',
+             'Kraft Philadelphia Cream Cheese (8 oz. pkg., 6 ct.)',
+             'Kraft Philadelphia Original Cream Cheese Spread - Pouch, 1 Ounce -- 100 per case.',
+             ]
+
 def generate_unit_set():
     units = set()
     units.add('cup')
@@ -39,20 +50,60 @@ def generate_unit_set():
     units.add('pinch')
     return units
 
+def convert_str_to_float(input_str):
+    pass
+
 class PriceParser:
-    reg0 = r"(.*?)[-, ]+([0-9\.]+) ?[oO][zZ]"
-    # reg1 = r"([^0-9]*)"
+    reg00 = r".*?[ \(]?[pP][aA][cC][kK] [oO][fF] (?P<pack>[0-9]+)\)?"
+    reg01 = r".*?[ \(]?[bB][oO][xX] [oO][fF] (?P<pack>[0-9]+)"
+    reg1 = r"(?P<name>.*?)[-, ]+\(?(?P<amount>[0-9\./]+) ?[oO][zZ]"
+    reg2 = r"(?P<name>.*?)[-, ]+\(?(?P<amount>[0-9\./]+)[- ]?[oO][uU][nN][cC][eE]"
+    reg3 = r"(?P<name>.*?)[-, ]+\(?(?P<amount>[0-9\/]+) ?[lL][bB]"
+    reg4 = r"(?P<name>.*?)[-, ]+\(?(?P<amount>[0-9\./]+) ?[kK]?[gG]"
 
     def parse_list(self, input_strs):
         return [self.parse(input_str) for input_str in input_strs]
 
     def parse(self, input_str):
-        pattern = re.compile(PriceParser.reg0)
+        pack = None
+        # get pack of item first
+        pattern = re.compile(PriceParser.reg00)
         m = pattern.match(input_str)
         if m:
-            return (m.group(1), float(m.group(2)))
+            pack = to_float(m.group(1))
 
-        return (input_str, None)
+        pattern = re.compile(PriceParser.reg01)
+        m = pattern.match(input_str)
+        if m:
+            pack = to_float(m.group(1))
+
+        # get weight of item
+        pattern = re.compile(PriceParser.reg1)
+        m = pattern.match(input_str)
+        unit = None
+        if m:
+            unit = to_float(m.group(2))
+            return (m.group(1), unit, pack, 'oz')
+
+        pattern = re.compile(PriceParser.reg2)
+        m = pattern.match(input_str)
+        if m:
+            unit = to_float(m.group(2))
+            return (m.group(1), unit, pack, 'oz')
+
+        pattern = re.compile(PriceParser.reg3)
+        m = pattern.match(input_str)
+        if m:
+            unit = to_float(m.group(2))
+            return (m.group(1), unit, pack, 'lb')
+
+        pattern = re.compile(PriceParser.reg4)
+        m = pattern.match(input_str)
+        if m:
+            unit = to_float(m.group(2))
+            return (m.group(1), unit, pack, 'g')
+
+        return (input_str, None, pack, None)
 
 class IngredientParser:
     units = generate_unit_set()

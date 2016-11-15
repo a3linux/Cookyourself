@@ -205,9 +205,7 @@ class AllRecipeCrawler(Crawler):
 
         return info
 
+# for debug
 if __name__ == '__main__':
-    # for debug
-    DEBUG = True
-    crawler1 = CVSCrawler()
-    price = crawler1.search_price_by_string('cake')
-    # print(str(price) + ' $/oz')
+    crawler = CVSCrawler()
+    price = crawler.search_price_by_string('cake')
