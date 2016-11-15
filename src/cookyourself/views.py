@@ -5,8 +5,15 @@ from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 def index(request):
-    dishes = Dish.objects.all().order_by('-popularity') #default order    
-    dishsets = [{'dish':dish, 'image':DishImage.objects.filter(dish=dish)[0].image} for dish in dishes]
+    dishes = Dish.objects.all().order_by('-popularity') #default order
+    dishsets=[]
+    for dish in dishes:
+        images=DishImage.objects.filter(dish=dish)
+        if images:
+            dic={'dish':dish, 'image':images[0].image}
+        else:
+            dic={'dish':dish}
+        dishsets.append(dic)
     context={'sets': dishsets}
     return render(request, 'main.html', context)
 
