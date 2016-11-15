@@ -12,12 +12,13 @@ $(document).ready(function () {
           
    });
     $("#fb-logout").on("click", function( event ) {
+        alert("user wants to log out");
+        $("#fb-login").show();
+        self.hide();     
         FB.logout(function(response){
            // Handle the response object
               console.log("user now logged out");
-        }); 
-        $("#fb-login").show();
-        self.hide();
+        });      
    });
 
 });
