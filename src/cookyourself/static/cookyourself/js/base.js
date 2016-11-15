@@ -14,7 +14,7 @@ $(document).ready(function () {
     $("#fb-logout").on("click", function( event ) {
         alert("user wants to log out");
         $("#fb-login").show();
-        self.hide();  
+        $("#fb-logout").hide();  
         alert("button hidden finished");   
         FB.logout(function(response){
            // Handle the response object
