@@ -44,7 +44,7 @@ class Style(models.Model):
 
 class Dish(models.Model):
     name = models.CharField(max_length=128)
-    desciption = models.CharField(max_length=256, blank=True, null=True)
+    description = models.CharField(max_length=256, blank=True, null=True)
     style = models.ForeignKey(Style, blank=True, null=True)
     popularity = models.IntegerField(default=0)
     # Not sure whether it should be optinal field (Posts)

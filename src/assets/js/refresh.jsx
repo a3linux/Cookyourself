@@ -4,16 +4,52 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
-function Dish(props) {
-    return (
-        <div className="col-xs-12 col-md-4 col-lg-4">
-            <a href={'/cookyourself/dish/' + props.id}>
-                <img className="img-thumbnail main_pic" width="100%" height="100%"
-                     src={props.url} alt="Dish"/></a>
-            <h5 className="text-center">{props.name}</h5>
-        </div>
-    );
-}
+var Dish = React.createClass({
+    getInitialState: function () {
+        return {
+            canvasId: '',
+        }
+    },
+
+    render: function () {
+        var str = "myCanvas" + this.props.id;
+        return (
+            <div className="col-xs-12 col-md-4 col-lg-4">
+                <a href={'/cookyourself/dish/' + this.props.id}>
+                    <canvas id={str} className="img-thumbnail main_pic" width="533" height="300"/>
+                </a>
+                <h5 className="text-center">{this.props.name}</h5>
+            </div>
+        )
+    },
+
+    cropImage: function () {
+        var canvasId = "myCanvas" + this.props.id;
+        var canvas = document.getElementById(canvasId);
+        var ctx = canvas.getContext("2d");
+        var imgObj = new Image();
+
+        imgObj.onload = function () {
+            var sx = 0;
+            var sy = 0;
+            var sw = this.width;    //the url pic width
+            var sh = this.height;   //the url pic height
+            var dw = 533;
+            var dh = 300;
+            var dx = 0;
+            var dy = 0;
+
+            //console.log("w:" + sw + "h:" + sh);
+            ctx.drawImage(imgObj, sx, sy, sw, sh, dx, dy, dw, dh);
+        };
+        imgObj.src = this.props.url;
+    },
+
+    componentDidMount: function () {
+        // resize the image we have rendered
+        this.cropImage();
+    },
+});
 
 var DishList = React.createClass({
     getInitialState: function () {
@@ -33,7 +69,7 @@ var DishList = React.createClass({
 
     componentDidUpdate: function () {
         // resize the image we have rendered
-        this.imageResize();
+        //this.imageResize();
     },
 
     imageResize: function () {
