@@ -4,6 +4,22 @@
 
 $(document).ready(function () {
     document.getElementById("timestamp").innerHTML = String(new Date().getFullYear());
+    $("#fb-login").on("click", function( event ) { 
+        FB.login(function(response){
+           // Handle the response object
+              checkLoginState();
+        });
+          
+   });
+    $("#fb-logout").on("click", function( event ) {
+        FB.logout(function(response){
+           // Handle the response object
+              console.log("user now logged out");
+        }); 
+        $("#fb-login").show();
+        self.hide();
+   });
+
 });
 
   // This is called with the results from from FB.getLoginStatus().
@@ -16,6 +32,9 @@ $(document).ready(function () {
     // for FB.getLoginStatus().
     if (response.status === 'connected') {
       // Logged into your app and Facebook.
+      $("#fb-logout").show(); 
+      $("#fb-login").hide(); 
+      console.log(response.authResponse.accessToken);
       testAPI();
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
@@ -80,8 +99,6 @@ $(document).ready(function () {
     console.log('Welcome!  Fetching your information.... ');
     FB.api('/me', function(response) {
       console.log('Successful login for: ' + response.name);
-      console.log(response);
-      document.getElementById('status').innerHTML =
-        'Thanks for logging in, ' + response.name + '!';
+      console.log(JSON.stringify(response));
     });
   }
