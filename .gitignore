@@ -36,5 +36,6 @@ nosetests.xml
 
 # database
 db.sqlite3
+data.json
 
 .idea
