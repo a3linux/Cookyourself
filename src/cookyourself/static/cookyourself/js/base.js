@@ -5,14 +5,18 @@ var uid;
 var usr;
 var p_url;
 $(document).ready(function () {
-  (function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/en_US/sdk.js";
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));
-  
+   $.ajaxSetup({ cache: true });
+   $.getScript('//connect.facebook.net/en_US/sdk.js', function(){
+    FB.init({
+       appId      : '945239262274790',
+      cookie     : true,  // enable cookies to allow the server to access 
+                        // the session
+       xfbml      : true,  // parse social plugins on this page
+       version    : 'v2.8' // use graph api version 2.8
+    }); 
+    FB.getLoginStatus(function(response) {
+    statusChangeCallback(response);
+    });
     document.getElementById("timestamp").innerHTML = String(new Date().getFullYear());
     eventHandle();
 });
@@ -108,7 +112,8 @@ function addUser(){
       document.getElementById('status').innerHTML = 'Please log ' +
         'into this app.';
       $("#fb-signup").show(); 
-      document.getElementById("user_photo").src="";  
+      $('#user_photo').removeAttr('src');
+      //document.getElementById("user_photo").src="";  
 
     } else {
       // The person is not logged into Facebook, so we're not sure if
@@ -116,7 +121,8 @@ function addUser(){
         $("#fb-signup").show(); 
         $("#fb-login").show();
         $("#fb-logout").hide(); 
-        document.getElementById("user_photo").src="";  
+        $('#user_photo').removeAttr('src');
+        //document.getElementById("user_photo").src="";  
     }
   }
 
@@ -129,7 +135,7 @@ function addUser(){
     });
   }
 
-  window.fbAsyncInit = function() {
+  /*window.fbAsyncInit = function() {
   FB.init({
     appId      : '945239262274790',
     cookie     : true,  // enable cookies to allow the server to access 
@@ -154,7 +160,13 @@ function addUser(){
   // These three cases are handled in the callback function.
 
 
-  };
+  };*/
 
   // Load the SDK asynchronously
-  
+   /*(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));*/
