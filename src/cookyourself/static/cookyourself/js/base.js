@@ -51,7 +51,7 @@ function getUserInfo(response) {
         document.getElementById("portrait").src = p_url; 
       }
       });
-      
+
       alert("before post");
       $.post("/cookyourself/add_user",
       {
@@ -59,9 +59,8 @@ function getUserInfo(response) {
         username: username,
         url: p_url
       })
-      .success(function() { alert("second success"); })
-      .error(function() { alert("error"); })
-      .complete(function() { alert("complete"); });
+      .done(function() { alert("second success"); })
+      .error(function() { alert("error"); });
       alert("after post");
   }
 }
