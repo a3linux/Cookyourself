@@ -75,7 +75,7 @@ function getUserInfo(response) {
   token = response.authResponse.accessToken;
   //var username;
   //var p_url;
-  addUser(1);
+  //addUser(1);
   if (response.authResponse) {
       FB.api('/me', 'get', { access_token: token, fields: 'name,gender' }, function(response) {
         console.log(response);
