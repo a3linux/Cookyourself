@@ -84,7 +84,8 @@ def add_ingredient(request, id):
     else:
         cart_detail=RelationBetweenCartIngredient.objects.create(cart=cart, ingredient=ingredient, amount=0)
     return HttpResponse("")
-
+    
+@csrf_exempt 
 def add_user(request):
     if not 'token' in request.POST or not request.POST['token']:
         raise Http404
