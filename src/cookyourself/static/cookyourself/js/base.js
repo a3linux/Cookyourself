@@ -19,17 +19,19 @@ $(document).ready(function () {
         }, {scope: 'public_profile,email'});
    });
     $("#fb-logout").on("click", function( event ) {
-        alert("user wants to log out");
         $("#fb-login").show();
-        $("#fb-logout").hide();  
-        alert("button hidden finished");   
+        $("#fb-logout").hide(); 
         FB.logout(function(response){
            // Handle the response object
               console.log("user now logged out");
-        });      
-        alert("user logout finished");
-   });
+        }); 
 
+        document.getElementById("user_photo").innerHTML="<img id=\"portrait\" src=\""+
+                                                        "{% static 'cookyourself/images/default.png' %}\"" +
+                                                         "alt=\"more\" ><span class=\"caret\"></span>";     
+        
+   });
+   
 });
 
 function getUserInfo(response) {
