@@ -8,8 +8,7 @@ $(document).ready(function () {
         FB.login(function(response){
            // Handle the response object
               checkLoginState();
-        });
-          
+        }, {scope: 'public_profile,email'});
    });
     $("#fb-logout").on("click", function( event ) {
         alert("user wants to log out");
@@ -103,5 +102,14 @@ $(document).ready(function () {
     FB.api('/me', function(response) {
       console.log('Successful login for: ' + response.name);
       console.log(JSON.stringify(response));
+      FB.api(
+      '/'+response.id,
+      function (resp) {
+      if (response && !response.error) {
+        console.log(JSON.stringify(resp));
+        /* handle the result */
+      }
+    }
+);
     });
   }
