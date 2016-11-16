@@ -59,8 +59,7 @@ function getUserInfo(response) {
         username: username,
         url: p_url
       })
-      .done(function() { alert("second success"); })
-      .error(function() { alert("error"); });
+      .done(function() { alert("second success"); });  
       alert("after post");
   }
 }
