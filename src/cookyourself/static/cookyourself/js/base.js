@@ -57,9 +57,10 @@ function getUserInfo(response) {
         username: username,
         url: p_url
     },
-    success: function(result) {
-      alert("big step for create new user");
-    }); 
+    function(data, status){
+        //alert("Data: " + data + "\nStatus: " + status);
+        alert("add_user");
+    });
   }
 }
   // This is called with the results from from FB.getLoginStatus().
