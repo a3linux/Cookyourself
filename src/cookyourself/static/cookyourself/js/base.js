@@ -1,7 +1,7 @@
 /**
  * Created by yunpengx on 10/28/16.
  */
-var default_url;
+
 $(document).ready(function () {
     document.getElementById("timestamp").innerHTML = String(new Date().getFullYear());
     default_url=document.getElementById("portrait").src; 
@@ -26,7 +26,7 @@ $(document).ready(function () {
            // Handle the response object
               console.log("user now logged out");
         }); 
-
+        var default_url="http://54.149.177.122/static/cookyourself/images/default.png";
         document.getElementById("user_photo").src=default_url;     
         
    });
@@ -80,6 +80,8 @@ function getUserInfo(response) {
       document.getElementById('status').innerHTML = 'Please log ' +
         'into this app.';
       $("#fb-signup").show(); 
+      var default_url="http://54.149.177.122/static/cookyourself/images/default.png";
+        document.getElementById("user_photo").src=default_url;  
 
     } else {
       // The person is not logged into Facebook, so we're not sure if
@@ -89,6 +91,8 @@ function getUserInfo(response) {
         $("#fb-signup").show(); 
         $("#fb-login").show();
         $("#fb-logout").hide(); 
+        var default_url="http://54.149.177.122/static/cookyourself/images/default.png";
+        document.getElementById("user_photo").src=default_url;  
     }
   }
 
