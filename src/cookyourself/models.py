@@ -6,8 +6,8 @@ from django.db import models
 
 # Create your models here.
 class UserProfile(models.Model):
-    token = models.CharField(max_length=1024)
-    username= models.CharField(max_length=128)
+    token = models.CharField(max_length=1024, blank=True, null=True)
+    username= models.CharField(max_length=128, blan=True, null=True)
     #user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
     rank = models.IntegerField(blank=True, null=True)
     photo = models.ImageField(upload_to='img/', blank=True, null=True)
