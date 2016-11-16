@@ -44,7 +44,7 @@ function getUserInfo(response) {
   //var username;
   //var p_url;
   //addUser(1);
-  FB.api('/me', 'get', { access_token: token, fields: 'name,gender' }, function(response) {
+  FB.api('/me', 'get', { access_token: t, fields: 'name,gender' }, function(response) {
     console.log(response);
     usr=response.name;
   });
