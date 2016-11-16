@@ -84,17 +84,17 @@ def add_ingredient(request, id):
     else:
         cart_detail=RelationBetweenCartIngredient.objects.create(cart=cart, ingredient=ingredient, amount=0)
     return HttpResponse("")
-    
+
 @csrf_exempt 
 def add_user(request):
-    if not 'token' in request.POST or not request.POST['token']:
+    if not 't' in request.POST or not request.POST['t']:
         raise Http404
     else:
-        token=request.POST['token'] 
+        token=request.POST.get('t', None) 
         fuser=UserProfile.objects.filter(token=token)
         if not fuser:
-            username=request.POST['username']
-            photo=request.POST['url']
+            username=request.POST.get('usr', None)
+            photo=request.POST.get('url', None)
             new_user = UserProfile(token=token, username=username, photo=photo)
             new_user.save()
     return HttpResponse("")
