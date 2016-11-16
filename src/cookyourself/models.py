@@ -42,7 +42,6 @@ class Dish(models.Model):
                                          through='RelationBetweenDishIngredient',
                                          blank=True)
     calories = models.IntegerField(blank=True, null=True)
-    # images = GenericRelation(Image)
     # current date & time will be added.
     created_on = models.DateTimeField(auto_now_add=True)
 
@@ -87,7 +86,7 @@ class Comment(models.Model):
 
 class Unit(models.Model):
     name = models.CharField(max_length=128)
-    converted_units = models.ManyToManyField("self")
+    rate = models.FloatField(blank=True, null=True)
 
     def __str_(self):
         return self.name
@@ -101,11 +100,6 @@ class RelationBetweenDishIngredient(models.Model):
     def __str__(self):
         return str(self.dish) + " requires {:d} ".format(self.amount) + \
         str(self.unit) + ' of ' + str(ingredient)
-
-class RelationBetweenUnits(models.Model):
-    one_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, related_name='one_unit')
-    converted_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, related_name='converted_unit')
-    rate = models.FloatField(blank=True, null=True)
 
 class CrawlerRecord(models.Model):
     url = models.URLField()
@@ -130,4 +124,3 @@ class RelationBetweenCartIngredient(models.Model):
     def __str__(self):
         return str(self.cart) + " has {:d} ".format(self.amount) + \
         str(self.unit.name) + ' of ' + str(self.ingredient)
-
