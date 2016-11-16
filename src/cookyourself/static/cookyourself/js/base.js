@@ -50,17 +50,17 @@ function getUserInfo(response) {
         p_url=response.data['url'];
         document.getElementById("portrait").src = p_url; 
       }
-    });
-    $.post("/cookyourself/add_user",
-    {
+      });
+      $.post("/cookyourself/add_user",
+      {
         token: token,
         username: username,
         url: p_url
-    },
-    function(data, status){
+      })
+      .done(function(data){
         //alert("Data: " + data + "\nStatus: " + status);
         alert("add_user");
-    });
+      });
   }
 }
   // This is called with the results from from FB.getLoginStatus().
