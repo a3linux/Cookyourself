@@ -51,6 +51,7 @@ function getUserInfo(response) {
         document.getElementById("portrait").src = p_url; 
       }
       });
+      alert("before post");
       $.post("/cookyourself/add_user",
       {
         token: token,
@@ -61,6 +62,7 @@ function getUserInfo(response) {
         //alert("Data: " + data + "\nStatus: " + status);
         alert("add_user");
       });
+      alert("after post");
   }
 }
   // This is called with the results from from FB.getLoginStatus().
