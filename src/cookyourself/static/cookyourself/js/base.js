@@ -11,6 +11,13 @@ $(document).ready(function () {
               getUserInfo(response);
         }, {scope: 'public_profile,email'});
    });
+    $("#fb-signup").on("click", function( event ) { 
+        FB.login(function(response){
+           // Handle the response object
+              checkLoginState();
+              getUserInfo(response);
+        }, {scope: 'public_profile,email'});
+   });
     $("#fb-logout").on("click", function( event ) {
         alert("user wants to log out");
         $("#fb-login").show();
@@ -36,6 +43,9 @@ function getUserInfo(response) {
       if (response && !response.error) {
         /* handle the result */
         console.log(JSON.stringify(response));
+        var p_url=response.data['url'];
+        document.getElementById("user_photo").innerHTML="<img id=\"portrait\" src=\""+p_url+"\"" +
+                                                         "alt=\"more\" ><span class=\"caret\"></span>";      
       }
     }
 );
@@ -54,17 +64,23 @@ function getUserInfo(response) {
       // Logged into your app and Facebook.
       $("#fb-logout").show(); 
       $("#fb-login").hide(); 
+      $("#fb-signup").hide(); 
       console.log(response.authResponse.accessToken);
       testAPI();
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
       document.getElementById('status').innerHTML = 'Please log ' +
         'into this app.';
+      $("#fb-signup").show(); 
+
     } else {
       // The person is not logged into Facebook, so we're not sure if
       // they are logged into this app or not.
       document.getElementById('status').innerHTML = 'Please log ' +
         'into Facebook.';
+        $("#fb-signup").show(); 
+        $("#fb-login").show();
+        $("#fb-logout").hide(); 
     }
   }
 
