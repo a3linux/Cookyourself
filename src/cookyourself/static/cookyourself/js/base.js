@@ -38,21 +38,25 @@ $(document).ready(function () {
 
 function getUserInfo(response) {
   var token = response.authResponse.accessToken;
-  var uid = response.authResponse.userID;
+  var username;
+  var p_url;
+
   if (response.authResponse) {
       FB.api('/me', 'get', { access_token: token, fields: 'name,gender' }, function(response) {
         console.log(response);
+        username=response.name;
       });
       FB.api("/me/picture", { redirect: 0 }, function (response) {
       if (response && !response.error) {
         /* handle the result */
         console.log(JSON.stringify(response));
-        var p_url=response.data['url'];
+        p_url=response.data['url'];
         document.getElementById("portrait").src = p_url; 
       }
     }
 );
     }
+    
 
 }
   // This is called with the results from from FB.getLoginStatus().
