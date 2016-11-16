@@ -133,7 +133,7 @@ function addUser(){
     FB.getLoginStatus(function(response) {
       statusChangeCallback(response);
     });
-  }
+  };
 
   /*window.fbAsyncInit = function() {
   FB.init({
