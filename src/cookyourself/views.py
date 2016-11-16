@@ -1,5 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.db import transaction
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 from cookyourself.models import *
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, Http404, JsonResponse
@@ -83,10 +86,6 @@ def dish(request, id=0):
     return render(request, 'dish.html', context)
 
 
-def shoppinglist(request):
-    return render(request, 'shoppinglist.html')
-
-
 def recommendation(request):
     return render(request, 'recommendation.html')
 
@@ -113,7 +112,7 @@ def add_ingredient(request, id):
     else:
         new_cart = Cart(user=request.user)
         new_cart.save()
-    ingredient = ingredient.objects.get(id=id)
+    ingredient = Ingredient.objects.get(id=id)
     cart_detail = RelationBetweenCartIngredient.objects.filter(cart=cart, ingredient=ingredient)
     if cart_detail:
         cart_detail = cart_detail[0]
@@ -122,3 +121,84 @@ def add_ingredient(request, id):
     else:
         cart_detail = RelationBetweenCartIngredient.objects.create(cart=cart, ingredient=ingredient, amount=0)
     return HttpResponse("")
+
+
+@login_required
+def shoppinglist(request):
+    user = request.user
+    cart = Cart.objects.filter(user=user)
+    if not cart:
+        raise Http404
+
+    ingredients = Ingredient.objects.all()
+    if not ingredients:
+        raise Http404
+
+    ingredient_list = []
+    total_price = 0
+    for ingredient in ingredients:
+        detail = RelationBetweenCartIngredient.objects.filter(cart=cart, ingredient=ingredient)[0]
+        if not detail:
+            continue
+        unit = detail.unit
+        rate = 1.0
+        if unit:
+            relation = RelationBetweenUnits.objects.filter(converted_unit=unit.converted_units)[0]
+            if relation:
+                rate = relation.rate
+
+        ingredient_list.append(ingredient)
+        price = ingredient.price * detail.amount * rate
+        total_price += price
+
+    context = {
+        "ingredients" : ingredient_list,
+        "price" : total_price,
+    }
+
+    return render(request, 'shoppinglist.html', context)
+
+
+@login_required
+@transaction.atomic
+def del_ingredient_in_shoppinglist(request, id):
+    errors = []
+    user = request.user
+    try:
+        cart = Cart.objects.filter(user=user)
+        ingredient_to_delete = Ingredient.objects.get(id=id)
+        cart_detail = RelationBetweenCartIngredient.objects.filter(cart=cart, ingredient=ingredient_to_delete)[0]
+        cart_detail.amount = 0
+        cart_detail.delete()
+    except ObjectDoesNotExist:
+        errors.append('The item does not exist in the cart of user:%s' % user.name)
+
+    ingredients = Ingredient.objects.all()
+    if not ingredients:
+        raise Http404
+
+    ingredient_list = []
+    total_price = 0
+    for ingredient in ingredients:
+        detail = RelationBetweenCartIngredient.objects.filter(cart=cart, ingredient=ingredient)[0]
+        if not detail:
+            continue
+        unit = detail.unit
+        rate = 1.0
+        if unit:
+            relation = RelationBetweenUnits.objects.filter(converted_unit=unit.converted_units)[0]
+            if relation:
+                rate = relation.rate
+        amount = detail.amount
+        ingredient_list.append(ingredient)
+        price = ingredient.price * amount * rate
+        total_price += price
+
+    context = {
+        "ingredients": ingredient_list,
+        "price": total_price,
+        "errors": errors
+    }
+
+    return render(request, 'shoppinglist.html', context)
+

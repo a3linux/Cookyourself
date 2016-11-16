@@ -18,54 +18,59 @@
   <div class="row">
     <div class="col-md-8">
       <div class="jumbotron jumbotron-wide">
-        <h2>Seasonings</h2>
-        <hr>
-        <ul class="list-group slist-category">
-          <li class="list-group-item">honey
-            <span class="pull-right icon-remove-parent">
-              <button class="btn-list-remove"><span class="glyphicon glyphicon-remove icon-remove"></span></button>
-            </span>
-          </li>
-          <li class="list-group-item">soy sauce
-            <span class="pull-right icon-remove-parent">
-              <button class="btn-list-remove"><span class="glyphicon glyphicon-remove icon-remove"></span></button>
-            </span>
-          </li>
-          <li class="list-group-item">olive oil
-            <span class="pull-right icon-remove-parent">
-              <button class="btn-list-remove"><span class="glyphicon glyphicon-remove icon-remove"></span></button>
-            </span>
-          </li>
-          <li class="list-group-item">salt
-            <span class="pull-right icon-remove-parent">
-              <button class="btn-list-remove"><span class="glyphicon glyphicon-remove icon-remove"></span></button>
-            </span>
-          </li>
-          <li class="list-group-item">sugar
-            <span class="pull-right icon-remove-parent">
-              <button class="btn-list-remove"><span class="glyphicon glyphicon-remove icon-remove"></span></button>
-            </span>
-          </li>
-        </ul>
+{#        <h2>Seasonings</h2>#}
+{#        <hr>#}
+{#        <ul class="list-group slist-category">#}
+{#          <li class="list-group-item">honey#}
+{#            <span class="pull-right icon-remove-parent">#}
+{#              <button class="btn-list-remove"><span class="glyphicon glyphicon-remove icon-remove"></span></button>#}
+{#            </span>#}
+{#          </li>#}
+{#          <li class="list-group-item">soy sauce#}
+{#            <span class="pull-right icon-remove-parent">#}
+{#              <button class="btn-list-remove"><span class="glyphicon glyphicon-remove icon-remove"></span></button>#}
+{#            </span>#}
+{#          </li>#}
+{#          <li class="list-group-item">olive oil#}
+{#            <span class="pull-right icon-remove-parent">#}
+{#              <button class="btn-list-remove"><span class="glyphicon glyphicon-remove icon-remove"></span></button>#}
+{#            </span>#}
+{#          </li>#}
+{#          <li class="list-group-item">salt#}
+{#            <span class="pull-right icon-remove-parent">#}
+{#              <button class="btn-list-remove"><span class="glyphicon glyphicon-remove icon-remove"></span></button>#}
+{#            </span>#}
+{#          </li>#}
+{#          <li class="list-group-item">sugar#}
+{#            <span class="pull-right icon-remove-parent">#}
+{#              <button class="btn-list-remove"><span class="glyphicon glyphicon-remove icon-remove"></span></button>#}
+{#            </span>#}
+{#          </li>#}
+{#        </ul>#}
         <h2>Meat</h2>
         <hr>
+
         <ul class="list-group">
-          <li href="#" class="list-group-item">pork
+             {% for ingredient in ingredients %}
+          <li href="#" class="list-group-item">{{ ingredient.name }}
             <span class="pull-right icon-remove-parent">
               <button class="btn-list-remove"><span class="glyphicon glyphicon-remove icon-remove"></span></button>
             </span>
           </li>
-          <li href="#" class="list-group-item">chicken tender
-            <span class="pull-right icon-remove-parent">
-              <button class="btn-list-remove"><span class="glyphicon glyphicon-remove icon-remove"></span></button>
-            </span>
-          </li>
-          <li href="#" class="list-group-item">shrimp
-            <span class="pull-right icon-remove-parent">
-              <button class="btn-list-remove"><span class="glyphicon glyphicon-remove icon-remove"></span></button>
-            </span>
-          </li>
+            {% endfor %}
+
+{#          <li href="#" class="list-group-item">chicken tender#}
+{#            <span class="pull-right icon-remove-parent">#}
+{#              <button class="btn-list-remove"><span class="glyphicon glyphicon-remove icon-remove"></span></button>#}
+{#            </span>#}
+{#          </li>#}
+{#          <li href="#" class="list-group-item">shrimp#}
+{#            <span class="pull-right icon-remove-parent">#}
+{#              <button class="btn-list-remove"><span class="glyphicon glyphicon-remove icon-remove"></span></button>#}
+{#            </span>#}
+{#          </li>#}
         </ul>
+
         <div class="clearfix">
           <button class="btn btn-warning btn-lg pull-right" href="#" role="button"><span class="glyphicon glyphicon-print"></span>Print</button>
         </div>
@@ -93,7 +98,7 @@
         </div>
         <hr>
         <h3>Total</h3>
-        <span class="pull-right"><p>$50</p></span>
+        <span class="pull-right"><p>${{ price }}</p></span>
       </div>
 
       <div class="jumbotron jumbotron-wide clearfix inline-headers align-h3-to-p">
