@@ -25,8 +25,7 @@ $(document).ready(function () {
         FB.logout(function(response){
            // Handle the response object
               console.log("user now logged out");
-              var default_url="http://54.149.177.122/static/cookyourself/images/default.png";
-              document.getElementById("user_photo").src=default_url;
+              document.getElementById("user_photo").src="";
               var url=document.getElementById("user_photo").src;
               console.log("picture has changed to: "+ url);   
         }); 
@@ -52,8 +51,7 @@ function getUserInfo(response) {
         document.getElementById("portrait").src = p_url; 
       }
     });
-  }
-  var data = {'token':token,'username':username, 'url': p_url};
+    var data = {'token':token,'username':username, 'url': p_url};
         $.ajax({
           url: "/cookyourself/add_user",
           type: 'POST',
@@ -62,6 +60,7 @@ function getUserInfo(response) {
               alert("big step for create new user");
           }
         }); 
+  }
 }
   // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
@@ -91,8 +90,7 @@ function getUserInfo(response) {
       document.getElementById('status').innerHTML = 'Please log ' +
         'into this app.';
       $("#fb-signup").show(); 
-      var default_url="http://54.149.177.122/static/cookyourself/images/default.png";
-        document.getElementById("user_photo").src=default_url;  
+      document.getElementById("user_photo").src="";  
 
     } else {
       // The person is not logged into Facebook, so we're not sure if
@@ -100,8 +98,7 @@ function getUserInfo(response) {
         $("#fb-signup").show(); 
         $("#fb-login").show();
         $("#fb-logout").hide(); 
-        var default_url="http://54.149.177.122/static/cookyourself/images/default.png";
-        document.getElementById("user_photo").src=default_url;  
+        document.getElementById("user_photo").src="";  
     }
   }
 
