@@ -26,7 +26,7 @@ function deleteAllCookies() {
         var cookie = cookies[i];
         var eqPos = cookie.indexOf("=");
         var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-        document.cookie = name + "=;";
+        document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
     }
 }
 
@@ -110,7 +110,7 @@ var DishList = React.createClass({
     },
 
     refresh: function () {
-        console.log("before:"+document.cookie)
+        console.log("before:" + document.cookie)
         var self = this;
         var alreadyLogin = this.state.alreadyLogin; //already Login status
         var oldCookie = "";
@@ -128,7 +128,7 @@ var DishList = React.createClass({
                 oldCookie = document.cookie;
             }
         }
-        console.log("after:"+document.cookie)
+        console.log("after:" + document.cookie)
         var cookieArray = oldCookie.split(';');
         var newCookie = [];
         console.log("oldCookie:" + oldCookie);
@@ -145,7 +145,9 @@ var DishList = React.createClass({
             }
 
             var dishes = data.sets.map(function (p) {
-                newCookie.push(p.id);
+                if (p.id != '') {
+                    newCookie.push(p.id);
+                }
                 return {
                     id: p.id,
                     name: p.name,
@@ -153,7 +155,7 @@ var DishList = React.createClass({
                 };
             });
 
-            console.log("newCookie:"+newCookie);
+            console.log("newCookie:" + newCookie);
             var allCookies = cookieArray.concat(newCookie).toString();
             console.log("allCookies:" + allCookies);
 
