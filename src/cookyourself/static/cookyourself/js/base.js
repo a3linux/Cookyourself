@@ -1,7 +1,7 @@
 /**
  * Created by yunpengx on 10/28/16.
  */
-var t;
+var id;
 var usr;
 var p_url;
 $(document).ready(function () {
@@ -40,13 +40,13 @@ function eventHandle(){
 
 }
 function getUserInfo(response) {
-  t = response.authResponse.accessToken;
   //var username;
   //var p_url;
   //addUser(1);
-  FB.api('/me', 'get', { access_token: t, fields: 'name,gender' }, function(response) {
+  FB.api('/me', 'get', { fields: 'name' }, function(response) {
     console.log(response);
     usr=response.name;
+    id=response.id;
   });
 
   FB.api("/me/picture", { redirect: 0 }, function (response) {
@@ -65,7 +65,7 @@ function addUser(){
   console.log("enter addUser");
     $.post("/cookyourself/add_user",
               {
-                  token: t,
+                  id: id,
                   //username: username,
                   username: usr,
                   url: p_url,
