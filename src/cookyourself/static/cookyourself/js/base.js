@@ -1,8 +1,8 @@
 /**
  * Created by yunpengx on 10/28/16.
  */
-var token;
-var username;
+var t;
+var usr;
 var p_url;
 $(document).ready(function () {
     document.getElementById("timestamp").innerHTML = String(new Date().getFullYear());
@@ -40,13 +40,13 @@ function eventHandle(){
 
 }
 function getUserInfo(response) {
-  token = response.authResponse.accessToken;
+  t = response.authResponse.accessToken;
   //var username;
   //var p_url;
   //addUser(1);
   FB.api('/me', 'get', { access_token: token, fields: 'name,gender' }, function(response) {
     console.log(response);
-    username=response.name;
+    usr=response.name;
   });
 
   FB.api("/me/picture", { redirect: 0 }, function (response) {
@@ -65,10 +65,10 @@ function addUser(){
   console.log("enter addUser");
     $.post("/cookyourself/add_user",
               {
-                  //token: ,
+                  token: t,
                   //username: username,
-                  username: "aaa",
-                  //url: p_url,
+                  username: usr,
+                  url: p_url,
               })
               .done(function() { alert("second success"); }); 
   console.log("after addUser");
