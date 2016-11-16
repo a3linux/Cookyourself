@@ -25,9 +25,12 @@ $(document).ready(function () {
         FB.logout(function(response){
            // Handle the response object
               console.log("user now logged out");
+              var default_url="http://54.149.177.122/static/cookyourself/images/default.png";
+              document.getElementById("user_photo").src=default_url;
+              var url=ocument.getElementById("user_photo").src;
+              console.log("picture has changed to: "+ url);   
         }); 
-        var default_url="http://54.149.177.122/static/cookyourself/images/default.png";
-        document.getElementById("user_photo").src=default_url;     
+          
         
    });
    
