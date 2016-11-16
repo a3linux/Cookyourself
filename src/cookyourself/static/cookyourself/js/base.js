@@ -5,9 +5,6 @@ var default_url;
 $(document).ready(function () {
     document.getElementById("timestamp").innerHTML = String(new Date().getFullYear());
     default_url=document.getElementById("portrait").src; 
-    FB.getLoginStatus(function(response) {
-    statusChangeCallback(response);
-    });
     $("#fb-login").on("click", function( event ) { 
         FB.login(function(response){
            // Handle the response object
@@ -111,6 +108,9 @@ function getUserInfo(response) {
                         // the session
     xfbml      : true,  // parse social plugins on this page
     version    : 'v2.8' // use graph api version 2.8
+  });
+  FB.getLoginStatus(function(response) {
+    statusChangeCallback(response);
   });
 
   // Now that we've initialized the JavaScript SDK, we call 
