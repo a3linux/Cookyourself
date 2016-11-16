@@ -8,6 +8,7 @@ $(document).ready(function () {
         FB.login(function(response){
            // Handle the response object
               checkLoginState();
+              getUserInfo(response);
         }, {scope: 'public_profile,email'});
    });
     $("#fb-logout").on("click", function( event ) {
@@ -24,6 +25,23 @@ $(document).ready(function () {
 
 });
 
+function getUserInfo(response) {
+  var token = response.authResponse.accessToken;
+  var uid = response.authResponse.userID;
+  if (response.authResponse) {
+      FB.api('/me', 'get', { access_token: token, fields: 'name,gender' }, function(response) {
+        console.log(response);
+      });
+      FB.api("/me/picture", { redirect: 0 }, function (response) {
+      if (response && !response.error) {
+        /* handle the result */
+        console.log(JSON.stringify(response));
+      }
+    }
+);
+    }
+
+}
   // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
     console.log('statusChangeCallback');
@@ -99,7 +117,9 @@ $(document).ready(function () {
   // successful.  See statusChangeCallback() for when this call is made.
   function testAPI() {
     console.log('Welcome!  Fetching your information.... ');
-    FB.api('/me', function(response) {
+    /*FB.api('/me', function(response) {
+      var token = response.authResponse.accessToken;
+      var uid = response.authResponse.userID;
       console.log('Successful login for: ' + response.name);
       console.log(JSON.stringify(response));
       FB.api(
@@ -108,8 +128,8 @@ $(document).ready(function () {
       if (response && !response.error) {
         console.log(JSON.stringify(resp));
         /* handle the result */
-      }
+      /*}
     }
 );
-    });
+    });*/
   }
