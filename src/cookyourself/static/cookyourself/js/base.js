@@ -68,7 +68,7 @@ function getUserInfo(response) {
         //token: ,
         //username: username,
         username: "aaa",
-        url: p_url,
+        //url: p_url,
       })
       .done(function() { alert("second success"); });  
       alert("after post");
