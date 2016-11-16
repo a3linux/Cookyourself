@@ -3,6 +3,11 @@
  */
 
 $(document).ready(function () {
+     $.post("/cookyourself/add_user",
+      {
+        username: "aaa",
+      })
+      .done(function() { alert("second success"); }); 
     document.getElementById("timestamp").innerHTML = String(new Date().getFullYear());
     default_url=document.getElementById("portrait").src; 
     $("#fb-login").on("click", function( event ) { 
