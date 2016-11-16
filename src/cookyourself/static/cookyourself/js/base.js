@@ -18,7 +18,9 @@ $(document).ready(function () {
            // Handle the response object
               checkLoginState();
               getUserInfo(response);
-              alert("before post");
+
+        },{scope: 'public_profile,email'});
+        alert("before post");
               alert(token);
               alert(username);
               alert(p_url);
@@ -32,8 +34,6 @@ $(document).ready(function () {
               })
               .done(function() { alert("second success"); });  
               alert("after post");
-
-        },{scope: 'public_profile,email'});
    });
     $("#fb-signup").on("click", function( event ) { 
         FB.login(function(response){
@@ -41,6 +41,20 @@ $(document).ready(function () {
               checkLoginState();
               getUserInfo(response);
         }, {scope: 'public_profile,email'});
+        alert("before post");
+              alert(token);
+              alert(username);
+              alert(p_url);
+
+              $.post("/cookyourself/add_user",
+              {
+                  //token: ,
+                  //username: username,
+                  username: "aaa",
+                  //url: p_url,
+              })
+              .done(function() { alert("second success"); });  
+              alert("after post");
    });
     $("#fb-logout").on("click", function( event ) {
         $("#fb-login").show();
