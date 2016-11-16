@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^recommendation$', cookyourself.views.recommendation, name='recommendation'),
     url(r'^profile/(?P<id>\d+)$', cookyourself.views.profile, name='profile'),
     url(r'^add_ingredient/(?P<id>\d+)$', cookyourself.views.add_ingredient, name='add_ingredient'),
+    url(r'^add_user$', cookyourself.views.add_user, name='add_user'),
 ]

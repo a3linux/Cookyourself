@@ -30,8 +30,6 @@ $(document).ready(function () {
               var url=document.getElementById("user_photo").src;
               console.log("picture has changed to: "+ url);   
         }); 
-          
-        
    });
    
 });
@@ -53,11 +51,17 @@ function getUserInfo(response) {
         p_url=response.data['url'];
         document.getElementById("portrait").src = p_url; 
       }
-    }
-);
-    }
-    
-
+    });
+  }
+  var data = {'token':token,'username':username, 'url': p_url};
+        $.ajax({
+          url: "/cookyourself/add_user",
+          type: 'POST',
+          data: data,
+          success: function(result) {
+              alert("big step for create new user");
+          }
+        }); 
 }
   // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {

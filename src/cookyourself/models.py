@@ -1,17 +1,19 @@
 from django.db import models
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
 # from django.contrib.contenttypes.fields import GenericRelation
 # from django.contrib.contenttypes.fields import GenericForeignKey
 # from django.contrib.contenttypes.models import ContentType
 
 # Create your models here.
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    rank = models.IntegerField()
+    token = models.CharField(max_length=1024)
+    username= models.CharField(max_length=128)
+    #user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    rank = models.IntegerField(blank=True, null=True)
     photo = models.ImageField(upload_to='img/', blank=True, null=True)
 
     def __str__(self):
-        return str(self.user)
+        return str(self.username)
 
 
 # One-to-many-image-field reference:
@@ -126,7 +128,7 @@ class CrawlerRecord(models.Model):
         return url + ", Last updated on " + str(self.pdated_on)
 
 class Cart(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='cart')
+    user = models.OneToOneField(UserProfile, on_delete=models.CASCADE, related_name='cart')
     ingredients = models.ManyToManyField(Ingredient,
                                          through='RelationBetweenCartIngredient',
                                          blank=True)
