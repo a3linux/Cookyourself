@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from cookyourself.models import *
 from django.views.decorators.csrf import csrf_exempt
+from django.http import Http404
 
 # Create your views here.
 def index(request):
@@ -87,15 +88,12 @@ def add_ingredient(request, id):
 
 @csrf_exempt 
 def add_user(request):
-    if not 't' in request.POST or not request.POST['t']:
-        raise Http404
-    else:
-        token=request.POST.get('t', None) 
-        fuser=UserProfile.objects.filter(token=token)
-        if not fuser:
-            username=request.POST.get('usr', None)
-            photo=request.POST.get('url', None)
-            new_user = UserProfile(token=token, username=username, photo=photo)
-            new_user.save()
+    token=request.POST.get('t', None) 
+    fuser=UserProfile.objects.filter(token=token)
+    if not fuser:
+        username=request.POST.get('usr', None)
+        photo=request.POST.get('url', None)
+        new_user = UserProfile(token=token, username=username, photo=photo)
+        new_user.save()
     return HttpResponse("")
     
