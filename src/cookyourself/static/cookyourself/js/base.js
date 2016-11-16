@@ -27,7 +27,7 @@ $(document).ready(function () {
               console.log("user now logged out");
               var default_url="http://54.149.177.122/static/cookyourself/images/default.png";
               document.getElementById("user_photo").src=default_url;
-              var url=ocument.getElementById("user_photo").src;
+              var url=document.getElementById("user_photo").src;
               console.log("picture has changed to: "+ url);   
         }); 
           
