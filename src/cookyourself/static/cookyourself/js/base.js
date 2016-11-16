@@ -1,9 +1,13 @@
 /**
  * Created by yunpengx on 10/28/16.
  */
-
+var default_url;
 $(document).ready(function () {
     document.getElementById("timestamp").innerHTML = String(new Date().getFullYear());
+    default_url=document.getElementById("portrait").src; 
+    FB.getLoginStatus(function(response) {
+    statusChangeCallback(response);
+    });
     $("#fb-login").on("click", function( event ) { 
         FB.login(function(response){
            // Handle the response object
@@ -26,9 +30,7 @@ $(document).ready(function () {
               console.log("user now logged out");
         }); 
 
-        document.getElementById("user_photo").innerHTML="<img id=\"portrait\" src=\""+
-                                                        "{% static 'cookyourself/images/default.png' %}\"" +
-                                                         "alt=\"more\" ><span class=\"caret\"></span>";     
+        document.getElementById("user_photo").src=default_url;     
         
    });
    
@@ -46,8 +48,7 @@ function getUserInfo(response) {
         /* handle the result */
         console.log(JSON.stringify(response));
         var p_url=response.data['url'];
-        document.getElementById("user_photo").innerHTML="<img id=\"portrait\" src=\""+p_url+"\"" +
-                                                         "alt=\"more\" ><span class=\"caret\"></span>";      
+        document.getElementById("portrait").src = p_url; 
       }
     }
 );
@@ -67,6 +68,14 @@ function getUserInfo(response) {
       $("#fb-logout").show(); 
       $("#fb-login").hide(); 
       $("#fb-signup").hide(); 
+      FB.api("/me/picture", { redirect: 0 }, function (response) {
+      if (response && !response.error) {
+        /* handle the result */
+        console.log(JSON.stringify(response));
+        var p_url=response.data['url'];
+        document.getElementById("portrait").src = p_url; 
+      }
+    });
       console.log(response.authResponse.accessToken);
       testAPI();
     } else if (response.status === 'not_authorized') {
@@ -116,9 +125,6 @@ function getUserInfo(response) {
   //
   // These three cases are handled in the callback function.
 
-  FB.getLoginStatus(function(response) {
-    statusChangeCallback(response);
-  });
 
   };
 
