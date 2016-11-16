@@ -81,14 +81,14 @@ webservices.amazon.com
         return r.text
 
 if __name__ == '__main__':
-    if len(sys.argv) == 1:
-        print('Usage:')
-        print('    python amazon.py item_name')
-        sys.exit(0)
+    # if len(sys.argv) == 1:
+    #     print('Usage:')
+    #     print('    python amazon.py item_name')
+    #     sys.exit(0)
+    #
+    # query = ' '.join(sys.argv[1:])
 
-    query = ' '.join(sys.argv[1:])
-    print('Keyword: {}'.format(query))
-
+    query = 'curry'
     amazon = AmazonProductAPI()
     soup = BeautifulSoup(amazon.search(query), 'html.parser')
 
@@ -99,5 +99,5 @@ if __name__ == '__main__':
 
     results = list(zip(products, sizes, prices))
 
-    for result in results:
-        print(result)
+    displays = ["{}: {}, {}".format(result[0], result[1], result[2]) for result in results]
+    print("Keyword: {}\n".format(query) + "\n".join(displays) + "\n")

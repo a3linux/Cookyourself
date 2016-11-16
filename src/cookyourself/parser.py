@@ -1,4 +1,5 @@
 import re
+from nltk.stem.porter import *
 from .myutil import *
 
 input_strs = ['1 (16 ounce) package egg noodles',
@@ -14,12 +15,6 @@ input_strs = ['1 (16 ounce) package egg noodles',
               '1 1/2 cups ice water',
               '2 teaspoons white sugar',
               '1 pinch salt']
-
-input_strs = ['Betty Crocker Cream Cheese Frosting 16oz',
-             'Knorr Pasta Sides Alfredo 4.4oz',
-             'Kraft Easy Mac Original - 2.05 oz',
-             'Combos Snacks, 6.3 OZ',
-             "Kay's Naturals Protein Puffs 1.2 OZ, 6CT",]
 
 input_strs = ['VeganEgg by Follow Your Heart, 4-Ounce Carton Egg Replacer',
              "Kauffman's Hand-Picked Fresh Stayman Winesap Apples (Box of 16 Apples)",
@@ -48,6 +43,20 @@ def generate_unit_set():
     units.add('bottle')
     units.add('cube')
     units.add('pinch')
+
+    # units.add('cups')
+    # units.add('jars')
+    # units.add('pounds')
+    # units.add('packages')
+    # units.add('teaspoons')
+    # units.add('packets')
+    # units.add('cans')
+    # units.add('containers')
+    # units.add('tablespoons')
+    # units.add('ounces')
+    # units.add('bottles')
+    # units.add('cubes')
+    # units.add('pinches')
     return units
 
 def convert_str_to_float(input_str):
@@ -114,6 +123,9 @@ class IngredientParser:
     reg4 = r"^(?P<num1>[/0-9]+) (?P<name>.*)"
     reg5 = r"^(?P<name>[^0-9]*)"
 
+    def __init__(self):
+        self.stemmer = PorterStemmer()
+
     def parse_list(self, input_strs):
         ingred_set = []
         for input_str in input_strs:
@@ -135,13 +147,26 @@ class IngredientParser:
                 pattern = re.compile(IngredientParser.reg2)
                 m = pattern.match(input_str)
                 if m:
-                    ingred_set.append((m.group(4), eval(m.group(1))+eval(m.group(2)), m.group(3), None, None))
+                    name = m.group(4)
+                    unit = m.group(3)
+                    if self.stemmer.stem(unit) not in IngredientParser.units:
+                    # if unit not in IngredientParser.units:
+                        name = unit + " " + name
+                        unit = None
+                    ingred_set.append((name, eval(m.group(1))+eval(m.group(2)), unit, None, None))
                     continue
 
                 pattern = re.compile(IngredientParser.reg3)
                 m = pattern.match(input_str)
                 if m:
-                    ingred_set.append((m.group(3), eval(m.group(1)), m.group(2), None, None))
+                    # check whether the parsed unit is what we target
+                    name = m.group(3)
+                    unit = m.group(2)
+                    if self.stemmer.stem(unit) not in IngredientParser.units:
+                    # if unit not in IngredientParser.units:
+                        name = unit + " " + name
+                        unit = None
+                    ingred_set.append((name, eval(m.group(1)), unit, None, None))
                     continue
 
             pattern = re.compile(IngredientParser.reg4)
@@ -150,11 +175,9 @@ class IngredientParser:
                 ingred_set.append((m.group(2), eval(m.group(1)), None, None, None))
                 continue
 
-            pattern = re.compile(IngredientParser.reg5)
-            m = pattern.match(input_str)
-            if m:
-                ingred_set.append((m.group(1), None, None, None, None))
-                continue
+            # no unit is found
+            ingred_set.append((input_str, None, None, None, None))
+
         return ingred_set
 
 if __name__ == '__main__':
