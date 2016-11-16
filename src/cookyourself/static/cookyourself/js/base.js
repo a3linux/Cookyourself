@@ -5,57 +5,28 @@ var token;
 var username;
 var p_url;
 $(document).ready(function () {
-     /*var username="aaa"
-     $.post("/cookyourself/add_user",
-      {
-        username: username,
-      })
-      .done(function() { alert("second success"); }); */
     document.getElementById("timestamp").innerHTML = String(new Date().getFullYear());
-    default_url=document.getElementById("portrait").src; 
-    $("#fb-login").on("click", function( event ) { 
+    eventHandle();
+});
+function eventHandle(){
+  $("#fb-login").on("click", function( event ) { 
         FB.login(function(response){
            // Handle the response object
               checkLoginState();
-              getUserInfo(response);
+              if (response.authResponse) {
+                getUserInfo(response);
+              }
 
         },{scope: 'public_profile,email'});
-
-        /*alert("before post");
-              alert(token);
-              alert(username);
-              alert(p_url);
-
-              $.post("/cookyourself/add_user",
-              {
-                  //token: ,
-                  //username: username,
-                  username: "aaa",
-                  //url: p_url,
-              })
-              .done(function() { alert("second success"); });  
-              alert("after post");*/
    });
     $("#fb-signup").on("click", function( event ) { 
         FB.login(function(response){
            // Handle the response object
               checkLoginState();
-              getUserInfo(response);
+              if (response.authResponse) {
+                getUserInfo(response);
+              }
         }, {scope: 'public_profile,email'});
-        /*alert("before post");
-              alert(token);
-              alert(username);
-              alert(p_url);
-
-              $.post("/cookyourself/add_user",
-              {
-                  //token: ,
-                  //username: username,
-                  username: "aaa",
-                  //url: p_url,
-              })
-              .done(function() { alert("second success"); });  
-              alert("after post");*/
    });
     $("#fb-logout").on("click", function( event ) {
         $("#fb-login").show();
@@ -64,38 +35,34 @@ $(document).ready(function () {
            // Handle the response object
               console.log("user now logged out");
               document.getElementById("user_photo").src="";
-              var url=document.getElementById("user_photo").src;
-              console.log("picture has changed to: "+ url);   
         }); 
    }); 
-   
-});
 
+}
 function getUserInfo(response) {
   token = response.authResponse.accessToken;
   //var username;
   //var p_url;
   //addUser(1);
-  if (response.authResponse) {
-      FB.api('/me', 'get', { access_token: token, fields: 'name,gender' }, function(response) {
-        console.log(response);
-        username=response.name;
-      });
+  FB.api('/me', 'get', { access_token: token, fields: 'name,gender' }, function(response) {
+    console.log(response);
+    username=response.name;
+  });
 
-      FB.api("/me/picture", { redirect: 0 }, function (response) {
-      if (response && !response.error) {
+  FB.api("/me/picture", { redirect: 0 }, function (response) {
+    if (response && !response.error) {
         /* handle the result */
-        console.log(JSON.stringify(response));
-        p_url=response.data['url'];
-        document.getElementById("portrait").src = p_url; 
-        }
-      });
-  }
-  addUser(2);
+      console.log(JSON.stringify(response));
+      p_url=response.data['url'];
+      document.getElementById("portrait").src = p_url; 
+      }
+    });
+  addUser();
 }
+  
 
-function addUser(id){
-  console.log("enter addUser" + id);
+function addUser(){
+  console.log("enter addUser");
     $.post("/cookyourself/add_user",
               {
                   //token: ,
@@ -120,15 +87,13 @@ function addUser(id){
       $("#fb-login").hide(); 
       $("#fb-signup").hide(); 
       FB.api("/me/picture", { redirect: 0 }, function (response) {
-      if (response && !response.error) {
-        /* handle the result */
-        console.log(JSON.stringify(response));
-        var p_url=response.data['url'];
-        document.getElementById("portrait").src = p_url; 
-      }
-    });
-      console.log(response.authResponse.accessToken);
-      testAPI();
+        if (response && !response.error) {
+           /* handle the result */
+           console.log(JSON.stringify(response));
+           var p_url=response.data['url'];
+           document.getElementById("portrait").src = p_url; 
+        }
+      });
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
       document.getElementById('status').innerHTML = 'Please log ' +
@@ -190,24 +155,3 @@ function addUser(id){
     js.src = "//connect.facebook.net/en_US/sdk.js";
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));
-
-  // Here we run a very simple test of the Graph API after login is
-  // successful.  See statusChangeCallback() for when this call is made.
-  function testAPI() {
-    console.log('Welcome!  Fetching your information.... ');
-    /*FB.api('/me', function(response) {
-      var token = response.authResponse.accessToken;
-      var uid = response.authResponse.userID;
-      console.log('Successful login for: ' + response.name);
-      console.log(JSON.stringify(response));
-      FB.api(
-      '/'+response.id,
-      function (resp) {
-      if (response && !response.error) {
-        console.log(JSON.stringify(resp));
-        /* handle the result */
-      /*}
-    }
-);
-    });*/
-  }
