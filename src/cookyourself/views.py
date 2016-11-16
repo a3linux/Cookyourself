@@ -90,7 +90,7 @@ def add_ingredient(request, id):
 def add_user(request):
     uid=request.POST.get('id', None)
     if uid is not None: 
-        fuser=UserProfile.objects.filter(token=token)
+        fuser=UserProfile.objects.filter(userid=uid)
         if not fuser:
             username=request.POST.get('username', None)
             photo=request.POST.get('url', None)
@@ -99,5 +99,6 @@ def add_user(request):
             new_user_profile = UserProfile(userid=uid, photo=photo)
             new_user_profile.save()
             login(request,user)
-    return HttpResponse("")
+        return HttpResponse("")
+    return HttpResponse("uid is none")
     

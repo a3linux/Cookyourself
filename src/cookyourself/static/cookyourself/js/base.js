@@ -1,7 +1,7 @@
 /**
  * Created by yunpengx on 10/28/16.
  */
-var id;
+var uid;
 var usr;
 var p_url;
 $(document).ready(function () {
@@ -44,9 +44,11 @@ function getUserInfo(response) {
   //var p_url;
   //addUser(1);
   FB.api('/me', 'get', { fields: 'name' }, function(response) {
-    console.log(response);
+    //console.log(response);
     usr=response.name;
-    id=response.id;
+    uid=response.id;
+    console.log("username:"+usr);
+    console.log("uid: "+uid);
   });
 
   FB.api("/me/picture", { redirect: 0 }, function (response) {
@@ -64,13 +66,12 @@ function getUserInfo(response) {
 function addUser(){
   console.log("enter addUser");
     $.post("/cookyourself/add_user",
-              {
-                  id: id,
-                  //username: username,
-                  username: usr,
-                  url: p_url,
-              })
-              .done(function() { alert("second success"); }); 
+    {
+      id: uid,
+      username: usr,
+      url: p_url,
+    })
+    .done(function() { alert("second success"); }); 
   console.log("after addUser");
 }
   // This is called with the results from from FB.getLoginStatus().
