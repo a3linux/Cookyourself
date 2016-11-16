@@ -51,15 +51,15 @@ function getUserInfo(response) {
         document.getElementById("portrait").src = p_url; 
       }
     });
-    var data = {'token':token,'username':username, 'url': p_url};
-        $.ajax({
-          url: "/cookyourself/add_user",
-          type: 'POST',
-          data: data,
-          success: function(result) {
-              alert("big step for create new user");
-          }
-        }); 
+    $.post("/cookyourself/add_user",
+    {
+        token: token,
+        username: username
+        url: p_url
+    },
+    success: function(result) {
+      alert("big step for create new user");
+    }); 
   }
 }
   // This is called with the results from from FB.getLoginStatus().
