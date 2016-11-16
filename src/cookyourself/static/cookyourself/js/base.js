@@ -1,7 +1,9 @@
 /**
  * Created by yunpengx on 10/28/16.
  */
-
+var token;
+var username;
+var p_url;
 $(document).ready(function () {
      /*var username="aaa"
      $.post("/cookyourself/add_user",
@@ -16,7 +18,22 @@ $(document).ready(function () {
            // Handle the response object
               checkLoginState();
               getUserInfo(response);
-        }, {scope: 'public_profile,email'});
+              alert("before post");
+              alert(token);
+              alert(username);
+              alert(p_url);
+
+              $.post("/cookyourself/add_user",
+              {
+                  //token: ,
+                  //username: username,
+                  username: "aaa",
+                  //url: p_url,
+              })
+              .done(function() { alert("second success"); });  
+              alert("after post");
+
+        },{scope: 'public_profile,email'});
    });
     $("#fb-signup").on("click", function( event ) { 
         FB.login(function(response){
@@ -40,39 +57,26 @@ $(document).ready(function () {
 });
 
 function getUserInfo(response) {
-  var token = response.authResponse.accessToken;
-  var username;
-  var p_url;
+  token = response.authResponse.accessToken;
+  //var username;
+  //var p_url;
 
   if (response.authResponse) {
       FB.api('/me', 'get', { access_token: token, fields: 'name,gender' }, function(response) {
         console.log(response);
         username=response.name;
       });
+
       FB.api("/me/picture", { redirect: 0 }, function (response) {
       if (response && !response.error) {
         /* handle the result */
         console.log(JSON.stringify(response));
         p_url=response.data['url'];
         document.getElementById("portrait").src = p_url; 
-      }
+        }
       });
 
-      alert("before post");
-      alert(token);
-      alert(username);
-      alert(p_url);
-
-      $.post("/cookyourself/add_user",
-      {
-        //token: ,
-        //username: username,
-        username: "aaa",
-        //url: p_url,
-      })
-      .done(function() { alert("second success"); });  
-      alert("after post");
-  }
+    }
 }
   // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
