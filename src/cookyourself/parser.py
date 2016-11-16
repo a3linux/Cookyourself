@@ -15,12 +15,6 @@ input_strs = ['1 (16 ounce) package egg noodles',
               '2 teaspoons white sugar',
               '1 pinch salt']
 
-input_strs = ['Betty Crocker Cream Cheese Frosting 16oz',
-             'Knorr Pasta Sides Alfredo 4.4oz',
-             'Kraft Easy Mac Original - 2.05 oz',
-             'Combos Snacks, 6.3 OZ',
-             "Kay's Naturals Protein Puffs 1.2 OZ, 6CT",]
-
 input_strs = ['VeganEgg by Follow Your Heart, 4-Ounce Carton Egg Replacer',
              "Kauffman's Hand-Picked Fresh Stayman Winesap Apples (Box of 16 Apples)",
              'Pink Lady Apples - 4 lbs - The Fruit Company',
@@ -141,7 +135,12 @@ class IngredientParser:
                 pattern = re.compile(IngredientParser.reg3)
                 m = pattern.match(input_str)
                 if m:
-                    ingred_set.append((m.group(3), eval(m.group(1)), m.group(2), None, None))
+                    # check whether the parsed unit is what we target
+                    unit = m.group(2)
+                    if unit in IngredientParser.units:
+                        ingred_set.append((m.group(3), eval(m.group(1)), m.group(2), None, None))
+                    else:
+                        ingred_set.append((m.group(3), eval(m.group(1)), None, None, None))
                     continue
 
             pattern = re.compile(IngredientParser.reg4)
@@ -150,11 +149,9 @@ class IngredientParser:
                 ingred_set.append((m.group(2), eval(m.group(1)), None, None, None))
                 continue
 
-            pattern = re.compile(IngredientParser.reg5)
-            m = pattern.match(input_str)
-            if m:
-                ingred_set.append((m.group(1), None, None, None, None))
-                continue
+            # no unit is found
+            ingred_set.append((m.group(1), None, None, None, None))
+
         return ingred_set
 
 if __name__ == '__main__':
