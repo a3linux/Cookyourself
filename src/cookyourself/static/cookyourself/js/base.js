@@ -75,7 +75,7 @@ function getUserInfo(response) {
   token = response.authResponse.accessToken;
   //var username;
   //var p_url;
-  addUser();
+  addUser(1);
   if (response.authResponse) {
       FB.api('/me', 'get', { access_token: token, fields: 'name,gender' }, function(response) {
         console.log(response);
@@ -90,13 +90,12 @@ function getUserInfo(response) {
         document.getElementById("portrait").src = p_url; 
         }
       });
-
-    }
-    addUser();
+  }
+  addUser(2);
 }
 
-function addUser(){
-  console.log("enter addUser");
+function addUser(id){
+  console.log("enter addUser" + id);
     $.post("/cookyourself/add_user",
               {
                   //token: ,
