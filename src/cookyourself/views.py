@@ -88,12 +88,13 @@ def add_ingredient(request, id):
 
 @csrf_exempt 
 def add_user(request):
-    token=request.POST.get('token', None) 
-    fuser=UserProfile.objects.filter(token=token)
-    if not fuser:
-        username=request.POST.get('username', None)
-        photo=request.POST.get('url', None)
-        new_user = UserProfile(token=token, username=username, photo=photo)
-        new_user.save()
+    token=request.POST.get('token', None)
+    if token is not None: 
+        fuser=UserProfile.objects.filter(token=token)
+        if not fuser:
+            username=request.POST.get('username', None)
+            photo=request.POST.get('url', None)
+            new_user = UserProfile(token=token, username=username, photo=photo)
+            new_user.save()
     return HttpResponse("")
     
