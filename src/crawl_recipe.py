@@ -4,7 +4,7 @@ from cookyourself.myutil import *
 from cookyourself.crawler import AllRecipeCrawler
 from cookyourself.models import *
 
-CRAWLER_LOG = 'crawler_recipe.log'
+CRAWLER_LOG = 'crawl_recipe.log'
 BEGINNING_INDEX_OF_RECIPE = 10000
 NUM_PER_SEARCH = 100
 

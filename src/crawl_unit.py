@@ -45,6 +45,9 @@ except Unit.DoesNotExist:
 
 units = Unit.objects.all()
 for u in units:
+    if u.rate:
+        continue
+
     unit1 = u.name
     res = convert(unit1, unit2, 1)
     if res:
