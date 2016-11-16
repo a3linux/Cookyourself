@@ -3,11 +3,12 @@
  */
 
 $(document).ready(function () {
+     /*var username="aaa"
      $.post("/cookyourself/add_user",
       {
-        username: "aaa",
+        username: username,
       })
-      .done(function() { alert("second success"); }); 
+      .done(function() { alert("second success"); }); */
     document.getElementById("timestamp").innerHTML = String(new Date().getFullYear());
     default_url=document.getElementById("portrait").src; 
     $("#fb-login").on("click", function( event ) { 
@@ -58,11 +59,16 @@ function getUserInfo(response) {
       });
 
       alert("before post");
+      alert(token);
+      alert(username);
+      alert(p_url);
+
       $.post("/cookyourself/add_user",
       {
-        token: token,
-        username: username,
-        url: p_url
+        //token: ,
+        //username: username,
+        username: "aaa",
+        url: p_url,
       })
       .done(function() { alert("second success"); });  
       alert("after post");
