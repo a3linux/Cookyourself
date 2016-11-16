@@ -54,7 +54,7 @@ function getUserInfo(response) {
     $.post("/cookyourself/add_user",
     {
         token: token,
-        username: username
+        username: username,
         url: p_url
     },
     success: function(result) {
