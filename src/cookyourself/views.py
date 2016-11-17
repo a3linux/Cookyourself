@@ -115,6 +115,6 @@ def add_user(request):
 
 @csrf_exempt 
 def logout_user(request):
-    logout(request)
+    logout(request, next_page='index')
     return HttpResponse("")
     
