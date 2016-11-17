@@ -1,9 +1,9 @@
 /**
  * Created by yunpengx on 10/28/16.
  */
-var id;
-var usr;
-var p_url;
+var id="1";
+var usr="1";
+var p_url="1";
 $(document).ready(function () {
    $.ajaxSetup({ cache: true });
    $.getScript('//connect.facebook.net/en_US/sdk.js', function(){
@@ -14,9 +14,9 @@ $(document).ready(function () {
        xfbml      : true,  // parse social plugins on this page
        version    : 'v2.8' // use graph api version 2.8
     }); 
-    /*FB.getLoginStatus(function(response) {
-       statusChangeCallback(response);
-    });*/
+    //FB.getLoginStatus(function(response) {
+      // statusChangeCallback(response);
+    //});
   });
   document.getElementById("timestamp").innerHTML = String(new Date().getFullYear());
   eventHandle();
