@@ -96,7 +96,10 @@ def add_user(request):
             photo=request.POST.get('url', None)
             gender=request.POST.get('gender', None)
             location=request.POST.get('location', None)
+            email=request.POST.get('email', None)
             new_user= User(username=username)
+            if email:
+                new_user.email=email
             new_user.save()
             new_user_profile = UserProfile(user=new_user, userid=uid, photo=photo, gender=gender, location=location)
             new_user_profile.save()

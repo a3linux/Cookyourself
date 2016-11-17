@@ -1,12 +1,19 @@
 /**
  * Created by yunpengx on 10/28/16.
  */
-var id="1";
-var usr="1";
-var p_url="1";
-var g="1";
-var l="1";
+var id=null;
+var usr=null;
+var p_url=null;
+var g=null;
+var l=null;
+var e=null;
 $(document).ready(function () {
+   id=null;
+   usr=null;
+   p_url=null;
+   g=null;
+   l=null;
+   e=null;
    $.ajaxSetup({ cache: true });
    $.getScript('//connect.facebook.net/en_US/sdk.js', function(){
     FB.init({
@@ -57,7 +64,12 @@ function getUserInfo(callback) {
     usr=response.name;
     id=response.id;
     g=response.gender;
-    l=response.location.name;
+    if (response.email){
+      e=response.email;
+    }
+    if(response.location){
+      l=response.location.name;
+    }  
     callback(addUser);
   });
 }
@@ -78,7 +90,6 @@ function addUser(){
     console.log("addUser");
     console.log("usrname:"+usr);
     console.log("id:"+id);
-
     $.post("/cookyourself/add_user",
     {
       uid: id,
