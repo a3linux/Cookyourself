@@ -47,7 +47,6 @@ function eventHandle(){
         $("#fb-logout").hide(); 
         FB.logout(function(response){
            // Handle the response object
-              console.log("user now logged out");
               $('#portrait').removeAttr('src');
               logoutUser();
         }); 
@@ -59,7 +58,6 @@ function getUserInfo(response) {
   //var p_url;
   //addUser(1);
   FB.api('/me', 'get', { fields: 'name' }, function(response) {
-    //console.log(response);
     usr=response.name;
     id=response.id;
     
@@ -68,7 +66,6 @@ function getUserInfo(response) {
   FB.api("/me/picture", { redirect: 0 }, function (response) {
     if (response && !response.error) {
         /* handle the result */
-      console.log(JSON.stringify(response));
       p_url=response.data['url'];
       document.getElementById("portrait").src = p_url; 
       }
@@ -78,27 +75,22 @@ function getUserInfo(response) {
 
 function logoutUser() {
   $.post("/cookyourself/logout_user")
-  .done(function() { alert("logout success"); }); 
-  console.log("after logoutUser");
+  .done(function() { console.log("logout success"); }); 
 }
 
 function addUser(){
-  console.log("enter addUser");
-  console.log("uid: "+id);
-  console.log("username:"+usr);
     $.post("/cookyourself/add_user",
     {
       uid: id,
       username: usr,
       url: p_url
     })
-    .done(function() { alert("second success"); }); 
-  console.log("after addUser");
+    .done(function() { console.log("login success"); }); 
 }
   // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
-    console.log('statusChangeCallback');
-    console.log(response);
+   // console.log('statusChangeCallback');
+    //console.log(response);
     // The response object is returned with a status field that lets the
     // app know the current login status of the person.
     // Full docs on the response object can be found in the documentation
