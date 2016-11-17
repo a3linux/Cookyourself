@@ -33,7 +33,10 @@ function eventHandle(){
 
         },{scope: 'public_profile,email'});
         $("#profile").show();
+        $("#fb-login").hide();
         $("#fb-logout").show();
+        $("#fb-signup").hide();
+
    });
     $("#fb-signup").on("click", function( event ) { 
         FB.login(function(response){
@@ -45,6 +48,8 @@ function eventHandle(){
         }, {scope: 'public_profile,email'});
         $("#profile").show();
         $("#fb-logout").show();
+        $("#fb-signup").hide();
+        $("#fb-login").hide();
    });
     $("#fb-logout").on("click", function( event ) { 
         FB.logout(function(response){
@@ -55,6 +60,7 @@ function eventHandle(){
         $("#fb-login").show();
         $("#fb-logout").hide();
         $("#profile").hide();
+        $("#fb-logout").hide();
    }); 
 }
 
@@ -65,7 +71,8 @@ function getUserInfo(response) {
   FB.api('/me', 'get', { fields: 'name' }, function(response) {
     usr=response.name;
     id=response.id;
-    
+    console.log("usrname:"+usr);
+    console.log("id:"+id);
   });
 
   FB.api("/me/picture", { redirect: 0 }, function (response) {
