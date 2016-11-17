@@ -50,8 +50,10 @@ function eventHandle(){
            logoutUser();
            var current_url=window.location.href;
            console.log(current_url);
-           //window.location.href = "/cookyourself";
-              
+           if (current_url=="http://54.244.78.192/cookyourself/" or current_url=="http://54.244.78.192/")
+            checkLoginState();
+           else
+            window.location.href = "/cookyourself";        
         }); 
    }); 
 }
