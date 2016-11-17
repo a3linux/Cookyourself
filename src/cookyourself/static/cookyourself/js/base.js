@@ -32,6 +32,8 @@ function eventHandle(){
               }
 
         },{scope: 'public_profile,email'});
+        $("#profile").show();
+        $("#fb-logout").show();
    });
     $("#fb-signup").on("click", function( event ) { 
         FB.login(function(response){
@@ -41,15 +43,18 @@ function eventHandle(){
                 getUserInfo(response);
               }
         }, {scope: 'public_profile,email'});
+        $("#profile").show();
+        $("#fb-logout").show();
    });
-    $("#fb-logout").on("click", function( event ) {
-        $("#fb-login").show();
-        $("#fb-logout").hide(); 
+    $("#fb-logout").on("click", function( event ) { 
         FB.logout(function(response){
            // Handle the response object
               $('#portrait').removeAttr('src');
               logoutUser();
         }); 
+        $("#fb-login").show();
+        $("#fb-logout").hide();
+        $("#profile").hide();
    }); 
 }
 
@@ -85,7 +90,12 @@ function addUser(){
       username: usr,
       url: p_url
     })
-    .done(function() { console.log("login success"); }); 
+    .done(function(data) 
+      { 
+        console.log("login success"); 
+        var usrid=data['usrid'];
+        document.getElementById("profile_link").href ="/cookyourself/profile/"+ usrid;
+      }); 
 }
   // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
@@ -98,6 +108,7 @@ function addUser(){
     if (response.status === 'connected') {
       // Logged into your app and Facebook.
       $("#fb-logout").show(); 
+      $("#profile").show();
       $("#fb-login").hide(); 
       $("#fb-signup").hide(); 
       getUserInfo(response);
@@ -106,6 +117,9 @@ function addUser(){
       document.getElementById('status').innerHTML = 'Please log ' +
         'into this app.';
       $("#fb-signup").show(); 
+      $("#fb-login").hide(); 
+      $("#profile").hide();
+      $("#fb-logout").hide(); 
       $('#portrait').removeAttr('src');
       //document.getElementById("user_photo").src="";  
 
@@ -115,6 +129,7 @@ function addUser(){
         $("#fb-signup").show(); 
         $("#fb-login").show();
         $("#fb-logout").hide(); 
+        $("#profile").hide();
         $('#portrait').removeAttr('src');
         //document.getElementById("user_photo").src="";  
     }

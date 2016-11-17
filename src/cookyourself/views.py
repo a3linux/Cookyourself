@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from cookyourself.models import *
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import login, logout
-
+import json
 # Create your views here.
 def index(request):
     dishes = Dish.objects.all().order_by('-popularity') #default order
@@ -15,7 +15,7 @@ def index(request):
         else:
             dic={'dish':dish}
         dishsets.append(dic)
-    context={'sets': dishsets}
+        context={'sets': dishsets}
     return render(request, 'main.html', context)
 
 def dish(request, id=0):
@@ -103,8 +103,10 @@ def add_user(request):
             fuser=UserProfile.objects.get(userid=uid)
             user=fuser.user
             login(request, user)
-        return HttpResponse("")
-    return HttpResponse("uid is none")
+      
+        response_text=json.dumps({"usrid": request.user.id})
+        return HttpResponse(response_text, content_type="application/json")
+    return HttpResponse("") 
 
 @csrf_exempt 
 def logout_user(request):
