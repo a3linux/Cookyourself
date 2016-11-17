@@ -15,11 +15,13 @@ $(document).ready(function () {
        version    : 'v2.8' // use graph api version 2.8
     }); 
     FB.getLoginStatus(function(response) {
-    statusChangeCallback(response);
+       statusChangeCallback(response);
     });
-    document.getElementById("timestamp").innerHTML = String(new Date().getFullYear());
-    eventHandle();
+  });
+  document.getElementById("timestamp").innerHTML = String(new Date().getFullYear());
+  eventHandle();
 });
+
 function eventHandle(){
   $("#fb-login").on("click", function( event ) { 
         FB.login(function(response){
@@ -49,8 +51,8 @@ function eventHandle(){
               document.getElementById("user_photo").src="";
         }); 
    }); 
-
 }
+
 function getUserInfo(response) {
   //var username;
   //var p_url;
@@ -133,7 +135,7 @@ function addUser(){
     FB.getLoginStatus(function(response) {
       statusChangeCallback(response);
     });
-  };
+  }
 
   /*window.fbAsyncInit = function() {
   FB.init({
