@@ -50,7 +50,7 @@ function eventHandle(){
            logoutUser();
            var current_url=window.location.href;
            console.log(current_url);
-           window.location.href = "/cookyourself";
+           //window.location.href = "/cookyourself";
               
         }); 
    }); 
