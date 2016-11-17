@@ -18,12 +18,14 @@
       </div>
       <div class="col-xs-6 col-md-8 col-lg-4">
         <h2>
-          <a href="#">{{profile.user.username}}</a>
+          <a>{{profile.user.username}}</a>
         </h2>
         <div class="profile_info_text">
           <Strong>{{profile.gender}}</Strong>&nbsp;
+          {% if profile.location %}
           <strong><span class="glyphicon glyphicon-map-marker"></span>&nbsp;{{profile.location}}</strong>&nbsp;
-          <strong>{{profile.join_in}}</strong><br>
+          {% endif %}
+          <strong>Join in: {{profile.join_in|naturaltime}}</strong><br>
         </div>
         <br>
       </div>
