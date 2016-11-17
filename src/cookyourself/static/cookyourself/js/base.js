@@ -74,7 +74,12 @@ function getUserInfo(response) {
     });
   addUser();
 }
-  
+
+function logoutUser() {
+  $.post("/cookyourself/logout_user")
+  .done(function() { alert("logout success"); }); 
+  console.log("after logoutUser");
+}
 
 function addUser(){
   console.log("enter addUser");
@@ -115,7 +120,7 @@ function addUser(){
       document.getElementById('status').innerHTML = 'Please log ' +
         'into this app.';
       $("#fb-signup").show(); 
-      $('#user_photo').removeAttr('src');
+      $('#portrait').removeAttr('src');
       //document.getElementById("user_photo").src="";  
 
     } else {
@@ -124,7 +129,7 @@ function addUser(){
         $("#fb-signup").show(); 
         $("#fb-login").show();
         $("#fb-logout").hide(); 
-        $('#user_photo').removeAttr('src');
+        $('#portrait').removeAttr('src');
         //document.getElementById("user_photo").src="";  
     }
   }

@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from cookyourself.models import *
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 
 # Create your views here.
 def index(request):
@@ -99,6 +99,15 @@ def add_user(request):
             new_user_profile = UserProfile(userid=uid, photo=photo)
             new_user_profile.save()
             login(request,new_user)
+        else:
+            fuser=UserProfile.objects.get(userid=uid)
+            user=fuser.user
+            login(request, user)
         return HttpResponse("")
     return HttpResponse("uid is none")
+
+@csrf_exempt 
+def logout_user(request):
+    logout(request)
+    return HttpResponse("")
     
