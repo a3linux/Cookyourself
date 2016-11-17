@@ -1,7 +1,7 @@
 /**
  * Created by yunpengx on 10/28/16.
  */
-var uid;
+var id;
 var usr;
 var p_url;
 $(document).ready(function () {
@@ -60,9 +60,8 @@ function getUserInfo(response) {
   FB.api('/me', 'get', { fields: 'name' }, function(response) {
     //console.log(response);
     usr=response.name;
-    uid=response.id;
-    console.log("username:"+usr);
-    console.log("uid: "+uid);
+    id=response.id;
+    
   });
 
   FB.api("/me/picture", { redirect: 0 }, function (response) {
@@ -79,11 +78,13 @@ function getUserInfo(response) {
 
 function addUser(){
   console.log("enter addUser");
+  console.log("uid: "+id);
+  console.log("username:"+usr);
     $.post("/cookyourself/add_user",
     {
-      id: uid,
+      uid: id,
       username: usr,
-      url: p_url,
+      url: p_url
     })
     .done(function() { alert("second success"); }); 
   console.log("after addUser");

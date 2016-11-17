@@ -88,7 +88,7 @@ def add_ingredient(request, id):
 
 @csrf_exempt 
 def add_user(request):
-    uid=request.POST.get('id', None)
+    uid=request.POST.get('uid', None)
     if uid is not None: 
         fuser=UserProfile.objects.filter(userid=uid)
         if not fuser:
