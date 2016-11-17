@@ -5,7 +5,6 @@ var id="1";
 var usr="1";
 var p_url="1";
 var g="1";
-var e="1";
 var l="1";
 $(document).ready(function () {
    $.ajaxSetup({ cache: true });
@@ -58,8 +57,7 @@ function getUserInfo(callback) {
     usr=response.name;
     id=response.id;
     g=response.gender;
-    e=response.email;
-    l=response.location.city;
+    l=response.location.name;
     callback(addUser);
   });
 }
@@ -87,7 +85,6 @@ function addUser(){
       username: usr,
       url: p_url,
       gender: g,
-      email: e,
       location:l
     })
     .done(function(data) 
