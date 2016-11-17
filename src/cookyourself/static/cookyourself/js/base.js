@@ -71,7 +71,7 @@ function eventHandle(){
    }); 
 }
 
-function getUserInfo(response) {
+function getUserInfo(callback) {
   //var username;
   //var p_url;
   //addUser(1);
@@ -80,23 +80,20 @@ function getUserInfo(response) {
     console.log(response);
     usr=response.name;
     id=response.id;
+    callback(addUser);
   });
+}
 
-  FB.api("/me/picture", { redirect: 0 }, function (response) {
+function GetPic(callback) {
+    FB.api("/me/picture", { redirect: 0 }, function (response) {
     if (response && !response.error) {
       console.log(response);
         /* handle the result */
       p_url=response.data['url'];
       document.getElementById("portrait").src = p_url; 
       }
+      callback();
     });
-  console.log("usrname:"+usr);
-  console.log("id:"+id);
-}
-
-function logoutUser() {
-  $.post("/cookyourself/logout_user")
-  .done(function() { console.log("logout success"); }); 
 }
 
 function addUser(){
@@ -117,6 +114,13 @@ function addUser(){
         document.getElementById("profile_link").href ="/cookyourself/profile/"+ usrid;
       }); 
 }
+
+function logoutUser() {
+  $.post("/cookyourself/logout_user")
+  .done(function() { console.log("logout success"); }); 
+}
+
+
   // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
      console.log('statusChangeCallback');
@@ -131,8 +135,7 @@ function addUser(){
       $("#profile").show();
       $("#fb-login").hide(); 
       $("#fb-signup").hide();
-      getUserInfo(response);
-      addUser();
+      getUserInfo(GetPic);
 
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
