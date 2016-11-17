@@ -14,7 +14,7 @@ $(document).ready(function () {
        xfbml      : true,  // parse social plugins on this page
        version    : 'v2.8' // use graph api version 2.8
     }); 
-    initialLoginState();
+    checkLoginState(); 
   });
   document.getElementById("timestamp").innerHTML = String(new Date().getFullYear());
   eventHandle();
@@ -26,10 +26,10 @@ function eventHandle(){
           console.log("fb-login");
           console.log(response);
            // Handle the response object
-           if (response.authResponse) {
+           /*if (response.authResponse) {
                 getUserInfo(response);
                 addUser();
-              }
+              }*/
               checkLoginState();     
 
         },{scope: 'public_profile,email'});
@@ -43,10 +43,10 @@ function eventHandle(){
         FB.login(function(response){
 
            // Handle the response object
-           if (response.authResponse) {
+           /*if (response.authResponse) {
                 getUserInfo(response);
                 addUser();
-              }
+              }*/
               checkLoginState();
               
         }, {scope: 'public_profile,email'});
@@ -60,6 +60,7 @@ function eventHandle(){
            // Handle the response object
            logoutUser();
            checkLoginState();
+          
              // $('#portrait').removeAttr('src');
               
         }); 
@@ -128,6 +129,8 @@ function addUser(){
       $("#profile").show();
       $("#fb-login").hide(); 
       $("#fb-signup").hide();
+      getUserInfo(response);
+      addUser();
 
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
@@ -150,7 +153,7 @@ function addUser(){
     }
   }
 
-  function initialStatusCallback(response) {
+  /*function initialStatusCallback(response) {
      console.log('initialStatusCallback');
      console.log(response);
     // The response object is returned with a status field that lets the
@@ -191,7 +194,7 @@ function addUser(){
     FB.getLoginStatus(function(response) {
       initialStatusCallback(response);
     });
-  }
+  }*/
 
   // This function is called when someone finishes with the Login
   // Button.  See the onlogin handler attached to it in the sample
