@@ -77,12 +77,14 @@ function getUserInfo(response) {
   //addUser(1);
   console.log("getUserInfo");
   FB.api('/me', 'get', { fields: 'name' }, function(response) {
+    console.log(response);
     usr=response.name;
     id=response.id;
   });
 
   FB.api("/me/picture", { redirect: 0 }, function (response) {
     if (response && !response.error) {
+      console.log(response);
         /* handle the result */
       p_url=response.data['url'];
       document.getElementById("portrait").src = p_url; 
