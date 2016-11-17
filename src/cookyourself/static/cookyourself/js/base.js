@@ -48,7 +48,8 @@ function eventHandle(){
         FB.logout(function(response){
            // Handle the response object
               console.log("user now logged out");
-              document.getElementById("user_photo").src="";
+              $('#portrait').removeAttr('src');
+              logoutUser();
         }); 
    }); 
 }
@@ -107,14 +108,7 @@ function addUser(){
       $("#fb-logout").show(); 
       $("#fb-login").hide(); 
       $("#fb-signup").hide(); 
-      FB.api("/me/picture", { redirect: 0 }, function (response) {
-        if (response && !response.error) {
-           /* handle the result */
-           console.log(JSON.stringify(response));
-           var p_url=response.data['url'];
-           document.getElementById("portrait").src = p_url; 
-        }
-      });
+      getUserInfo(response);
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
       document.getElementById('status').innerHTML = 'Please log ' +
