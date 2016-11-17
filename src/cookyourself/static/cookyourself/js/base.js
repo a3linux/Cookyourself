@@ -14,9 +14,9 @@ $(document).ready(function () {
        xfbml      : true,  // parse social plugins on this page
        version    : 'v2.8' // use graph api version 2.8
     }); 
-    FB.getLoginStatus(function(response) {
+    /*FB.getLoginStatus(function(response) {
        statusChangeCallback(response);
-    });
+    });*/
   });
   document.getElementById("timestamp").innerHTML = String(new Date().getFullYear());
   eventHandle();
@@ -25,42 +25,48 @@ $(document).ready(function () {
 function eventHandle(){
   $("#fb-login").on("click", function( event ) { 
         FB.login(function(response){
+          console.log("fb-login");
+          console.log(response);
            // Handle the response object
-              //checkLoginState();
-              if (response.authResponse) {
+           if (response.authResponse) {
                 getUserInfo(response);
               }
+              checkLoginState();     
 
         },{scope: 'public_profile,email'});
-        $("#profile").show();
+        /*$("#profile").show();
         $("#fb-login").hide();
         $("#fb-logout").show();
-        $("#fb-signup").hide();
+        $("#fb-signup").hide();*/
 
    });
     $("#fb-signup").on("click", function( event ) { 
         FB.login(function(response){
+
            // Handle the response object
-              //checkLoginState();
-              if (response.authResponse) {
+           if (response.authResponse) {
                 getUserInfo(response);
               }
+              checkLoginState();
+              
         }, {scope: 'public_profile,email'});
-        $("#profile").show();
+       /* $("#profile").show();
         $("#fb-logout").show();
         $("#fb-signup").hide();
-        $("#fb-login").hide();
+        $("#fb-login").hide();*/
    });
     $("#fb-logout").on("click", function( event ) { 
         FB.logout(function(response){
            // Handle the response object
-              $('#portrait').removeAttr('src');
-              logoutUser();
+           logoutUser();
+           checkLoginState();
+             // $('#portrait').removeAttr('src');
+              
         }); 
-        $("#fb-login").show();
+        /*$("#fb-login").show();
         $("#fb-logout").hide();
         $("#profile").hide();
-        $("#fb-logout").hide();
+        $("#fb-logout").hide();*/
    }); 
 }
 
@@ -106,8 +112,8 @@ function addUser(){
 }
   // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
-   // console.log('statusChangeCallback');
-    //console.log(response);
+     console.log('statusChangeCallback');
+     console.log(response);
     // The response object is returned with a status field that lets the
     // app know the current login status of the person.
     // Full docs on the response object can be found in the documentation
@@ -118,11 +124,8 @@ function addUser(){
       $("#profile").show();
       $("#fb-login").hide(); 
       $("#fb-signup").hide(); 
-      getUserInfo(response);
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
-      document.getElementById('status').innerHTML = 'Please log ' +
-        'into this app.';
       $("#fb-signup").show(); 
       $("#fb-login").hide(); 
       $("#profile").hide();
