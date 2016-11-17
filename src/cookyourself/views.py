@@ -98,7 +98,7 @@ def add_user(request):
             new_user.save()
             new_user_profile = UserProfile(userid=uid, photo=photo)
             new_user_profile.save()
-            login(request,user)
+            login(request,new_user)
         return HttpResponse("")
     return HttpResponse("uid is none")
     
