@@ -94,9 +94,12 @@ def add_user(request):
         if not fuser:
             username=request.POST.get('username', None)
             photo=request.POST.get('url', None)
-            new_user= User(username=username)
+            gender=request.POST.get('gender', None)
+            email=request.POST.get('email', None)
+            location=request.POST.get('location', None)
+            new_user= User(username=username, email=email)
             new_user.save()
-            new_user_profile = UserProfile(user=new_user, userid=uid, photo=photo)
+            new_user_profile = UserProfile(user=new_user, userid=uid, photo=photo, gender=gender, location=location)
             new_user_profile.save()
             login(request,new_user)
         else:

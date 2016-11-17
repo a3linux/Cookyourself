@@ -4,6 +4,9 @@
 var id="1";
 var usr="1";
 var p_url="1";
+var g="1";
+var e="1";
+var l="1";
 $(document).ready(function () {
    $.ajaxSetup({ cache: true });
    $.getScript('//connect.facebook.net/en_US/sdk.js', function(){
@@ -25,49 +28,23 @@ function eventHandle(){
         FB.login(function(response){
           console.log("fb-login");
           console.log(response);
-           // Handle the response object
-           /*if (response.authResponse) {
-                getUserInfo(response);
-                addUser();
-              }*/
-              checkLoginState();     
+          checkLoginState();     
 
-        },{scope: 'public_profile,email'});
-        /*$("#profile").show();
-        $("#fb-login").hide();
-        $("#fb-logout").show();
-        $("#fb-signup").hide();*/
-
+        },{scope: 'public_profile,email,user_location'});
    });
     $("#fb-signup").on("click", function( event ) { 
         FB.login(function(response){
-
-           // Handle the response object
-           /*if (response.authResponse) {
-                getUserInfo(response);
-                addUser();
-              }*/
               checkLoginState();
               
-        }, {scope: 'public_profile,email'});
-       /* $("#profile").show();
-        $("#fb-logout").show();
-        $("#fb-signup").hide();
-        $("#fb-login").hide();*/
+        }, {scope: 'public_profile,email,user_location'});
    });
     $("#fb-logout").on("click", function( event ) { 
         FB.logout(function(response){
            // Handle the response object
            logoutUser();
            checkLoginState();
-          
-             // $('#portrait').removeAttr('src');
               
         }); 
-        /*$("#fb-login").show();
-        $("#fb-logout").hide();
-        $("#profile").hide();
-        $("#fb-logout").hide();*/
    }); 
 }
 
@@ -76,10 +53,13 @@ function getUserInfo(callback) {
   //var p_url;
   //addUser(1);
   console.log("getUserInfo");
-  FB.api('/me', 'get', { fields: 'name' }, function(response) {
+  FB.api('/me', 'get', { fields: 'name, gender, email, location' }, function(response) {
     console.log(response);
     usr=response.name;
     id=response.id;
+    g=response.gender;
+    e=response.email;
+    l=response.location.city;
     callback(addUser);
   });
 }
@@ -105,7 +85,10 @@ function addUser(){
     {
       uid: id,
       username: usr,
-      url: p_url
+      url: p_url,
+      gender: g,
+      email: e,
+      location:l
     })
     .done(function(data) 
       { 

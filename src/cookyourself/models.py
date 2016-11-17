@@ -10,6 +10,9 @@ class UserProfile(models.Model):
     userid = models.CharField(max_length=1024, blank=True, null=True)
     rank = models.IntegerField(blank=True, null=True)
     photo = models.ImageField(upload_to='img/', blank=True, null=True)
+    gender = models.CharField(max_length=10, blank=True, null=True)
+    join_in = models.DateTimeField(default=timezone.now, blank=True)
+    location = models.CharField(max_length=30, blank=True, null=True)
 
     def __str__(self):
         return str(self.user)

@@ -14,21 +14,20 @@
     <div class="row">
       <div class="col-xs-12 col-md-4 col-lg-4">
         <a href="#">
-          <img src="{% static 'cookyourself/images/p1.jpg' %}" class="img-rounded"
+          <img src={{profile.photo}} class="img-rounded"
           id="profile_info_avatar">
         </a>
       </div>
       <div class="col-xs-6 col-md-8 col-lg-4">
         <h2>
-          <a href="#">Alice</a>
+          <a href="#">{{profile.user.username}}</a>
         </h2>
         <div class="profile_info_text">
-          <Strong>Female</Strong>&nbsp;
-          <strong><span class="glyphicon glyphicon-map-marker"></span>&nbsp;Pennsylvania</strong>&nbsp;
-          <strong>2016-10-31 Join in</strong><br>
+          <Strong>{{profile.gender}}</Strong>&nbsp;
+          <strong><span class="glyphicon glyphicon-map-marker"></span>&nbsp;{{profile.location}}</strong>&nbsp;
+          <strong>{{profile.join_in}}</strong><br>
         </div>
         <br>
-        <h4>Enjoy delicious food!</h4><br>
       </div>
     </div>
   </section>
