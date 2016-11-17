@@ -48,7 +48,7 @@ function eventHandle(){
         FB.logout(function(response){
            // Handle the response object
            logoutUser();
-           checkLoginState();
+           window.location.href = "/cookyourself";
               
         }); 
    }); 
