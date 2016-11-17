@@ -63,7 +63,7 @@ function getUserInfo(callback) {
 }
 
 function GetPic(callback) {
-    FB.api("/me/picture", { redirect: 0 }, function (response) {
+    FB.api("/me/picture?type=large", { redirect: 0 }, function (response) {
     if (response && !response.error) {
       console.log(response);
         /* handle the result */
