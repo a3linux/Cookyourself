@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from cookyourself.models import *
 from django.views.decorators.csrf import csrf_exempt
@@ -115,6 +115,6 @@ def add_user(request):
 
 @csrf_exempt 
 def logout_user(request):
-    logout(request, next_page='index')
-    return HttpResponse("")
+    logout(request)
+    return redirect('index')
     
