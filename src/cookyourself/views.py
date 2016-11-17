@@ -96,7 +96,7 @@ def add_user(request):
             photo=request.POST.get('url', None)
             new_user= User(username=username)
             new_user.save()
-            new_user_profile = UserProfile(userid=uid, photo=photo)
+            new_user_profile = UserProfile(user=new_user, userid=uid, photo=photo)
             new_user_profile.save()
             login(request,new_user)
         else:
