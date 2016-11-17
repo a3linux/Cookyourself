@@ -87,6 +87,8 @@ function getUserInfo(response) {
       document.getElementById("portrait").src = p_url; 
       }
     });
+  console.log("usrname:"+usr);
+  console.log("id:"+id);
 }
 
 function logoutUser() {
