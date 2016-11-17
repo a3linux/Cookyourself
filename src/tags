@@ -1,0 +1,242 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+ALLOWED_HOSTS	webapps/settings.py	/^ALLOWED_HOSTS = []$/;"	v
+AUTH_PASSWORD_VALIDATORS	webapps/settings.py	/^AUTH_PASSWORD_VALIDATORS = [$/;"	v
+AllRecipeCrawler	cookyourself/crawler.py	/^class AllRecipeCrawler:$/;"	c
+AllRecipeCrawler	crawl_recipe.py	/^from cookyourself.crawler import AllRecipeCrawler$/;"	i
+AppConfig	cookyourself/apps.py	/^from django.apps import AppConfig$/;"	i
+BASE_DIR	webapps/settings.py	/^BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))$/;"	v
+BeautifulSoup	cookyourself/crawler.py	/^from bs4 import BeautifulSoup$/;"	i
+CRAWLER_LOG	crawl_recipe.py	/^CRAWLER_LOG = ".crawler_log"$/;"	v
+Comment	cookyourself/models.py	/^class Comment(models.Model):$/;"	c
+ContentType	cookyourself/models.py	/^from django.contrib.contenttypes.models import ContentType$/;"	i
+CookyourselfConfig	cookyourself/apps.py	/^class CookyourselfConfig(AppConfig):$/;"	c
+CrawlerRecord	cookyourself/models.py	/^class CrawlerRecord(models.Model):$/;"	c
+DATABASES	webapps/settings.py	/^DATABASES = {$/;"	v
+DEBUG	cookyourself/crawler.py	/^    DEBUG = True$/;"	v	class:AllRecipeCrawler
+DEBUG	cookyourself/crawler.py	/^DEBUG = False$/;"	v
+DEBUG	webapps/settings.py	/^DEBUG = True$/;"	v
+Dish	cookyourself/models.py	/^class Dish(models.Model):$/;"	c
+GenericForeignKey	cookyourself/models.py	/^from django.contrib.contenttypes.fields import GenericForeignKey$/;"	i
+GenericRelation	cookyourself/models.py	/^from django.contrib.contenttypes.fields import GenericRelation$/;"	i
+HttpResponse	cookyourself/views.py	/^from django.http import HttpResponse$/;"	i
+INSTALLED_APPS	webapps/settings.py	/^INSTALLED_APPS = [$/;"	v
+Image	cookyourself/models.py	/^class Image(models.Model):$/;"	c
+Ingredient	cookyourself/models.py	/^class Ingredient(models.Model):$/;"	c
+IngredientParser	cookyourself/crawler.py	/^from .parser import IngredientParser$/;"	i
+IngredientParser	cookyourself/parser.py	/^class IngredientParser:$/;"	c
+Instruction	cookyourself/models.py	/^class Instruction(models.Model):$/;"	c
+LANGUAGE_CODE	webapps/settings.py	/^LANGUAGE_CODE = 'en-us'$/;"	v
+MEDIA_ROOT	webapps/settings.py	/^MEDIA_ROOT = PROJECT_ROOT + 'media\/'$/;"	v
+MEDIA_URL	webapps/settings.py	/^MEDIA_URL = '\/media\/'$/;"	v
+MIDDLEWARE	webapps/settings.py	/^MIDDLEWARE = [$/;"	v
+Migration	cookyourself/migrations/0001_initial.py	/^class Migration(migrations.Migration):$/;"	c
+PROJECT_ROOT	webapps/settings.py	/^PROJECT_ROOT = os.path.dirname(cookyourself.__file__)$/;"	v
+Post	cookyourself/models.py	/^class Post(models.Model):$/;"	c
+ROOT_URLCONF	webapps/settings.py	/^ROOT_URLCONF = 'webapps.urls'$/;"	v
+RelationBetweenDishIngredient	cookyourself/models.py	/^class RelationBetweenDishIngredient(models.Model):$/;"	c
+RelationBetweenUnits	cookyourself/models.py	/^class RelationBetweenUnits(models.Model):$/;"	c
+SECRET_KEY	webapps/settings.py	/^SECRET_KEY = '92ij#!t%v(hvpais9z0t4y-_a*4^y1&^5#6fzs@ts=0e0t@xd_'$/;"	v
+STATIC_ROOT	webapps/settings.py	/^STATIC_ROOT = PROJECT_ROOT + 'static\/'$/;"	v
+STATIC_URL	webapps/settings.py	/^STATIC_URL = '\/static\/'$/;"	v
+Style	cookyourself/models.py	/^class Style(models.Model):$/;"	c
+TEMPLATES	webapps/settings.py	/^TEMPLATES = [$/;"	v
+TIME_ZONE	webapps/settings.py	/^TIME_ZONE = 'UTC'$/;"	v
+TestCase	cookyourself/tests.py	/^from django.test import TestCase$/;"	i
+Tutorial	cookyourself/models.py	/^class Tutorial(models.Model):$/;"	c
+USE_I18N	webapps/settings.py	/^USE_I18N = True$/;"	v
+USE_L10N	webapps/settings.py	/^USE_L10N = True$/;"	v
+USE_TZ	webapps/settings.py	/^USE_TZ = True$/;"	v
+Unit	cookyourself/models.py	/^class Unit(models.Model):$/;"	c
+User	cookyourself/models.py	/^from django.contrib.auth.models import User$/;"	i
+UserProfile	cookyourself/models.py	/^class UserProfile(models.Model):$/;"	c
+WSGI_APPLICATION	webapps/settings.py	/^WSGI_APPLICATION = 'webapps.wsgi.application'$/;"	v
+__init__	cookyourself/crawler.py	/^    def __init__(self):$/;"	m	class:AllRecipeCrawler
+__str_	cookyourself/models.py	/^    def __str_(self):$/;"	m	class:Unit	file:
+__str__	cookyourself/models.py	/^    def __str__(self):$/;"	m	class:Comment	file:
+__str__	cookyourself/models.py	/^    def __str__(self):$/;"	m	class:CrawlerRecord	file:
+__str__	cookyourself/models.py	/^    def __str__(self):$/;"	m	class:Dish	file:
+__str__	cookyourself/models.py	/^    def __str__(self):$/;"	m	class:Image	file:
+__str__	cookyourself/models.py	/^    def __str__(self):$/;"	m	class:Ingredient	file:
+__str__	cookyourself/models.py	/^    def __str__(self):$/;"	m	class:Instruction	file:
+__str__	cookyourself/models.py	/^    def __str__(self):$/;"	m	class:Post	file:
+__str__	cookyourself/models.py	/^    def __str__(self):$/;"	m	class:RelationBetweenDishIngredient	file:
+__str__	cookyourself/models.py	/^    def __str__(self):$/;"	m	class:Style	file:
+__str__	cookyourself/models.py	/^    def __str__(self):$/;"	m	class:Tutorial	file:
+__str__	cookyourself/models.py	/^    def __str__(self):$/;"	m	class:UserProfile	file:
+admin	cookyourself/admin.py	/^from django.contrib import admin$/;"	i
+admin	webapps/urls.py	/^from django.contrib import admin$/;"	i
+amount	cookyourself/models.py	/^    amount = models.IntegerField(blank=True, null=True)$/;"	v	class:RelationBetweenDishIngredient
+application	webapps/wsgi.py	/^application = get_wsgi_application()$/;"	v
+author	cookyourself/models.py	/^    author = models.ForeignKey(UserProfile)$/;"	v	class:Comment
+author	cookyourself/models.py	/^    author = models.ForeignKey(UserProfile)$/;"	v	class:Post
+base_url	cookyourself/crawler.py	/^    base_url = 'http:\/\/allrecipes.com\/recipe\/'$/;"	v	class:AllRecipeCrawler
+blank	cookyourself/models.py	/^                                         blank=True)$/;"	v	class:Dish
+callback	cookyourself/static/cookyourself/js/gmap.js	/^function callback(results, status) {$/;"	f
+calories	cookyourself/models.py	/^    calories = models.IntegerField(blank=True, null=True)$/;"	v	class:Dish
+content	cookyourself/models.py	/^    content = models.CharField(max_length=1024)$/;"	v	class:Instruction
+content	cookyourself/models.py	/^    content = models.TextField(max_length=1024)$/;"	v	class:Comment
+content	cookyourself/models.py	/^    content = models.TextField(max_length=1024)$/;"	v	class:Post
+content_object	cookyourself/models.py	/^    content_object = GenericForeignKey('content_type', 'object_id')$/;"	v	class:Image
+content_type	cookyourself/models.py	/^    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)$/;"	v	class:Image
+converted_unit	cookyourself/models.py	/^    converted_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, related_name='converted_unit')$/;"	v	class:RelationBetweenUnits
+converted_units	cookyourself/models.py	/^    converted_units = models.ManyToManyField("self")$/;"	v	class:Unit
+cookyourself	cookyourself/urls.py	/^import cookyourself.views$/;"	i
+cookyourself	webapps/settings.py	/^import cookyourself$/;"	i
+cookyourself	webapps/urls.py	/^import cookyourself.views$/;"	i
+crawler	cookyourself/crawler.py	/^    crawler = AllRecipeCrawler()$/;"	v	class:AllRecipeCrawler
+crawler	crawl_recipe.py	/^crawler = AllRecipeCrawler()$/;"	v
+createMarker	cookyourself/static/cookyourself/js/gmap.js	/^function createMarker(place){$/;"	f
+created_on	cookyourself/models.py	/^    created_on = models.DateTimeField(auto_now_add=True)$/;"	v	class:Comment
+created_on	cookyourself/models.py	/^    created_on = models.DateTimeField(auto_now_add=True)$/;"	v	class:Dish
+created_on	cookyourself/models.py	/^    created_on = models.DateTimeField(auto_now_add=True)$/;"	v	class:Post
+db	cookyourself/migrations/0001_initial.py	/^import django.db.models.deletion$/;"	i
+deletion	cookyourself/migrations/0001_initial.py	/^import django.db.models.deletion$/;"	i
+dependencies	cookyourself/migrations/0001_initial.py	/^    dependencies = [$/;"	v	class:Migration
+desciption	cookyourself/models.py	/^    desciption = models.CharField(max_length=256, blank=True, null=True)$/;"	v	class:Dish
+dish	cookyourself/models.py	/^    dish = models.ForeignKey(Dish)$/;"	v	class:Post
+dish	cookyourself/models.py	/^    dish = models.ForeignKey(Dish, on_delete=models.CASCADE, related_name='dish')$/;"	v	class:RelationBetweenDishIngredient
+dish	cookyourself/models.py	/^    dish = models.OneToOneField(Dish, related_name='tutorial')$/;"	v	class:Tutorial
+dish	cookyourself/views.py	/^def dish(request, id=0):$/;"	f
+django	cookyourself/migrations/0001_initial.py	/^import django.db.models.deletion$/;"	i
+django	manage.py	/^            import django$/;"	i
+drawpath	cookyourself/static/cookyourself/js/gmap.js	/^function drawpath(){$/;"	f
+execute_from_command_line	manage.py	/^        from django.core.management import execute_from_command_line$/;"	i
+field	cookyourself/migrations/0001_initial.py	/^            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='cookyourself.Style'),$/;"	v	class:Migration
+field	cookyourself/migrations/0001_initial.py	/^            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='cookyourself.Tutorial'),$/;"	v	class:Migration
+field	cookyourself/migrations/0001_initial.py	/^            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='cookyourself.Unit'),$/;"	v	class:Migration
+field	cookyourself/migrations/0001_initial.py	/^            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='converted_unit', to='cookyourself.Unit'),$/;"	v	class:Migration
+field	cookyourself/migrations/0001_initial.py	/^            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='one_unit', to='cookyourself.Unit'),$/;"	v	class:Migration
+field	cookyourself/migrations/0001_initial.py	/^            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='cookyourself.Dish'),$/;"	v	class:Migration
+field	cookyourself/migrations/0001_initial.py	/^            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='cookyourself.Post'),$/;"	v	class:Migration
+field	cookyourself/migrations/0001_initial.py	/^            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='cookyourself.UserProfile'),$/;"	v	class:Migration
+field	cookyourself/migrations/0001_initial.py	/^            field=models.ManyToManyField(blank=True, through='cookyourself.RelationBetweenDishIngredient', to='cookyourself.Ingredient'),$/;"	v	class:Migration
+fields	cookyourself/migrations/0001_initial.py	/^            fields=[$/;"	v	class:Migration
+firstScriptTag	cookyourself/static/cookyourself/js/video.js	/^var firstScriptTag = document.getElementsByTagName('script')[0];$/;"	v
+generate_unit_set	cookyourself/parser.py	/^def generate_unit_set():$/;"	f
+getLocation	cookyourself/static/cookyourself/js/gmap.js	/^function getLocation() {$/;"	f
+get_recipe_by_id	cookyourself/crawler.py	/^    def get_recipe_by_id(self, id):$/;"	m	class:AllRecipeCrawler
+get_soup_attr	cookyourself/crawler.py	/^    def get_soup_attr(self, soup, tag, attr):$/;"	m	class:AllRecipeCrawler
+get_soup_first_child_text	cookyourself/crawler.py	/^    def get_soup_first_child_text(self, soup, tag, child_tag):$/;"	m	class:AllRecipeCrawler
+get_soup_list	cookyourself/crawler.py	/^    def get_soup_list(self, soup, tag):$/;"	m	class:AllRecipeCrawler
+get_soup_text	cookyourself/crawler.py	/^    def get_soup_text(self, soup, tag):$/;"	m	class:AllRecipeCrawler
+get_wsgi_application	webapps/wsgi.py	/^from django.core.wsgi import get_wsgi_application$/;"	i
+image	cookyourself/models.py	/^    image = models.ImageField(upload_to='img\/', blank=True, null=True)$/;"	v	class:Image
+images	cookyourself/models.py	/^    images = GenericRelation(Image)$/;"	v	class:Dish
+images	cookyourself/models.py	/^    images = GenericRelation(Image)$/;"	v	class:Ingredient
+include	webapps/urls.py	/^from django.conf.urls import url, include$/;"	i
+index	cookyourself/views.py	/^def index(request):$/;"	f
+ingredient	cookyourself/models.py	/^    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE, related_name='ingredient')$/;"	v	class:RelationBetweenDishIngredient
+ingredients	cookyourself/models.py	/^    ingredients = models.ManyToManyField(Ingredient,$/;"	v	class:Dish
+initial	cookyourself/migrations/0001_initial.py	/^    initial = True$/;"	v	class:Migration
+input_strs	cookyourself/parser.py	/^input_strs = ['1 (16 ounce) package egg noodles',$/;"	v
+is_all_caps	cookyourself/crawler.py	/^def is_all_caps(input_str):$/;"	f
+last_id	crawl_recipe.py	/^last_id = to_integer(last_id_str)+1 if last_id_str else 0$/;"	v
+last_id_str	crawl_recipe.py	/^    last_id_str = f.read()$/;"	v
+map	cookyourself/static/cookyourself/js/gmap.js	/^var map;$/;"	v
+message	cookyourself/static/cookyourself/js/gmap.js	/^var message=document.getElementById("message");$/;"	v
+migrations	cookyourself/migrations/0001_initial.py	/^from django.db import migrations, models$/;"	i
+model_name	cookyourself/migrations/0001_initial.py	/^            model_name='comment',$/;"	v	class:Migration
+model_name	cookyourself/migrations/0001_initial.py	/^            model_name='dish',$/;"	v	class:Migration
+model_name	cookyourself/migrations/0001_initial.py	/^            model_name='instruction',$/;"	v	class:Migration
+model_name	cookyourself/migrations/0001_initial.py	/^            model_name='post',$/;"	v	class:Migration
+model_name	cookyourself/migrations/0001_initial.py	/^            model_name='relationbetweendishingredient',$/;"	v	class:Migration
+model_name	cookyourself/migrations/0001_initial.py	/^            model_name='relationbetweenunits',$/;"	v	class:Migration
+models	cookyourself/migrations/0001_initial.py	/^from django.db import migrations, models$/;"	i
+models	cookyourself/migrations/0001_initial.py	/^import django.db.models.deletion$/;"	i
+models	cookyourself/models.py	/^from django.db import models$/;"	i
+myMap	cookyourself/static/cookyourself/js/gmap.js	/^function myMap(position) {$/;"	f
+myMap.mapOptions.center	cookyourself/static/cookyourself/js/gmap.js	/^    center: userCenter, \/\/from the getLocation$/;"	p
+myMap.mapOptions.mapTypeId	cookyourself/static/cookyourself/js/gmap.js	/^    mapTypeId: google.maps.MapTypeId.ROADMAP$/;"	p
+myMap.mapOptions.zoom	cookyourself/static/cookyourself/js/gmap.js	/^    zoom: 12, \/\/0 is the earth, larger the zoom is, the map is more zoomed in.$/;"	p
+name	cookyourself/apps.py	/^    name = 'cookyourself'$/;"	v	class:CookyourselfConfig
+name	cookyourself/migrations/0001_initial.py	/^            name='Comment',$/;"	v	class:Migration
+name	cookyourself/migrations/0001_initial.py	/^            name='CrawlerRecord',$/;"	v	class:Migration
+name	cookyourself/migrations/0001_initial.py	/^            name='Dish',$/;"	v	class:Migration
+name	cookyourself/migrations/0001_initial.py	/^            name='Image',$/;"	v	class:Migration
+name	cookyourself/migrations/0001_initial.py	/^            name='Ingredient',$/;"	v	class:Migration
+name	cookyourself/migrations/0001_initial.py	/^            name='Instruction',$/;"	v	class:Migration
+name	cookyourself/migrations/0001_initial.py	/^            name='Post',$/;"	v	class:Migration
+name	cookyourself/migrations/0001_initial.py	/^            name='RelationBetweenDishIngredient',$/;"	v	class:Migration
+name	cookyourself/migrations/0001_initial.py	/^            name='RelationBetweenUnits',$/;"	v	class:Migration
+name	cookyourself/migrations/0001_initial.py	/^            name='Style',$/;"	v	class:Migration
+name	cookyourself/migrations/0001_initial.py	/^            name='Tutorial',$/;"	v	class:Migration
+name	cookyourself/migrations/0001_initial.py	/^            name='Unit',$/;"	v	class:Migration
+name	cookyourself/migrations/0001_initial.py	/^            name='UserProfile',$/;"	v	class:Migration
+name	cookyourself/migrations/0001_initial.py	/^            name='author',$/;"	v	class:Migration
+name	cookyourself/migrations/0001_initial.py	/^            name='converted_unit',$/;"	v	class:Migration
+name	cookyourself/migrations/0001_initial.py	/^            name='dish',$/;"	v	class:Migration
+name	cookyourself/migrations/0001_initial.py	/^            name='ingredients',$/;"	v	class:Migration
+name	cookyourself/migrations/0001_initial.py	/^            name='one_unit',$/;"	v	class:Migration
+name	cookyourself/migrations/0001_initial.py	/^            name='post',$/;"	v	class:Migration
+name	cookyourself/migrations/0001_initial.py	/^            name='style',$/;"	v	class:Migration
+name	cookyourself/migrations/0001_initial.py	/^            name='tutorial',$/;"	v	class:Migration
+name	cookyourself/migrations/0001_initial.py	/^            name='unit',$/;"	v	class:Migration
+name	cookyourself/models.py	/^    name = models.CharField(max_length=128)$/;"	v	class:Dish
+name	cookyourself/models.py	/^    name = models.CharField(max_length=128)$/;"	v	class:Image
+name	cookyourself/models.py	/^    name = models.CharField(max_length=128)$/;"	v	class:Ingredient
+name	cookyourself/models.py	/^    name = models.CharField(max_length=128)$/;"	v	class:Style
+name	cookyourself/models.py	/^    name = models.CharField(max_length=128)$/;"	v	class:Unit
+object_id	cookyourself/models.py	/^    object_id = models.PositiveIntegerField()$/;"	v	class:Image
+onPlayerReady.onPlayerStateChange	cookyourself/static/cookyourself/js/video.js	/^function onPlayerStateChange(event) {$/;"	f
+onPlayerReady.stopVideo	cookyourself/static/cookyourself/js/video.js	/^function stopVideo() {$/;"	f
+onYouTubeIframeAPIReady	cookyourself/static/cookyourself/js/video.js	/^function onYouTubeIframeAPIReady() {$/;"	f
+one_unit	cookyourself/models.py	/^    one_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, related_name='one_unit')$/;"	v	class:RelationBetweenUnits
+operations	cookyourself/migrations/0001_initial.py	/^    operations = [$/;"	v	class:Migration
+os	crawl_recipe.py	/^import os$/;"	i
+os	manage.py	/^import os$/;"	i
+os	webapps/settings.py	/^import os$/;"	i
+os	webapps/wsgi.py	/^import os$/;"	i
+parent	cookyourself/models.py	/^    parent = models.ForeignKey("self", blank=True, null=True)$/;"	v	class:Style
+parse	cookyourself/parser.py	/^    def parse(self, input_strs):$/;"	m	class:IngredientParser
+parser	cookyourself/parser.py	/^    parser = IngredientParser()$/;"	v	class:IngredientParser
+photo	cookyourself/models.py	/^    photo = models.ImageField(upload_to='img\/', blank=True, null=True)$/;"	v	class:UserProfile
+player	cookyourself/static/cookyourself/js/video.js	/^var player;$/;"	v
+popularity	cookyourself/models.py	/^    popularity = models.IntegerField(default=0)$/;"	v	class:Dish
+post	cookyourself/models.py	/^    post = models.ForeignKey(Post)$/;"	v	class:Comment
+price	cookyourself/models.py	/^    price = models.IntegerField(blank=True, null=True)$/;"	v	class:Ingredient
+profile	cookyourself/views.py	/^def profile(request, id=0):$/;"	f
+rank	cookyourself/models.py	/^    rank = models.IntegerField()$/;"	v	class:UserProfile
+rate	cookyourself/models.py	/^    rate = models.FloatField(blank=True, null=True)$/;"	v	class:RelationBetweenUnits
+re	cookyourself/parser.py	/^import re$/;"	i
+recipe	crawl_recipe.py	/^recipe = crawler.get_recipe_by_id(23435)$/;"	v
+recommendation	cookyourself/views.py	/^def recommendation(request):$/;"	f
+reg0	cookyourself/parser.py	/^    reg0 = r"^(?P<num1>[\/0-9]+) (?P<num1_1>[\/0-9]+) \\((?P<num2>[\\.0-9]+) (?P<unit2>[^)]+)\\) (?P<unit1>[a-zA-Z]+) (?P<name>.*)"$/;"	v	class:IngredientParser
+reg1	cookyourself/parser.py	/^    reg1 = r"^(?P<num1>[\/0-9]+) \\((?P<num2>[\\.0-9]+) (?P<unit2>[^)]+)\\) (?P<unit1>[a-zA-Z]+) (?P<name>.*)"$/;"	v	class:IngredientParser
+reg2	cookyourself/parser.py	/^    reg2 = r"^(?P<num1>[\/0-9]+) (?P<num1_1>[\/0-9]+) (?P<unit1>[a-zA-Z]+) (?P<name>.*)"$/;"	v	class:IngredientParser
+reg3	cookyourself/parser.py	/^    reg3 = r"^(?P<num1>[\/0-9]+) (?P<unit1>[a-zA-Z]+) (?P<name>.*)"$/;"	v	class:IngredientParser
+reg4	cookyourself/parser.py	/^    reg4 = r"^(?P<num1>[\/0-9]+) (?P<name>.*)"$/;"	v	class:IngredientParser
+reg5	cookyourself/parser.py	/^    reg5 = r"^(?P<name>[^0-9]*)"$/;"	v	class:IngredientParser
+render	cookyourself/views.py	/^from django.shortcuts import render$/;"	i
+requests	cookyourself/crawler.py	/^import requests$/;"	i
+res	cookyourself/parser.py	/^    res = parser.parse(input_strs)$/;"	v	class:IngredientParser
+searchStore	cookyourself/static/cookyourself/js/gmap.js	/^function searchStore(position){$/;"	f
+searchStore.request.location	cookyourself/static/cookyourself/js/gmap.js	/^      location: position,$/;"	p
+searchStore.request.query	cookyourself/static/cookyourself/js/gmap.js	/^      query: 'Giant Eagle'$/;"	p
+searchStore.request.radius	cookyourself/static/cookyourself/js/gmap.js	/^      radius: '500',$/;"	p
+settings	cookyourself/migrations/0001_initial.py	/^from django.conf import settings$/;"	i
+shoppinglist	cookyourself/views.py	/^def shoppinglist(request):$/;"	f
+showError	cookyourself/static/cookyourself/js/gmap.js	/^function showError(error) {$/;"	f
+style	cookyourself/models.py	/^    style = models.ForeignKey(Style, blank=True, null=True)$/;"	v	class:Dish
+sys	manage.py	/^import sys$/;"	i
+tag	cookyourself/static/cookyourself/js/video.js	/^var tag = document.createElement('script');$/;"	v
+through	cookyourself/models.py	/^                                         through='RelationBetweenDishIngredient',$/;"	v	class:Dish
+to_integer	crawl_recipe.py	/^def to_integer(s):$/;"	f
+tutorial	cookyourself/models.py	/^    tutorial = models.ForeignKey(Tutorial, blank=True, null=True)$/;"	v	class:Instruction
+unicode_literals	cookyourself/migrations/0001_initial.py	/^from __future__ import unicode_literals$/;"	i
+unit	cookyourself/models.py	/^    unit = models.ForeignKey(Unit, blank=True, null=True)$/;"	v	class:RelationBetweenDishIngredient
+units	cookyourself/parser.py	/^    units = generate_unit_set()$/;"	v	class:IngredientParser
+updated_on	cookyourself/models.py	/^    updated_on = models.DateTimeField(auto_now=True)$/;"	v	class:CrawlerRecord
+url	cookyourself/models.py	/^    url = models.URLField()$/;"	v	class:CrawlerRecord
+url	cookyourself/urls.py	/^from django.conf.urls import url$/;"	i
+url	webapps/urls.py	/^from django.conf.urls import url, include$/;"	i
+urlpatterns	cookyourself/urls.py	/^urlpatterns = [$/;"	v
+urlpatterns	webapps/urls.py	/^urlpatterns = [$/;"	v
+user	cookyourself/models.py	/^    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')$/;"	v	class:UserProfile
+video	cookyourself/models.py	/^    video = models.URLField(blank=True, null=True)$/;"	v	class:Tutorial
+views	cookyourself/urls.py	/^import cookyourself.views$/;"	i
+views	webapps/urls.py	/^import cookyourself.views$/;"	i

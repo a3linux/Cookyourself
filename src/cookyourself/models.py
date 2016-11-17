@@ -2,9 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
 from datetime import datetime
-# from django.contrib.contenttypes.fields import GenericRelation
-# from django.contrib.contenttypes.fields import GenericForeignKey
-# from django.contrib.contenttypes.models import ContentType
 
 # Create your models here.
 class UserProfile(models.Model):
@@ -19,14 +16,8 @@ class UserProfile(models.Model):
     def __str__(self):
         return str(self.user)
 
-
-# One-to-many-image-field reference:
-# https://www.quora.com/What-is-the-best-way-to-implement-one-to-many-image-field-in-Django
 class DishImage(models.Model):
     name = models.CharField(max_length=128)
-    # content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    # object_id = models.PositiveIntegerField()
-    # content_object = GenericForeignKey('content_type', 'object_id')
     dish = models.ForeignKey('Dish', on_delete=models.CASCADE, related_name='image', blank=True, null=True)
     image = models.ImageField(upload_to='img/', blank=True, null=True)
 
@@ -35,8 +26,7 @@ class DishImage(models.Model):
 
 class Ingredient(models.Model):
     name = models.CharField(max_length=128)
-    price = models.IntegerField(blank=True, null=True)
-    # images = GenericRelation(Image)
+    price = models.FloatField(blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -58,7 +48,6 @@ class Dish(models.Model):
                                          through='RelationBetweenDishIngredient',
                                          blank=True)
     calories = models.IntegerField(blank=True, null=True)
-    # images = GenericRelation(Image)
     # current date & time will be added.
     created_on = models.DateTimeField(auto_now_add=True)
 
@@ -103,9 +92,9 @@ class Comment(models.Model):
 
 class Unit(models.Model):
     name = models.CharField(max_length=128)
-    converted_units = models.ManyToManyField("self")
+    rate = models.FloatField(blank=True, null=True)
 
-    def __str__(self):
+    def __str_(self):
         return self.name
 
 class RelationBetweenDishIngredient(models.Model):
@@ -116,12 +105,7 @@ class RelationBetweenDishIngredient(models.Model):
 
     def __str__(self):
         return str(self.dish) + " requires {:d} ".format(self.amount) + \
-        str(self.unit.name) + ' of ' + str(self.ingredient)
-
-class RelationBetweenUnits(models.Model):
-    one_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, related_name='one_unit')
-    converted_unit = models.ForeignKey(Unit, on_delete=models.CASCADE, related_name='converted_unit')
-    rate = models.FloatField(blank=True, null=True)
+        str(self.unit) + ' of ' + str(ingredient)
 
 class CrawlerRecord(models.Model):
     url = models.URLField()
@@ -146,4 +130,3 @@ class RelationBetweenCartIngredient(models.Model):
     def __str__(self):
         return str(self.cart) + " has {:d} ".format(self.amount) + \
         str(self.unit.name) + ' of ' + str(self.ingredient)
-
