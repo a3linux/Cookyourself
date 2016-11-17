@@ -66,6 +66,10 @@ function getUserInfo(callback) {
     g=response.gender;
     if (response.email){
       e=response.email;
+      console.log("this user has email:"+e);
+    }
+    else{
+      console.log("this user doesn't have email");
     }
     if(response.location){
       l=response.location.name;
