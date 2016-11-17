@@ -26,7 +26,7 @@ function eventHandle(){
   $("#fb-login").on("click", function( event ) { 
         FB.login(function(response){
            // Handle the response object
-              checkLoginState();
+              //checkLoginState();
               if (response.authResponse) {
                 getUserInfo(response);
               }
@@ -36,7 +36,7 @@ function eventHandle(){
     $("#fb-signup").on("click", function( event ) { 
         FB.login(function(response){
            // Handle the response object
-              checkLoginState();
+              //checkLoginState();
               if (response.authResponse) {
                 getUserInfo(response);
               }
