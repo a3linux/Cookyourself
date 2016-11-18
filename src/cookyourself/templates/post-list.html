@@ -1,0 +1,20 @@
+{% load humanize %}
+<div class="media">
+  <div class="media-left">
+    <a href="{% url 'profile' post.author.user.id %}">
+      <img class="media-object" src="{{post.author.photo}}"
+          class="img-rounded" alt="" height="50px">
+    </a>
+  </div>
+  <div class="media-body">
+    <p class="lead">
+      <a href="{% url 'profile' post.author.user.id %}">{{post.author.user.username}}</a>
+    </p>
+    <small><span class="glyphicon glyphicon-time"></span>&nbsp;{{post.created_on|naturaltime}}</small>
+  </div>
+</div>
+<h5>
+  {{post.content}}
+</h5>
+<hr class="post-hr">
+<br>

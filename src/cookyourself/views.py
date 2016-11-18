@@ -1,9 +1,13 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from cookyourself.models import *
+from cookyourself.forms import *
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
 import json
+import random
+
 # Create your views here.
 def index(request):
     dishes = Dish.objects.all().order_by('-popularity') #default order
@@ -15,7 +19,7 @@ def index(request):
         else:
             dic={'dish':dish}
         dishsets.append(dic)
-        context={'sets': dishsets}
+    context={'sets': dishsets}
     return render(request, 'main.html', context)
 
 def dish(request, id=0):
@@ -36,18 +40,21 @@ def dish(request, id=0):
             detail=RelationBetweenDishIngredient.objects.filter(dish=dish,ingredient=ingredient)[0]
             if detail:
                 amount=detail.amount
-                unit=detail.unit
-                if unit:
-                    uname=detail.unit.name
-                    dic={'ingredient':ingredient,'amount':amount, 'unit': unit.name}
-                else:
-                    dic={'ingredient':ingredient,'amount':amount}
+                #unit=detail.unit
+                #if unit:
+                    #uname=detail.unit.name
+                    #dic={'ingredient':ingredient,'amount':amount, 'unit': unit.name}
+                #else:
+                dic={'ingredient':ingredient,'amount':amount}
                 ingre_sets.append(dic)
         posts= Post.objects.filter(dish=dish)
-        context = {'dish': dish, 'isets':ingre_sets, 'tutorial': tutorial, 
+        init={'dish':dish }
+        form= PostForm.createPostForm(init)
+        context = {'dish': dish, 'isets':ingre_sets, 'tutorial': tutorial, 'form': form,
                    'image': image, 'instructions': instructions, 'posts': posts} 
 
     return render(request, 'dish.html', context)
+
 
 def shoppinglist(request):
     return render(request, 'shoppinglist.html')
@@ -67,7 +74,7 @@ def profile(request, id=0):
         context = {'profile': profile} 
     return render(request, 'profile.html', context)
 
-@csrf_exempt 
+#@csrf_exempt 
 def add_ingredient(request, id):
     user=request.user
     cart=Cart.objects.filter(user=user)
@@ -113,8 +120,63 @@ def add_user(request):
         return HttpResponse(response_text, content_type="application/json")
     return HttpResponse("") 
 
-@csrf_exempt 
+@csrf_exempt
+@login_required 
 def logout_user(request):
     logout(request)
     return HttpResponse("")
-    
+
+@login_required
+@csrf_exempt 
+def create_post(request):
+    content=request.POST.get('content')
+    dishid=request.POST.get('dish')
+    dish=Dish.objects.get(id=dishid)
+    author=UserProfile.objects.get(user=request.user)
+    post=Post(dish=dish, author=author, content=content)
+    post.save()
+    response_data=json.dumps({"content": post.content})
+    return HttpResponse(response_data, content_type="application/json")
+
+@csrf_exempt
+def update_posts(request):
+    time=request.POST.get('time')
+    max_time = Post.get_max_time()
+    posts = Post.get_posts(time).order_by('-created_on')
+    dishid=request.POST.get('dishid', None)
+    if dishid:
+        dish=Dish.objects.get(id=dishid)
+        posts=posts.filter(dish=dish)
+    userid=request.POST.get('userid', None)
+    if userid:
+        user=User.objects.get(id=userid)
+        profile=UserProfile.objects.get(user=user)
+        posts=posts.filter(author=profile)
+    context = {"max_time":max_time, "posts":posts} 
+    return render(request, 'posts.json', context, content_type='application/json')
+
+def recommendation(request):
+    last = Dish.objects.count() - 1
+    index1 = random.randint(0, last)
+# Here's one simple way to keep even distribution for
+# index2 while still gauranteeing not to match index1.
+    index2 = random.randint(0, last - 1)
+    index3= random.randint(0, last -2)
+    if index3 == index2: index3 = last-1
+    if index2 == index1: index2 = last
+    if index3 == index1: index3 = last
+    dishes=[]
+    dishes.append(Dish.objects.all()[index1])
+    dishes.append(Dish.objects.all()[index2])
+    dishes.append(Dish.objects.all()[index3])   
+    dishsets=[]
+    for dish in dishes:
+        images=DishImage.objects.filter(dish=dish)
+        if images:
+            dic={'dish':dish, 'image':images[0].image}
+        else:
+            dic={'dish':dish}
+        dishsets.append(dic)
+    context={'sets': dishsets}
+    return render(request, 'recommendation.html', context)
+
