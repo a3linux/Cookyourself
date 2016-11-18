@@ -35,33 +35,23 @@
 
     <div class="container-fluid tab-content">
       <div class="row">
+        {% for set in sets %}
         <div class="col-md-4">
           <div class="jumbotron jumbotron-wide text-center">
-            <h3>Steak</h3>
+            <h3>{{set.dish.name}}</h3>
             <hr>
-            <img class="img-thumbnail" src="http://images.media-allrecipes.com/userphotos/560x315/549979.jpg"
-                 width="100%" height="100%">
+            <a href="{% url 'dish' set.dish.id %}">
+               <img class="img-thumbnail" src="{{ set.image }}"
+                width="100%" height="100%">
+            </a> 
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="jumbotron jumbotron-wide text-center">
-            <h3>Chicken Scallopini</h3>
-            <hr>
-            <img class="img-thumbnail" src="http://images.media-allrecipes.com/userphotos/250x250/928953.jpg"
-                 width="100%" height="100%">
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="jumbotron jumbotron-wide text-center">
-            <h3>Parmesan Chicken Bake</h3>
-            <hr>
-            <img class="img-thumbnail" src="http://images.media-allrecipes.com/userphotos/600x600/1010419.jpg"
-                 width="100%" height="100%">
-          </div>
-        </div>
+        {% endfor %}
       </div>
       <div class="text-center">
-        <button class="btn btn-warning">Try again</button>
+        <form action="{% url 'recommendation' %}">
+          <input class="btn btn-warning" type="submit" value="Try again"/>
+        </form>
       </div>
     </div>
   </div>

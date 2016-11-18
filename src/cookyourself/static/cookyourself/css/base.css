@@ -119,7 +119,6 @@
       padding: 15px 10px;
   }
 }
-
 /*
  * jumbotron setting
  */
@@ -169,4 +168,5 @@
 #portrait {
   width:33px;
   height:33px;
+  border-style:none;
 }
