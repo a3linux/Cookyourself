@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.db import transaction
 from django.contrib.auth.decorators import login_required
@@ -14,7 +14,6 @@ GLOBAL_LOADMORE_NUM = 18
 
 # Create your views here.
 def index(request):
-    print ("enter index")
     dishes = Dish.objects.all().order_by('-popularity')  # default order
     # dishsets = [{'dish': dish, 'image': DishImage.objects.filter(dish=dish)[0].image} for dish in dishes]
     dishsets = []
@@ -32,7 +31,7 @@ def index(request):
 
 
 def loadmore(request):
-    cookies = request.COOKIES.get('cookies')  # updated in refresh.jsx, used to maintain list of showing pic
+    cookies = request.COOKIES.get('dishes')  # updated in refresh.jsx, used to maintain list of showing pic
     dishes = Dish.objects.all().order_by('-popularity')  # default order
     context = {}
     dishsets = []
@@ -150,8 +149,8 @@ def shoppinglist(request):
         total_price += price
 
     context = {
-        "ingredients" : ingredient_list,
-        "price" : total_price,
+        "ingredients": ingredient_list,
+        "price": total_price,
     }
 
     return render(request, 'shoppinglist.html', context)
@@ -198,6 +197,7 @@ def del_ingredient(request, id):
 
     return render(request, 'shoppinglist.html', context)
 
+
 @login_required
 def get_shoppinglist(request):
     user = request.user
@@ -232,34 +232,36 @@ def get_shoppinglist(request):
     }
     return HttpResponse(json.dumps(context), content_type='application/json')
 
-@csrf_exempt 
+
+@csrf_exempt
 def add_user(request):
-    uid=request.POST.get('uid', None)
-    if uid is not None: 
-        fuser=UserProfile.objects.filter(userid=uid)
+    uid = request.POST.get('uid', None)
+    if uid is not None:
+        fuser = UserProfile.objects.filter(userid=uid)
         if not fuser:
-            username=request.POST.get('username', None)
-            photo=request.POST.get('url', None)
-            gender=request.POST.get('gender', None)
-            location=request.POST.get('location', None)
-            email=request.POST.get('email', None)
-            new_user= User(username=username)
+            username = request.POST.get('username', None)
+            photo = request.POST.get('url', None)
+            gender = request.POST.get('gender', None)
+            location = request.POST.get('location', None)
+            email = request.POST.get('email', None)
+            new_user = User(username=username)
             if email:
-                new_user.email=email
+                new_user.email = email
             new_user.save()
             new_user_profile = UserProfile(user=new_user, userid=uid, photo=photo, gender=gender, location=location)
             new_user_profile.save()
-            login(request,new_user)
+            login(request, new_user)
         else:
-            fuser=UserProfile.objects.get(userid=uid)
-            user=fuser.user
+            fuser = UserProfile.objects.get(userid=uid)
+            user = fuser.user
             login(request, user)
-      
-        response_text=json.dumps({"usrid": request.user.id})
-        return HttpResponse(response_text, content_type="application/json")
-    return HttpResponse("") 
 
-@csrf_exempt 
+        response_text = json.dumps({"usrid": request.user.id})
+        return HttpResponse(response_text, content_type="application/json")
+    return HttpResponse("")
+
+
+@csrf_exempt
 def logout_user(request):
     logout(request)
     return HttpResponse("")

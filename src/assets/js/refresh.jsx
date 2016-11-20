@@ -3,20 +3,31 @@
  */
 var React = require('react');
 var ReactDOM = require('react-dom');
+var dishesCookie = "dishes";
 
-function getCookie(cname) {
-    var name = cname + "=";
-    var ca = document.cookie.split(';');
-    for (var i = 0; i < ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
-        }
-    }
-    return "";
+function createCookie(name,value,days) {
+	if (days) {
+		var date = new Date();
+		date.setTime(date.getTime()+(days*24*60*60*1000));
+		var expires = "; expires="+date.toGMTString();
+	}
+	else var expires = "";
+	document.cookie = name+"="+value+expires+"; path=/";
+}
+
+function readCookie(name) {
+	var nameEQ = name + "=";
+	var ca = document.cookie.split(';');
+	for(var i=0;i < ca.length;i++) {
+		var c = ca[i];
+		while (c.charAt(0)==' ') c = c.substring(1,c.length);
+		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+	}
+	return null;
+}
+
+function eraseCookie(name) {
+	createCookie(name,"",-1);
 }
 
 function deleteAllCookies() {
@@ -110,36 +121,33 @@ var DishList = React.createClass({
     },
 
     refresh: function () {
-        console.log("before:" + document.cookie)
+        // console.log("before:" + document.cookie);
         var self = this;
         var alreadyLogin = this.state.alreadyLogin; //already Login status
         var oldCookie = "";
         var url = '/cookyourself/loadmore';
-        console.log("alreadyLogin:" + alreadyLogin);
+        // console.log("alreadyLogin:" + alreadyLogin);
         if (window.performance) {
             var type = performance.navigation.type;
-            console.log("type:" + type);
+            // console.log("type:" + type);
             if (alreadyLogin == 0 && (type == 0 || type == 1 || type == 2)) { //0 - TYPE_NAVIGATE, 1 - TYPE_RELOAD, 2 - TYPE_BACK_FORWARD
-                console.log('refresh cookies');
-                deleteAllCookies();
-                oldCookie = "cookies=";
+                // console.log('refresh cookies');
+                eraseCookie(dishesCookie);
+                oldCookie = readCookie(dishesCookie);
             } else {
-                console.log('no need to refresh cookies');
-                oldCookie = document.cookie;
+                // console.log('no need to refresh cookies');
+                oldCookie = readCookie(dishesCookie);
             }
         }
-        console.log("after:" + document.cookie)
-        var cookieArray = oldCookie.split(';');
-        var newCookie = [];
-        console.log("oldCookie:" + oldCookie);
-        // console.log("cookieArray:" + cookieArray);
+        // console.log("after:" + document.cookie);
+        // console.log("oldCookie:" + oldCookie);
 
         // Empty the current array. This will trigger a render
         this.setState({dishes: [], loading: 1});
-
+        var newCookie = [];
         $.get(url).done(function (data) {
             if (!data || !data.sets || !data.sets.length) {
-                console.log("no more dishes");
+                // console.log("no more dishes");
                 self.setState({loading: 2});
                 return;
             }
@@ -155,12 +163,15 @@ var DishList = React.createClass({
                 };
             });
 
-            console.log("newCookie:" + newCookie);
-            var allCookies = cookieArray.concat(newCookie).toString();
-            console.log("allCookies:" + allCookies);
+            // console.log("newCookie:" + newCookie.toString());
+            if (oldCookie == null) {
+                oldCookie = ""
+            }
+            var allCookies = oldCookie.concat(newCookie);
+            createCookie(dishesCookie, allCookies, 0);
+            // console.log("allCookies:" + allCookies);
 
-            document.cookie = allCookies;
-            //update the component's state. This will trigger a render
+            // update the component's state. This will trigger a render
             self.setState({all: self.state.all.concat(dishes), loading: 0, alreadyLogin: 1});
         });
     },
