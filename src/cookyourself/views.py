@@ -47,7 +47,9 @@ def loadmore(request):
         d['name'] = dish.name
         cnt += 1
         # use unquote to fix colon's %3A expression
-        d['url'] = urllib.parse.unquote(DishImage.objects.filter(dish=dish)[0].image.url)
+        obj = DishImage.objects.filter(dish=dish)
+        if obj:
+            d['url'] = urllib.parse.unquote(obj[0].image.url)
         dishsets.append(d)
 
     context['sets'] = dishsets
