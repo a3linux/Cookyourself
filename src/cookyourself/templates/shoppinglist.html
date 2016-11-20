@@ -8,6 +8,7 @@
 {% endblock %}
 {% block individual_js %}
 <script src="{% static 'cookyourself/js/gmap.js' %}" type="text/javascript"></script>
+<script src="{% static 'cookyourself/js/shoppinglist.js' %}" type="text/javascript"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB5P23s1JdyGUCx1RZxs7Qv84P5ff1Ocl0&callback=getLocation&libraries=places"></script>
 {% endblock %}
 {% block main_body %}
@@ -50,7 +51,7 @@
         <h2>Meat</h2>
         <hr>
 
-        <ul class="list-group">
+        <ul id="shopping-list" class="list-group">
              {% for ingredient in ingredients %}
           <li href="#" class="list-group-item">{{ ingredient.name }}
             <span class="pull-right icon-remove-parent">

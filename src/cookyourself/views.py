@@ -143,9 +143,7 @@ def shoppinglist(request):
         unit = detail.unit
         rate = 1.0
         if unit:
-            relation = RelationBetweenUnits.objects.filter(converted_unit=unit.converted_units)[0]
-            if relation:
-                rate = relation.rate
+            rate = unit.rate
 
         ingredient_list.append(ingredient)
         price = ingredient.price * detail.amount * rate
@@ -161,7 +159,7 @@ def shoppinglist(request):
 
 @login_required
 @transaction.atomic
-def del_ingredient_in_shoppinglist(request, id):
+def del_ingredient(request, id):
     errors = []
     user = request.user
     try:
@@ -186,9 +184,7 @@ def del_ingredient_in_shoppinglist(request, id):
         unit = detail.unit
         rate = 1.0
         if unit:
-            relation = RelationBetweenUnits.objects.filter(converted_unit=unit.converted_units)[0]
-            if relation:
-                rate = relation.rate
+            rate = unit.rate
         amount = detail.amount
         ingredient_list.append(ingredient)
         price = ingredient.price * amount * rate
@@ -202,3 +198,36 @@ def del_ingredient_in_shoppinglist(request, id):
 
     return render(request, 'shoppinglist.html', context)
 
+@login_required
+def get_shoppinglist(request):
+    user = request.user
+    cart = Cart.objects.filter(user=user)
+    if not cart:
+        raise Http404
+
+    ingredients = Ingredient.objects.all()
+    if not ingredients:
+        raise Http404
+
+    ingredient_list = []
+    total_price = 0
+    for ingredient in ingredients:
+        ingre = {}
+        detail = RelationBetweenCartIngredient.objects.filter(cart=cart, ingredient=ingredient)[0]
+        if not detail:
+            continue
+        unit = detail.unit
+        rate = 1.0
+        if unit:
+            rate = unit.rate
+        ingre['name'] = ingredient.name
+        ingre['id'] = ingredient.id
+        ingredient_list.append(ingre)
+        price = ingredient.price * detail.amount * rate
+        total_price += price
+
+    context = {
+        "ingredients": ingredient_list,
+        "price": total_price,
+    }
+    return HttpResponse(json.dumps(context), content_type='application/json')
