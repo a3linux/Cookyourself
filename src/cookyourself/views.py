@@ -24,7 +24,9 @@ def index(request):
             break
         d = {}
         d['dish'] = dish
-        d['image'] = DishImage.objects.filter(dish=dish)[0].image
+        obj = DishImage.objects.filter(dish=dish)
+        if obj:
+            d['image'] = obj[0].image
         dishsets.append(d)
         cnt += 1
     context = {'sets': dishsets}
