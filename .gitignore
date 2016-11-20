@@ -48,3 +48,6 @@ webpack-stats.json
 
 #.sh
 *.sh
+
+#static files generated on server
+src/static
