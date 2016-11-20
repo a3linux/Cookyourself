@@ -147,7 +147,7 @@ var DishList = React.createClass({
         var newCookie = [];
         $.get(url).done(function (data) {
             if (!data || !data.sets || !data.sets.length) {
-                // console.log("no more dishes");
+                console.log("no more dishes");
                 self.setState({loading: 2});
                 return;
             }
@@ -166,6 +166,8 @@ var DishList = React.createClass({
             // console.log("newCookie:" + newCookie.toString());
             if (oldCookie == null) {
                 oldCookie = ""
+            } else {
+                oldCookie += ","
             }
             var allCookies = oldCookie.concat(newCookie);
             createCookie(dishesCookie, allCookies, 0);
