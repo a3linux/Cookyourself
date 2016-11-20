@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from cookyourself.models import *
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth import login, logout
 from django.http import HttpResponse, Http404, JsonResponse
 import urllib
 import json
