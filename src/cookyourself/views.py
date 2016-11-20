@@ -26,7 +26,8 @@ def index(request):
         d['dish'] = dish
         obj = DishImage.objects.filter(dish=dish)
         if obj:
-            d['image'] = obj[0].image
+            continue
+        d['image'] = obj[0].image
         dishsets.append(d)
         cnt += 1
     context = {'sets': dishsets}
@@ -50,8 +51,9 @@ def loadmore(request):
         cnt += 1
         # use unquote to fix colon's %3A expression
         obj = DishImage.objects.filter(dish=dish)
-        if obj:
-            d['url'] = urllib.parse.unquote(obj[0].image.url)
+        if not obj:
+            continue
+        d['url'] = urllib.parse.unquote(obj[0].image.url)
         dishsets.append(d)
 
     context['sets'] = dishsets
