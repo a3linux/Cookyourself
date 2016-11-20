@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.db import transaction
 from django.contrib.auth.decorators import login_required
@@ -231,3 +231,35 @@ def get_shoppinglist(request):
         "price": total_price,
     }
     return HttpResponse(json.dumps(context), content_type='application/json')
+
+@csrf_exempt 
+def add_user(request):
+    uid=request.POST.get('uid', None)
+    if uid is not None: 
+        fuser=UserProfile.objects.filter(userid=uid)
+        if not fuser:
+            username=request.POST.get('username', None)
+            photo=request.POST.get('url', None)
+            gender=request.POST.get('gender', None)
+            location=request.POST.get('location', None)
+            email=request.POST.get('email', None)
+            new_user= User(username=username)
+            if email:
+                new_user.email=email
+            new_user.save()
+            new_user_profile = UserProfile(user=new_user, userid=uid, photo=photo, gender=gender, location=location)
+            new_user_profile.save()
+            login(request,new_user)
+        else:
+            fuser=UserProfile.objects.get(userid=uid)
+            user=fuser.user
+            login(request, user)
+      
+        response_text=json.dumps({"usrid": request.user.id})
+        return HttpResponse(response_text, content_type="application/json")
+    return HttpResponse("") 
+
+@csrf_exempt 
+def logout_user(request):
+    logout(request)
+    return HttpResponse("")

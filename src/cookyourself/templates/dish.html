@@ -8,12 +8,13 @@
 {% endblock %}
 {% block individual_js %}
   <script type="text/javascript" async="" src="https://api.flattr.com/js/0.6/load.js?mode=auto"></script>
-  <script src="//www.tools4noobs.com/js/main-combined.js"></script>
+  <!--<script src="//www.tools4noobs.com/js/main-combined.js"></script>-->
   <script src="{% static 'cookyourself/js/video.js' %}" type="text/javascript"></script>
   <script src="{% static 'cookyourself/js/dish.js' %}" type="text/javascript"></script>
 {% endblock %}
 {%if dish%}
 {% block main_body %}
+
   <div class="container-fluid">
     <ol class="breadcrumb">
       <li><a href="#">Home</a></li>
@@ -49,7 +50,7 @@
           <h5> Calories: {{dish.calories}} </h5>
           <h5> Price: {{dish.price}} </h5>
           <br>
-          <h5 class="description">"{{dish.desciption}}"
+          <h5 class="description">"{{dish.description}}"
           </h5>
         </div>
       </div>
@@ -98,7 +99,7 @@
         <ul>
           {% for iset in isets %}
           <div><a class="glyphicon glyphicon-check" id={{iset.ingredient.id}}></a>
-               <span class="text">{{iset.amount}} {%if iset.unit %}{{iset.unit}}{% endif %}  {{iset.ingredient.name}} </span>
+               <span class="text">{{iset.amount|floatformat}} {%if iset.unit %}{{iset.unit}}{% endif %}  {{iset.ingredient.name}} </span>
           </div>
           {% endfor %}
         </ul>
@@ -123,7 +124,7 @@
     <!--This div is to show how to transfer video url to video.js -->
       <div id="video" class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
         <div class="video-container">
-          <div id="player" data-video="Fu2PVtbwfhc"></div>
+          <div id="player" data-video="VaT3qsoHPQ8"></div>
         </div>
       </div>
     </div>
@@ -172,7 +173,7 @@
       </div> 
       {% endfor %}
       </section>
-  </div>
+      </div>
 
   {% endblock %}
 {% endif %}

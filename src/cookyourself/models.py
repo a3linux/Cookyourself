@@ -1,11 +1,17 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
+from datetime import datetime
 
 # Create your models here.
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
-    rank = models.IntegerField()
+    user = models.OneToOneField(User, related_name='user',blank=True, null=True, on_delete=models.CASCADE)
+    userid = models.CharField(max_length=1024, blank=True, null=True)
+    rank = models.IntegerField(blank=True, null=True)
     photo = models.ImageField(upload_to='img/', blank=True, null=True)
+    gender = models.CharField(max_length=10, blank=True, null=True)
+    join_in = models.DateTimeField(default=timezone.now, blank=True)
+    location = models.CharField(max_length=30, blank=True, null=True)
 
     def __str__(self):
         return str(self.user)
@@ -110,7 +116,7 @@ class CrawlerRecord(models.Model):
         return url + ", Last updated on " + str(self.pdated_on)
 
 class Cart(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='cart')
+    user = models.OneToOneField(UserProfile, on_delete=models.CASCADE, related_name='cart')
     ingredients = models.ManyToManyField(Ingredient,
                                          through='RelationBetweenCartIngredient',
                                          blank=True)

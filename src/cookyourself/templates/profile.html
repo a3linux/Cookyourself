@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load  static from staticfiles %}
-
+{% load humanize %}
 {% block title %}
 <title>profile base</title>
 {% endblock %}
@@ -13,22 +13,21 @@
   <section id="profile_info_section" class="jumbotron">
     <div class="row">
       <div class="col-xs-12 col-md-4 col-lg-4">
-        <a href="#">
-          <img src="{% static 'cookyourself/images/p1.jpg' %}" class="img-rounded"
-          id="profile_info_avatar">
-        </a>
+          <img src={{profile.photo}} class="img-rounded"
+          id="profile_image">
       </div>
       <div class="col-xs-6 col-md-8 col-lg-4">
         <h2>
-          <a href="#">Alice</a>
+          <a>{{profile.user.username}}</a>
         </h2>
         <div class="profile_info_text">
-          <Strong>Female</Strong>&nbsp;
-          <strong><span class="glyphicon glyphicon-map-marker"></span>&nbsp;Pennsylvania</strong>&nbsp;
-          <strong>2016-10-31 Join in</strong><br>
+          <Strong>{{profile.gender}}</Strong>&nbsp;
+          {% if profile.location %}
+          <strong><span class="glyphicon glyphicon-map-marker"></span>&nbsp;{{profile.location}}</strong>&nbsp;
+          {% endif %}
+          <strong>Join in: {{profile.join_in|naturaltime}}</strong><br>
         </div>
         <br>
-        <h4>Enjoy delicious food!</h4><br>
       </div>
     </div>
   </section>

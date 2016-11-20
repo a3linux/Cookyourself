@@ -12,4 +12,6 @@ urlpatterns = [
     url(r'^add_ingredient/(?P<id>\d+)$', cookyourself.views.add_ingredient, name='add_ingredient'),
     url(r'^del_ingredient/(?P<id>\d+)$', cookyourself.views.del_ingredient, name='del_ingredient'),
     url(r'^get_shoppinglist$', cookyourself.views.get_shoppinglist, name='get_shoppinglist'),
+    url(r'^add_user$', cookyourself.views.add_user, name='add_user'),
+    url(r'^logout_user$', cookyourself.views.logout_user, name='logout_user'),
 ]
