@@ -49,7 +49,7 @@ var Dish = React.createClass({
                 <a href={'/cookyourself/dish/' + this.props.id}>
                     <canvas id={str} className="img-thumbnail main_pic" width="533" height="300"/>
                 </a>
-                <h5 className="text-center">{this.props.name}</h5>
+                <h5 className="max-lines text-center">{this.props.name}</h5>
             </div>
         )
     },
