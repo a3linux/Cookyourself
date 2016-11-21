@@ -36,14 +36,13 @@ function handleResponse() {
     for (var i = 0; i < ingredients.length; i++) {
         var id = ingredients[i].id;
         var name = ingredients[i].name;
-        console.log("dish id:" + id);
-        console.log("dish name:" + name);
 
         var newIngre = document.createElement("li");
         newIngre.className += "list-group-item";
-        newIngre.innerHTML = name + "<span class='pull-right icon-remove-parent'><button class='btn-list-remove' href='/cookyourself/del_ingredient/'" + id + "><span class='glyphicon glyphicon-remove icon-remove'></span></button></span>";
+        // newIngre.innerHTML = name + "<span class=\"pull-right icon-remove-parent\"><button class=\"btn-list-remove\" href=\"/cookyourself/del_ingredient/" + id + "\"><span class=\"glyphicon glyphicon-remove icon-remove\"></span></button></span>";
+        newIngre.innerHTML = name + "<a class=\"pull-right icon-remove-parent\" href=\"/cookyourself/del_ingredient/" + id + "\">X</a> ";
         list.appendChild(newIngre);
     }
 }
-// causes the sendRequest to run every 10 seconds
-window.setInterval(sendRequest, 1000);
+// causes the sendRequest to run every 5 seconds
+window.setInterval(sendRequest, 500);
