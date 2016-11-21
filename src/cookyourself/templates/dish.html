@@ -95,8 +95,13 @@
     <h3> Ingredients</h3>
     <hr>
     <div class="row">
+<<<<<<< HEAD
       <div class="col-lg-8 col-md-8 col-sm-8 col-xs-10">
         <ul id="ingre-list">
+=======
+      <div class="col-lg-8 col-md-8 col-sm-8 col-xs-10" id="ingre-list">
+        <ul>
+>>>>>>> master
           {% for iset in isets %}
           <div><a class="glyphicon glyphicon-check" id={{iset.ingredient.id}}></a>
                <span class="text">{{iset.amount|floatformat}} {%if iset.unit %}{{iset.unit}}{% endif %}  {{iset.ingredient.name}} </span>
