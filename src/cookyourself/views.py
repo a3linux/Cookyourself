@@ -268,7 +268,7 @@ def get_shoppinglist(request):
         ingre['name'] = ingredient.name
         ingre['id'] = ingredient.id
         ingredient_list.append(ingre)
-        print ("name:%s, price: %0.2f, amount:%d, rate:%0.2f" % (ingredient.name, ingredient.price, detail.amount, rate))
+        #print ("name:%s, price: %0.2f, amount:%d, rate:%0.2f" % (ingredient.name, ingredient.price, detail.amount, rate))
         price = ingredient.price * detail.amount * rate
         total_price += price
 
