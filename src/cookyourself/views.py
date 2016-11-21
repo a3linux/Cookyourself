@@ -151,9 +151,10 @@ def shoppinglist(request):
     ingredient_list = []
     total_price = 0
     for ingredient in ingredients:
-        detail = RelationBetweenCartIngredient.objects.filter(cart=cart, ingredient=ingredient)[0]
-        if not detail:
+        obj = RelationBetweenCartIngredient.objects.filter(cart=cart, ingredient=ingredient)
+        if not obj:
             continue
+        detail = RelationBetweenCartIngredient.objects.filter(cart=cart, ingredient=ingredient)
         unit = detail.unit
         rate = 1.0
         if unit:
