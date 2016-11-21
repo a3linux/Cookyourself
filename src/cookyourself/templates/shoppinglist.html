@@ -54,9 +54,7 @@
         <ul id="shopping-list" class="list-group">
              {% for ingredient in ingredients %}
           <li href="#" class="list-group-item">{{ ingredient.name }}
-            <span class="pull-right icon-remove-parent">
-              <button class="btn-list-remove"><span class="glyphicon glyphicon-remove icon-remove"></span></button>
-            </span>
+            <a class="pull-right icon-remove-parent">X</a>
           </li>
             {% endfor %}
 
