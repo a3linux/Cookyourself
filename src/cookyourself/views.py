@@ -154,7 +154,7 @@ def shoppinglist(request):
         obj = RelationBetweenCartIngredient.objects.filter(cart=cart, ingredient=ingredient)
         if not obj:
             continue
-        detail = RelationBetweenCartIngredient.objects.filter(cart=cart, ingredient=ingredient)
+        detail = RelationBetweenCartIngredient.objects.get(cart=cart, ingredient=ingredient)
         unit = detail.unit
         rate = 1.0
         if unit:
@@ -178,7 +178,16 @@ def del_ingredient(request, id):
     errors = []
     user = request.user
     try:
-        cart = Cart.objects.filter(user=user)
+        userProfile = UserProfile.objects.filter(user=user)
+        if len(userProfile) == 0:
+            errors.append('This user does not exist')
+        else:
+            userProfile = UserProfile.objects.get(user=user)
+        cart = Cart.objects.filter(user=userProfile)
+        if len(cart) == 0:
+            errors.append('The user cart does not exist')
+        else:
+            cart = Cart.objects.get(user=userProfile)
         ingredient_to_delete = Ingredient.objects.get(id=id)
         cart_detail = RelationBetweenCartIngredient.objects.filter(cart=cart, ingredient=ingredient_to_delete)[0]
         cart_detail.amount = 0
@@ -193,9 +202,10 @@ def del_ingredient(request, id):
     ingredient_list = []
     total_price = 0
     for ingredient in ingredients:
-        detail = RelationBetweenCartIngredient.objects.filter(cart=cart, ingredient=ingredient)[0]
-        if not detail:
+        obj = RelationBetweenCartIngredient.objects.filter(cart=cart, ingredient=ingredient)
+        if not obj:
             continue
+        detail = RelationBetweenCartIngredient.objects.get(cart=cart, ingredient=ingredient)
         unit = detail.unit
         rate = 1.0
         if unit:
@@ -216,11 +226,18 @@ def del_ingredient(request, id):
 
 @login_required
 def get_shoppinglist(request):
+    errors = []
     user = request.user
     userProfile = UserProfile.objects.filter(user=user)
-    cart = userProfile.cart
-    if not cart:
-        raise Http404
+    if len(userProfile) == 0:
+        errors.append('User does not exist')
+    else:
+        userProfile = UserProfile.objects.get(user=user)
+    cart = Cart.objects.filter(user=userProfile)
+    if len(cart) == 0:
+        errors.append('The user cart does not exist')
+    else:
+        cart = Cart.objects.get(user=userProfile)
 
     ingredients = Ingredient.objects.all()
     if not ingredients:
@@ -230,9 +247,10 @@ def get_shoppinglist(request):
     total_price = 0
     for ingredient in ingredients:
         ingre = {}
-        detail = RelationBetweenCartIngredient.objects.filter(cart=cart, ingredient=ingredient)[0]
-        if not detail:
+        obj = RelationBetweenCartIngredient.objects.filter(cart=cart, ingredient=ingredient)
+        if not obj:
             continue
+        detail = RelationBetweenCartIngredient.objects.get(cart=cart, ingredient=ingredient)
         unit = detail.unit
         rate = 1.0
         if unit:
