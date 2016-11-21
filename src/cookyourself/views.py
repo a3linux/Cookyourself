@@ -109,7 +109,8 @@ def profile(request, id=0):
     return render(request, 'profile.html', context)
 
 
-@csrf_exempt
+@login_required
+@transaction.atomic
 def add_ingredient(request, id):
     errors = []
     user = request.user

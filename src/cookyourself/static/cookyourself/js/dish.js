@@ -1,24 +1,18 @@
 function addIngredient(id) {
-    console.log("enter addIngredient");
     var csrftoken = getCookie('csrftoken');
     $.post("/cookyourself/add_ingredient/" + id, {csrfmiddlewaretoken: csrftoken})
         .done(function (data) {
             //updateComment(id);
             //hide the + button or make it grey?
-            console.log("ingredient %d added!", id);
+            console.log("ingredient added:" + id);
         });
 }
 
 function eventsHandle() {
-    console.log("enter eventsHandle");
     $("#ingre-list").on("click", ".glyphicon", function (event) {
         var id = $(this).attr("id");
-        /*if(id == 0)
-         {
-         addAllIngredient();
-         }
-         else*/
-        console.log(id);
+        // console.log(id);
+        //addAllIngredient();
         addIngredient(id);
     });
 }
