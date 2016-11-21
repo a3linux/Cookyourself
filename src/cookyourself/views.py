@@ -111,12 +111,18 @@ def profile(request, id=0):
 
 @csrf_exempt
 def add_ingredient(request, id):
+    errors = []
     user = request.user
-    cart = Cart.objects.filter(user=user)
-    if cart:
-        cart = Cart.objects.get(user=user)
+    userProfile = UserProfile.objects.filter(user=user)
+    if len(userProfile) == 0:
+        errors.append('This user does not exist')
     else:
-        new_cart = Cart(user=request.user)
+        userProfile = UserProfile.objects.get(user=user)
+    cart = Cart.objects.filter(user=userProfile)
+    if cart:
+        cart = Cart.objects.get(user=userProfile)
+    else:
+        new_cart = Cart(user=userProfile)
         new_cart.save()
     ingredient = Ingredient.objects.get(id=id)
     cart_detail = RelationBetweenCartIngredient.objects.filter(cart=cart, ingredient=ingredient)
