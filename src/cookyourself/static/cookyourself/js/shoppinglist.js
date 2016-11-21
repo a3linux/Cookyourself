@@ -36,6 +36,8 @@ function handleResponse() {
     for (var i = 0; i < ingredients.length; i++) {
         var id = ingredients[i].id;
         var name = ingredients[i].name;
+        console.log("dish id:" + id);
+        console.log("dish name:" + name);
 
         var newIngre = document.createElement("li");
         newIngre.className += "list-group-item";
