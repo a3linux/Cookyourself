@@ -22,7 +22,7 @@ function handleResponse() {
         return;
     }
     // Removes the old shopping list items
-    var list = document.getElementById("shoppinglist");
+    var list = document.getElementById("shopping-list");
     while (list.hasChildNodes()) {
         list.removeChild(list.firstChild);
     }
@@ -38,7 +38,8 @@ function handleResponse() {
         var name = ingredients[i].name;
 
         var newIngre = document.createElement("li");
-        newIngre.innerHTML = name + "<span class='pull-right icon-remove-parent'><button class='btn-list-remove' href='/cookyourself/del_ingredient/'" + id + "><span class='glyphicon glyphicon-remove icon-remove'></span></button></span>"
+        newIngre.className += "list-group-item";
+        newIngre.innerHTML = name + "<span class='pull-right icon-remove-parent'><button class='btn-list-remove' href='/cookyourself/del_ingredient/'" + id + "><span class='glyphicon glyphicon-remove icon-remove'></span></button></span>";
         list.appendChild(newIngre);
     }
 }
