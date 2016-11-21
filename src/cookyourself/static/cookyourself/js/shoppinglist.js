@@ -32,6 +32,10 @@ function handleResponse() {
     var ingredients = data["ingredients"];
     var total_price = data["price"];
 
+    console.log("updated price:" + total_price);
+    var price_obj = document.getElementById("total_price");
+    price_obj.innerHTML = total_price;
+
     // Adds each new ingredient item to the shopping list
     for (var i = 0; i < ingredients.length; i++) {
         var id = ingredients[i].id;
