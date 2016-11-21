@@ -166,7 +166,25 @@
 }
 
 #portrait {
+  display:none;
   width:33px;
   height:33px;
-  border-style:none;
+}
+
+#profile{
+  display:none;
+}
+
+#fb-logout{
+  display:none;
+}
+#more{
+  width: 33px; 
+  height: 18px;
+  padding-top: 14px; 
+  padding-bottom: 14px;
+}
+#user_photo{
+  padding-top: 14px; 
+  padding-bottom: 14px;
 }

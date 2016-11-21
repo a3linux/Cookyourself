@@ -113,7 +113,8 @@ function GetPic(callback) {
         /* handle the result */
       p_url=response.data['url'];
       document.getElementById("portrait").src = p_url; 
-      document.getElementById("portrait").style= "width: 33px; height: 33px;";
+      $('#more').hide();
+      $('#portrait').show();
       document.getElementById("user_photo").style= "padding-top: 8px; padding-bottom: 8px;";
       }
       callback();
@@ -168,10 +169,11 @@ function logoutUser() {
       $("#fb-login").hide(); 
       $("#profile").hide();
       $("#fb-logout").hide(); 
+      $('#portrait').hide();
+      $('#more').show();
       $('#portrait').removeAttr('src');
-      document.getElementById("portrait").style= "width: 33px; height: 18px;";
-      document.getElementById("user_photo").style= "padding-top: 14px; padding-bottom: 14px;";
-      //document.getElementById("user_photo").src="";  
+      //document.getElementById("portrait").style= "width: 33px; height: 18px;";
+      document.getElementById("user_photo").style= "padding-top: 14px; padding-bottom: 14px;";  
     } else {
       // The person is not logged into Facebook, so we're not sure if
       // they are logged into this app or not.
@@ -179,8 +181,10 @@ function logoutUser() {
         $("#fb-login").show();
         $("#fb-logout").hide(); 
         $("#profile").hide();
+        $('#portrait').hide();
+        $('#more').show();
         $('#portrait').removeAttr('src');
-        document.getElementById("portrait").style= "width: 33px; height: 18px;";
+        //document.getElementById("portrait").style= "width: 33px; height: 18px;";
         document.getElementById("user_photo").style= "padding-top: 14px; padding-bottom: 14px;";
         //document.getElementById("user_photo").src="";  
     }
