@@ -25,7 +25,7 @@ def index(request):
         d = {}
         d['dish'] = dish
         obj = DishImage.objects.filter(dish=dish)
-        if obj:
+        if not obj:
             continue
         d['image'] = obj[0].image
         dishsets.append(d)
