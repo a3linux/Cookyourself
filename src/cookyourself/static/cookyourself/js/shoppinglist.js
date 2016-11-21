@@ -36,13 +36,11 @@ function handleResponse() {
     for (var i = 0; i < ingredients.length; i++) {
         var id = ingredients[i].id;
         var name = ingredients[i].name;
-        console.log("dish id:" + id);
-        console.log("dish name:" + name);
 
         var newIngre = document.createElement("li");
         newIngre.className += "list-group-item";
         // newIngre.innerHTML = name + "<span class=\"pull-right icon-remove-parent\"><button class=\"btn-list-remove\" href=\"/cookyourself/del_ingredient/" + id + "\"><span class=\"glyphicon glyphicon-remove icon-remove\"></span></button></span>";
-        newIngre.innerHTML = name + "<a href=\"/cookyourself/del_ingredient/" + id + "\">X</a> ";
+        newIngre.innerHTML = name + "<a class=\"pull-right icon-remove-parent\" href=\"/cookyourself/del_ingredient/" + id + "\">X</a> ";
         list.appendChild(newIngre);
     }
 }
