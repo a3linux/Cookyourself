@@ -32,7 +32,7 @@ function handleResponse() {
     var ingredients = data["ingredients"];
     var total_price = data["price"];
 
-    console.log("updated price:" + total_price);
+    //console.log("updated price:" + total_price);
     var price_obj = document.getElementById("total_price");
     price_obj.innerHTML = total_price;
 
