@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static from staticfiles %}
+{% load humanize %}
 {% block title %}
   <title>dish page</title>
 {% endblock %}
@@ -11,17 +12,16 @@
   <!--<script src="//www.tools4noobs.com/js/main-combined.js"></script>-->
   <script src="{% static 'cookyourself/js/video.js' %}" type="text/javascript"></script>
   <script src="{% static 'cookyourself/js/dish.js' %}" type="text/javascript"></script>
+  <script src="{% static 'cookyourself/js/post_for_dish.js' %}" type="text/javascript"></script>
 {% endblock %}
 {%if dish%}
 {% block main_body %}
 
   <div class="container-fluid">
     <ol class="breadcrumb">
-      <li><a href="#">Home</a></li>
-      <li><a href="#">Recipes</a></li>
       <li><a href="#">World Cuisine</a></li>
       <li><a href="#">American</a></li>
-      <li class="active">chicken</li>
+      <li class="active">cookies</li>
     </ol>
   </div>
   
@@ -64,7 +64,7 @@
                 data-target="#likeNavbar" aria-expanded="false" aria-controls="navbar">
           <span class="glyphicon glyphicon-heart" id="star"></span>
         </button>
-        <p class="navbar-brand">Like it?</p>
+        <span class="navbar-brand">Like it?</span>
       </div>
       <div id="likeNavbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
@@ -92,11 +92,11 @@
 
 
   <div class="container" id="ingredient">
+    <h3> Ingredients</h3>
+    <hr>
     <div class="row">
-      <h3> Ingredients</h3>
-      <hr>
-      <div class=col-lg-8 id="ingre-list">
-        <ul>
+      <div class="col-lg-8 col-md-8 col-sm-8 col-xs-10">
+        <ul id="ingre-list">
           {% for iset in isets %}
           <div><a class="glyphicon glyphicon-check" id={{iset.ingredient.id}}></a>
                <span class="text">{{iset.amount|floatformat}} {%if iset.unit %}{{iset.unit}}{% endif %}  {{iset.ingredient.name}} </span>
@@ -113,7 +113,7 @@
     {% if tutorial.video %}
     <div class="row">
     
-      <div id="video" class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+      <div id="video" class="col-lg-8 col-lg-offset-1 col-md-8 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-12 col-xs-offset-0">
         <div class="video-container">
           <div id="player" data-video={{tutorial.video}}></div>
         </div>
@@ -144,16 +144,25 @@
     <h3> Comments </h3>
     <hr>
     <section id="comments_section" class="jumbotron">
+
       <div class="row">
-        <div class="col-xs-12 col-md-5 col-lg-4">
-            <textarea name="item" style="resize: none" rows="2" cols="50%"
-                      placeholder="Any comments?"></textarea>
-        </div>
-        <div class="col-xs-12 col-xs-offset-0 col-md-5 col-md-offset-2 col-lg-4 col-lg-offset-2">
-          <input class="btn btn-warning" type="submit" value="Post">
-        </div>
+        <form method="post" id="post-form">
+          <div class="col-xs-10 col-sm-5 col-md-5 col-lg-4">
+              {{form}}
+          </div>
+          <div class="col-xs-2 col-xs-offset-0 col-sm-5 col-sm-offset-1 col-md-5 col-md-offset-1 col-lg-4 col-lg-offset-1">
+            <input class="btn btn-warning" type="submit" value="Post">
+          </div>
+          {% csrf_token %} 
+        </form>
       </div>
-      {% for post in posts%}
+      <div id="post-list">
+      </div>
+
+
+
+      
+      <!--{% for post in posts%}
       <div class="media">
         <div class="media-left">
           <a href="#">
@@ -171,7 +180,7 @@
           {{post.content}}
         </h5>
       </div> 
-      {% endfor %}
+      {% endfor %}-->
       </section>
       </div>
 

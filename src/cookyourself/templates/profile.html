@@ -7,7 +7,9 @@
 {% block individual_css %}
 <link href="{% static 'cookyourself/css/profile.css' %}" rel="stylesheet">
 {% endblock %}
-
+{% block individual_js %}
+  <script src="{% static 'cookyourself/js/post_for_profile.js' %}" type="text/javascript"></script>
+{% endblock %}
 {% block main_body %}
 <div class="container">
   <section id="profile_info_section" class="jumbotron">
@@ -94,35 +96,8 @@
       <h3> Comments </h3>
       <hr>
       <section id="comments_section" class="jumbotron">
-        </br>
-        <div class="row">
-          <div class="col-xs-12 col-md-5 col-lg-4">
-            <textarea name="item" style="resize: none" rows="2" cols="50%"
-            placeholder="Any comments?"></textarea>
-          </div>
-          <div class="col-xs-12 col-xs-offset-0 col-md-5 col-md-offset-1 col-lg-4 col-lg-offset-1">
-            <input class="btn btn-warning" type="submit" value="Post">
-          </div>
+        <div id="post-list" data-user={{profile.user.id}}>
         </div>
-        <div class="media">
-          <div class="media-left">
-            <a href="#">
-              <img class="media-object" src="{% static 'cookyourself/images/p2.jpg' %}"
-              class="img-rounded"
-              alt="" height="50px">
-            </a>
-          </div>
-          <div class="media-body">
-            <p class="lead">
-              <a href="">Lucy</a>
-            </p>
-            <small><span class="glyphicon glyphicon-time"></span>&nbsp;September 5, 2016</small>
-          </div>
-        </div>
-
-        <h5>
-          I found a lot of awesome recipes here. Cool!
-        </h5>
       </section>
     </div>
   </div>
