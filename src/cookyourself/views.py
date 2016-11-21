@@ -131,14 +131,18 @@ def add_ingredient(request, id):
 
 @login_required
 def shoppinglist(request):
+    errors = []
     user = request.user
     userProfile = UserProfile.objects.filter(user=user)
-    if not userProfile:
-        raise Http404
-    user_profile = userProfile[0]
-    cart = Cart.objects.filter(user=user_profile)
-    if not cart:
-        raise Http404
+    if len(userProfile) == 0:
+        errors.append('This user does not exist')
+    else:
+        userProfile = UserProfile.objects.get(user=user)
+    cart = Cart.objects.filter(user=userProfile)
+    if len(cart) == 0:
+        errors.append('The user cart does not exist')
+    else:
+        cart = Cart.objects.get(user=userProfile)
 
     ingredients = Ingredient.objects.all()
     if not ingredients:
@@ -212,7 +216,8 @@ def del_ingredient(request, id):
 @login_required
 def get_shoppinglist(request):
     user = request.user
-    cart = Cart.objects.filter(user=user)
+    userProfile = UserProfile.objects.filter(user=user)
+    cart = userProfile.cart
     if not cart:
         raise Http404
 
