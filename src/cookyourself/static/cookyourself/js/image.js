@@ -2,8 +2,8 @@
  * Created by yunpengx on 11/12/16.
  */
 $(document).ready(function () {
-    $('.main_pic').each(function () {
-        var standardHeight = 200;    // standard height for post images
+    $('.image_resize').each(function () {
+        var standardHeight = 300;    // standard height for post images
         var ratio = 0;          // used for aspect ratio
         var width = $(this).width(); // current image width
         var height = $(this).height(); // current image height

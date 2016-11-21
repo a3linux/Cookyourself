@@ -9,3 +9,12 @@
   max-height: 240px;
   overflow: hidden;
 }
+
+.max-lines {
+  display: block; /* or inline-block */
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  overflow: hidden;
+  max-height: 1.0em;
+  line-height: 1.0em;
+}
