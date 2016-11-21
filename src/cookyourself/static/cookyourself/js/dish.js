@@ -1,49 +1,53 @@
-function addIngredient (id){
-    $.post("/cookyourself/add_ingredient/"+ id)
-    .done(function(data){
-        //updateComment(id);
-        //hide the + button or make it grey?
-        alert("ingredient %d added!", id);
-    });
-}  
+function addIngredient(id) {
+    console.log("enter addComment");
+    var csrftoken = getCookie('csrftoken');
+    $.post("/cookyourself/add_ingredient/" + id, {csrfmiddlewaretoken: csrftoken})
+        .done(function (data) {
+            //updateComment(id);
+            //hide the + button or make it grey?
+            // console.log("ingredient %d added!", id);
+        });
+}
 
-function events_handle(){
-   $("#ingre-list").on("click", ".glyphicon", function( event ) {
-        var id=$(this).attr("id");
+function eventsHandle() {
+    console.log("enter eventsHandle");
+    $("#ingre-list").on("click", ".glyphicon", function (event) {
+        var id = $(this).attr("id");
         /*if(id == 0)
-        {
-          addAllIngredient();
-        }
-        else*/
-        alert(id);
-        //addIngredient(id);
-   });
+         {
+         addAllIngredient();
+         }
+         else*/
+        // console.log(id);
+        addIngredient(id);
+    });
 }
 
 $(document).ready(function () {
 
-  events_handle();
-  
-  // CSRF set-up copied from Django docs
-  function getCookie(name) {  
-    var cookieValue = null;
-    if (document.cookie && document.cookie != '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = jQuery.trim(cookies[i]);
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
+    eventsHandle();
+
+    // CSRF set-up copied from Django docs
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
             }
         }
+        return cookieValue;
     }
-    return cookieValue;
-  }
-  var csrftoken = getCookie('csrftoken');
-  $.ajaxSetup({
-    beforeSend: function(xhr, settings) {
-        xhr.setRequestHeader("X-CSRFToken", csrftoken);
-    }
-  });
+
+    var csrftoken = getCookie('csrftoken');
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    });
 });
