@@ -8,4 +8,4 @@ cp -r assets/bundles cookyourself/static/
 # for local test
 #./manage.py runserver
 # for server update
-#sudo systemctl restart apache2
+sudo systemctl restart apache2

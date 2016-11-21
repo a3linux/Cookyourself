@@ -132,7 +132,11 @@ def add_ingredient(request, id):
 @login_required
 def shoppinglist(request):
     user = request.user
-    cart = Cart.objects.filter(user=user)
+    userProfile = UserProfile.objects.filter(user=user)
+    if not userProfile:
+        raise Http404
+    user_profile = userProfile[0]
+    cart = Cart.objects.filter(user=user_profile)
     if not cart:
         raise Http404
 
