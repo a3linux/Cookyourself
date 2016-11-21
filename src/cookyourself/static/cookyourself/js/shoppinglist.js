@@ -44,5 +44,5 @@ function handleResponse() {
         list.appendChild(newIngre);
     }
 }
-// causes the sendRequest to run every 10 seconds
-window.setInterval(sendRequest, 1000);
+// causes the sendRequest to run every 5 seconds
+window.setInterval(sendRequest, 500);
