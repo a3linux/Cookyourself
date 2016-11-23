@@ -51,3 +51,6 @@ webpack-stats.json
 
 #static files generated on server
 src/static
+
+# haystack files
+whoosh_index/

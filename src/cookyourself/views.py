@@ -1,20 +1,28 @@
 from django.shortcuts import render, redirect
 from django.db import transaction
-from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ObjectDoesNotExist
-from cookyourself.models import *
-from cookyourself.forms import *
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404, JsonResponse
 from django.db.models import Q
+from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
+from django.core.paginator import Paginator
+
+from haystack.forms import ModelSearchForm
+from haystack.query import EmptySearchQuerySet
+
 import urllib
 import json
 import random
 
+from cookyourself.models import *
+from cookyourself.forms import *
+
 GLOBAL_LOADMORE_NUM = 18
 GLOBAL_FILTER_START = 2
 GLOBAL_RANK_LIST_NUM = 8 #update with rank_list
+RESULTS_PER_PAGE = getattr(settings, 'HAYSTACK_SEARCH_RESULTS_PER_PAGE', 20)
 
 
 def check_id(id):
@@ -118,6 +126,41 @@ def loadmore(request, id=0):
     context['sets'] = dishsets
     return HttpResponse(json.dumps(context), content_type='application/json')
 
+
+def search(request, template='search/search.html', load_all=True, 
+        form_class=ModelSearchForm, searchqueryset=None, extra_context=None, 
+        results_per_page=None):
+    
+    query = ''
+    results = EmptySearchQuerySet()
+    if request.GET.get('q'):
+        form = form_class(request.GET, searchqueryset=searchqueryset, load_all=load_all)
+
+        if form.is_valid():
+            query = form.cleaned_data['q']
+            results = form.search()
+    else:
+        form = form_class(searchqueryset=searchqueryset, load_all=load_all)
+
+    paginator = Paginator(results, results_per_page or RESULTS_PER_PAGE)
+    try:
+        page = paginator.page(int(request.GET.get('page', 1)))
+    except InvalidPage:
+        raise Http404("No such page of results!")
+
+    context = {
+        'form': form,
+        'page': page,
+        'paginator': paginator,
+        'query': query,
+        'suggestion': None,
+    }
+
+    if results.query.backend.include_spelling:
+        context['suggestion'] = form.get_suggestion()
+    if extra_context:
+        context.update(extra_context)
+    return render(request, template, context)
 
 def filter(request, id=0):
     ret = check_id(id)

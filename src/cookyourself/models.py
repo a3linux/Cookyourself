@@ -58,7 +58,7 @@ class Dish(models.Model):
 
 class Tutorial(models.Model):
     dish = models.OneToOneField(Dish, related_name='tutorial')
-    video = models.URLField(blank=True, null=True)
+    video = models.CharField(max_length=128, blank=True, null=True)
 
     def __str__(self):
         return "Tutorial for " + str(self.dish)
@@ -149,4 +149,4 @@ class RelationBetweenCartIngredient(models.Model):
 
     def __str__(self):
         return str(self.cart) + " has {:d} ".format(self.amount) + \
-        str(self.unit.name) + ' of ' + str(self.ingredient)
+        str(self.unit) + ' of ' + str(self.ingredient)
