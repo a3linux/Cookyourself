@@ -41,11 +41,12 @@
         {% for set in sets %}
         <div class="col-md-4">
           <div class="jumbotron jumbotron-wide text-center">
-            <h3 class="max-lines">{{set.dish.name}}</h3>
+            <h4 class="max-lines">{{set.dish.name}}</h4>
             <hr>
             <a href="{% url 'dish' set.dish.id %}">
-               <img class="img-thumbnail image_300h" src="{{ set.image }}"
-                width="100%" height="100%">
+{#               <img class="img-thumbnail" src="{{ set.image }}"#}
+{#                width="100%" height="100%">#}
+							<canvas id="{{ set.image }}" class="img-thumbnail myCanvas" width="533" height="300"></canvas>
             </a> 
           </div>
         </div>
