@@ -7,39 +7,81 @@ from cookyourself.forms import *
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import login, logout
 from django.http import HttpResponse, Http404, JsonResponse
+from django.db.models import Q
 import urllib
 import json
 import random
 
 GLOBAL_LOADMORE_NUM = 18
+GLOBAL_RANK_LIST_NUM = 9
+GLOBAL_STYLE_NUM_START = 4
 
 
-# Create your views here.
-def index(request):
-    dishes = Dish.objects.all().order_by('-popularity')  # default order
+def check_id(id):
+    if int(id) >= GLOBAL_RANK_LIST_NUM or int(id) < 0:
+        return -1
+    return 0
+
+
+def get_rank_or_filter(id):
+    ret = check_id(id)
+    if (ret < 0):
+        return ret
+    rank_list = [
+        "-popularity",  # popularity ascending
+        "popularity",  # popularity descending
+        "-price",  # price ascending
+        "price",  # price descending
+        # the style id shall be maintained the same with the value defined in main.html
+        "Drop",  # style Austrian
+        "American",  # style American
+        "Indian",  # style Indian
+        "Russian",  # style Russian
+        "European",  # style Japanese
+    ]
+    return rank_list[int(id)]
+
+
+def make_view(id=0):
+    dishsets = []
+    ret = check_id(id)
+    if (ret < 0):
+        return dishsets
+    target = get_rank_or_filter(id)
+    print (target)
+    if int(id) <= GLOBAL_STYLE_NUM_START:
+        dishes = Dish.objects.all().order_by(target)  # default order
+    else:
+        style = Style.objects.filter(name__startswith=target)
+        print (style)
+        # dishes = Dish.objects.filter(Q(style__name__icontains=target))
     # dishsets = [{'dish': dish, 'image': DishImage.objects.filter(dish=dish)[0].image} for dish in dishes]
-    dishsets = []
-    cnt = 0
-    for dish in dishes:
-        if cnt >= GLOBAL_LOADMORE_NUM:
-            break
-        d = {}
-        d['dish'] = dish
-        obj = DishImage.objects.filter(dish=dish)
-        if not obj:
-            continue
-        d['image'] = obj[0].image
-        dishsets.append(d)
-        cnt += 1
-    context = {'sets': dishsets}
-    return render(request, 'main.html', context)
+    # cnt = 0
+    # for dish in dishes:
+    #     if cnt >= GLOBAL_LOADMORE_NUM:
+    #         break
+    #     d = {}
+    #     d['dish'] = dish
+    #     print (dish.style)
+    #     obj = DishImage.objects.filter(dish=dish)
+    #     if not obj:
+    #         continue
+    #     d['image'] = obj[0].image
+    #     dishsets.append(d)
+    #     cnt += 1
+    return dishsets
 
 
-def loadmore(request):
-    cookies = request.COOKIES.get('dishes')  # updated in refresh.jsx, used to maintain list of showing pic
-    dishes = Dish.objects.all().order_by('-popularity')  # default order
-    context = {}
+def get_dishes(cookies, id=0):
     dishsets = []
+    ret = check_id(id)
+    if (ret < 0):
+        return dishsets
+    target = get_rank_or_filter(id)
+    if int(id) <= GLOBAL_STYLE_NUM_START:
+        dishes = Dish.objects.all().order_by(target)  # default order
+    else:
+        dishes = Dish.objects.filter(style__name__icontains=target)
     cnt = 0
     for dish in dishes:
         if cnt >= GLOBAL_LOADMORE_NUM:
@@ -56,9 +98,36 @@ def loadmore(request):
             continue
         d['url'] = urllib.parse.unquote(obj[0].image.url)
         dishsets.append(d)
+    return dishsets
 
+
+# Create your views here.
+def index(request):
+    dishsets = make_view(0)  # default is popularity ascending
+    context = {'sets': dishsets}
+    return render(request, 'main.html', context)
+
+
+def loadmore(request, id=0):
+    print (id)
+    ret = check_id(id)
+    if (ret < 0):
+        raise Http404
+    context = {}
+    cookies = request.COOKIES.get('dishes')  # updated in refresh.jsx, used to maintain list of showing pic
+    dishsets = get_dishes(cookies, id)
     context['sets'] = dishsets
     return HttpResponse(json.dumps(context), content_type='application/json')
+
+
+def filter(request, id=0):
+    print (id)
+    ret = check_id(id)
+    if (ret < 0):
+        raise Http404
+    dishsets = make_view(id)
+    context = {'sets': dishsets, 'rank': id}
+    return render(request, 'main.html', context)
 
 
 def dish(request, id=0):
@@ -126,8 +195,8 @@ def add_ingredient(request, id):
     if cart:
         cart = Cart.objects.get(user=userProfile)
     else:
-        new_cart = Cart(user=userProfile)
-        new_cart.save()
+        cart = Cart(user=userProfile)
+        cart.save()
     ingredient = Ingredient.objects.get(id=id)
     cart_detail = RelationBetweenCartIngredient.objects.filter(cart=cart, ingredient=ingredient)
     if cart_detail:
@@ -268,7 +337,7 @@ def get_shoppinglist(request):
         ingre['name'] = ingredient.name
         ingre['id'] = ingredient.id
         ingredient_list.append(ingre)
-        #print ("name:%s, price: %0.2f, amount:%d, rate:%0.2f" % (ingredient.name, ingredient.price, detail.amount, rate))
+        # print ("name:%s, price: %0.2f, amount:%d, rate:%0.2f" % (ingredient.name, ingredient.price, detail.amount, rate))
         price = ingredient.price * detail.amount * rate
         total_price += price
 

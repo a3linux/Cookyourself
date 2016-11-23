@@ -30,6 +30,15 @@ function eraseCookie(name) {
 	createCookie(name,"",-1);
 }
 
+function get_rank_id() {
+    var id = document.getElementById("rank_id").value;
+    //default return 0
+    if (id) {
+        return id;
+    }
+    return 0;
+}
+
 function deleteAllCookies() {
     var cookies = document.cookie.split(";");
 
@@ -88,6 +97,7 @@ var DishList = React.createClass({
         return {
             all: [],            //used to store all the dishes
             dishes: [],         //used to store dishes
+            rank: 0,            //the default rank
             alreadyLogin: 0,    //already login to the page
             loading: 0          //the status of loading: 0 - not loading, 1 - loading, 2 - nothing to load
         };
@@ -125,7 +135,8 @@ var DishList = React.createClass({
         var self = this;
         var alreadyLogin = this.state.alreadyLogin; //already Login status
         var oldCookie = "";
-        var url = '/cookyourself/loadmore';
+        var id = get_rank_id();
+        var url = '/cookyourself/loadmore/' + id;
         // console.log("alreadyLogin:" + alreadyLogin);
         if (window.performance) {
             var type = performance.navigation.type;

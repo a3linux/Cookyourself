@@ -20,7 +20,7 @@
   </div>
   <div class="container">
     <div class="row">
-
+			<input type="hidden" id="rank_id" name="rank" value="{{ rank }}">
       <div class="btn-group btn-group-justified" role="group" aria-label="...">
         <div class="btn-group" role="group">
           <button type="button" class="btn btn-warning dropdown-toggle" id="dropdownMenu1"
@@ -29,12 +29,11 @@
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li><a href="#">Chinese</a></li>
-            <li><a href="#">Korean</a></li>
-            <li><a href="#">Japanese</a></li>
-            <li><a href="#">Indian</a></li>
-            <li><a href="#">American</a></li>
-            <li><a href="#">French</a></li>
+            <li><a href="{% url 'filter' 4 %}">Austrian</a></li>
+            <li><a href="{% url 'filter' 5 %}">American</a></li>
+            <li><a href="{% url 'filter' 6 %}">Indian</a></li>
+            <li><a href="{% url 'filter' 7 %}">Russian</a></li>
+            <li><a href="{% url 'filter' 8 %}">Japanese</a></li>
           </ul>
         </div>
 
@@ -45,10 +44,8 @@
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li><a href="#">Daily</a></li>
-            <li><a href="#">Weekly</a></li>
-            <li><a href="#">Monthly</a></li>
-            <li><a href="#">All the time</a></li>
+            <li><a href="{% url 'filter' 0 %}">Low to high</a></li>
+            <li><a href="{% url 'filter' 1 %}">High to Low</a></li>
           </ul>
         </div>
 
@@ -59,8 +56,8 @@
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li><a href="#">Low to high</a></li>
-            <li><a href="#">High to Low</a></li>
+            <li><a href="{% url 'filter' 2 %}">Low to high</a></li>
+            <li><a href="{% url 'filter' 3 %}">High to Low</a></li>
           </ul>
         </div>
       </div>

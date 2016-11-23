@@ -4,7 +4,7 @@ import cookyourself.views
 
 urlpatterns = [
     url(r'^$', cookyourself.views.index, name='index'),
-    url(r'^loadmore$', cookyourself.views.loadmore, name='loadmore'),
+    url(r'^loadmore/(?P<id>\d+)$', cookyourself.views.loadmore, name='loadmore'),
     url(r'^dish/(?P<id>\d+)$', cookyourself.views.dish, name='dish'),
     url(r'^shoppinglist$', cookyourself.views.shoppinglist, name='shoppinglist'),
     url(r'^recommendation$', cookyourself.views.recommendation, name='recommendation'),
@@ -16,4 +16,5 @@ urlpatterns = [
     url(r'^logout_user$', cookyourself.views.logout_user, name='logout_user'),
     url(r'^create_post$', cookyourself.views.create_post, name='create_post'),
     url(r'^update_posts/?$', cookyourself.views.update_posts),
+    url(r'^filter/(?P<id>\d+)$', cookyourself.views.filter, name='filter'),
 ]
