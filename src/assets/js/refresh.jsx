@@ -97,7 +97,7 @@ var DishList = React.createClass({
         return {
             all: [],            //used to store all the dishes
             dishes: [],         //used to store dishes
-            rank: 0,            //the default rank
+            id: 0,              //used to keep the query id
             alreadyLogin: 0,    //already login to the page
             loading: 0          //the status of loading: 0 - not loading, 1 - loading, 2 - nothing to load
         };
@@ -135,13 +135,15 @@ var DishList = React.createClass({
         var self = this;
         var alreadyLogin = this.state.alreadyLogin; //already Login status
         var oldCookie = "";
-        var id = get_rank_id();
-        var url = '/cookyourself/loadmore/' + id;
+        var oldId = this.state.id;
+        var newId = get_rank_id();
+        var url = '/cookyourself/loadmore/' + newId;
+
         // console.log("alreadyLogin:" + alreadyLogin);
         if (window.performance) {
             var type = performance.navigation.type;
             // console.log("type:" + type);
-            if (alreadyLogin == 0 && (type == 0 || type == 1 || type == 2)) { //0 - TYPE_NAVIGATE, 1 - TYPE_RELOAD, 2 - TYPE_BACK_FORWARD
+            if ((alreadyLogin == 0 && (type == 0 || type == 1 || type == 2)) || newId != oldId) { //0 - TYPE_NAVIGATE, 1 - TYPE_RELOAD, 2 - TYPE_BACK_FORWARD
                 // console.log('refresh cookies');
                 eraseCookie(dishesCookie);
                 oldCookie = readCookie(dishesCookie);
@@ -185,7 +187,8 @@ var DishList = React.createClass({
             // console.log("allCookies:" + allCookies);
 
             // update the component's state. This will trigger a render
-            self.setState({all: self.state.all.concat(dishes), loading: 0, alreadyLogin: 1});
+            self.setState({all: self.state.all.concat(dishes), loading: 0,
+                alreadyLogin: 1, id: newId});
         });
     },
 

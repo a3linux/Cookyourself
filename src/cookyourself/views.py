@@ -13,8 +13,8 @@ import json
 import random
 
 GLOBAL_LOADMORE_NUM = 18
-GLOBAL_RANK_LIST_NUM = 9
-GLOBAL_STYLE_NUM_START = 4
+GLOBAL_FILTER_START = 2
+GLOBAL_RANK_LIST_NUM = 8 #update with rank_list
 
 
 def check_id(id):
@@ -22,66 +22,66 @@ def check_id(id):
         return -1
     return 0
 
-
 def get_rank_or_filter(id):
     ret = check_id(id)
     if (ret < 0):
         return ret
     rank_list = [
+        # popularity
         "-popularity",  # popularity ascending
         "popularity",  # popularity descending
-        "-price",  # price ascending
-        "price",  # price descending
+        # category
+        "Cookies",
+        "Chocolate",
+        "Pies",
         # the style id shall be maintained the same with the value defined in main.html
-        "Drop",  # style Austrian
         "American",  # style American
-        "Indian",  # style Indian
+        "Scottish",  # style Indian
         "Russian",  # style Russian
-        "European",  # style Japanese
+        # "-price",  # price ascending
+        # "price",  # price descending
     ]
     return rank_list[int(id)]
 
 
-def make_view(id=0):
-    dishsets = []
+def get_dish_objects(id):
     ret = check_id(id)
     if (ret < 0):
-        return dishsets
+        return -1
     target = get_rank_or_filter(id)
-    print (target)
-    if int(id) <= GLOBAL_STYLE_NUM_START:
+    if int(id) < GLOBAL_FILTER_START:
         dishes = Dish.objects.all().order_by(target)  # default order
     else:
-        style = Style.objects.filter(name__startswith=target)
-        print (style)
-        # dishes = Dish.objects.filter(Q(style__name__icontains=target))
+        dishes = Dish.objects.filter(style__name__icontains=target)
+    return dishes
+
+
+def make_view(id=0):
+    dishsets = []
+    dishes = get_dish_objects(id)
+    if not dishes or dishes == -1:
+        return dishsets
     # dishsets = [{'dish': dish, 'image': DishImage.objects.filter(dish=dish)[0].image} for dish in dishes]
-    # cnt = 0
-    # for dish in dishes:
-    #     if cnt >= GLOBAL_LOADMORE_NUM:
-    #         break
-    #     d = {}
-    #     d['dish'] = dish
-    #     print (dish.style)
-    #     obj = DishImage.objects.filter(dish=dish)
-    #     if not obj:
-    #         continue
-    #     d['image'] = obj[0].image
-    #     dishsets.append(d)
-    #     cnt += 1
+    cnt = 0
+    for dish in dishes:
+        if cnt >= GLOBAL_LOADMORE_NUM:
+            break
+        d = {}
+        d['dish'] = dish
+        obj = DishImage.objects.filter(dish=dish)
+        if not obj:
+            continue
+        d['image'] = obj[0].image
+        dishsets.append(d)
+        cnt += 1
     return dishsets
 
 
 def get_dishes(cookies, id=0):
     dishsets = []
-    ret = check_id(id)
-    if (ret < 0):
+    dishes = get_dish_objects(id)
+    if not dishes or dishes == -1:
         return dishsets
-    target = get_rank_or_filter(id)
-    if int(id) <= GLOBAL_STYLE_NUM_START:
-        dishes = Dish.objects.all().order_by(target)  # default order
-    else:
-        dishes = Dish.objects.filter(style__name__icontains=target)
     cnt = 0
     for dish in dishes:
         if cnt >= GLOBAL_LOADMORE_NUM:
@@ -109,7 +109,6 @@ def index(request):
 
 
 def loadmore(request, id=0):
-    print (id)
     ret = check_id(id)
     if (ret < 0):
         raise Http404
@@ -121,7 +120,6 @@ def loadmore(request, id=0):
 
 
 def filter(request, id=0):
-    print (id)
     ret = check_id(id)
     if (ret < 0):
         raise Http404
