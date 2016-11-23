@@ -50,7 +50,6 @@
           <h5> Style: {{dish.style}} </h5>
           <h5> Calories: {{dish.calories}} </h5>
           <h5> Price: {{dish.price}} </h5>
-          <br>
           <h5 class="description">"{{dish.description}}"
           </h5>
         </div>
@@ -96,7 +95,7 @@
     <h3> Ingredients</h3>
     <hr>
     <div class="row">
-      <div class="col-lg-8 col-md-8 col-sm-8 col-xs-10">
+      <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
         <ul id="ingre-list">
           {% for iset in isets %}
           <div><a class="glyphicon glyphicon-check" id={{iset.ingredient.id}}></a>
@@ -113,25 +112,16 @@
     <hr>
     {% if tutorial.video %}
     <div class="row">
-    
-      <div id="video" class="col-lg-8 col-lg-offset-1 col-md-8 col-md-offset-1 col-sm-8 col-sm-offset-1 col-xs-12 col-xs-offset-0">
+      <div id="video" class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
         <div class="video-container">
           <div id="player" data-video={{tutorial.video}}></div>
         </div>
       </div>
     </div>
     {% endif %}
-    <div class="row">
-    <!--This div is to show how to transfer video url to video.js -->
-      <div id="video" class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-        <div class="video-container">
-          <div id="player" data-video="VaT3qsoHPQ8"></div>
-        </div>
-      </div>
-    </div>
     
     <div class="row">
-      <div class="col-lg-8">
+      <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
         <ol>
         {% for instruction in instructions %}
           <li><p class="text">{{instruction.content}}</p></li>
@@ -160,9 +150,6 @@
       <div id="post-list">
       </div>
 
-
-
-      
       <!--{% for post in posts%}
       <div class="media">
         <div class="media-left">
@@ -185,7 +172,7 @@
       </section>
       </div>
 
-  {% endblock %}
+{% endblock %}
 {% endif %}
 
 

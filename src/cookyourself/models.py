@@ -97,7 +97,10 @@ class Post(models.Model):
 
     @staticmethod
     def get_max_time():
-        return Post.objects.all().aggregate(Max('created_on'))['created_on__max'] or "1970-01-01T00:00+00:00"
+        max_time = Post.objects.all().aggregate(Max('created_on'))['created_on__max']
+        if not max_time:
+            max_time = datetime(2000, 1, 6, 15, 8, 24, 78915, tzinfo=timezone.utc)
+        return max_time
 
 class Comment(models.Model):
     author = models.ForeignKey(UserProfile)
