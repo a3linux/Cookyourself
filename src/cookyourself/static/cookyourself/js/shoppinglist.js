@@ -32,7 +32,6 @@ function handleResponse() {
     var ingredients = data["ingredients"];
     var total_price = data["price"];
 
-    //console.log("updated price:" + total_price);
     var price_obj = document.getElementById("total_price");
     price_obj.innerHTML = total_price;
 
@@ -48,5 +47,5 @@ function handleResponse() {
         list.appendChild(newIngre);
     }
 }
-// causes the sendRequest to run every 5 seconds
-window.setInterval(sendRequest, 500);
+// causes the sendRequest to run every 8 seconds
+window.setInterval(sendRequest, 800);

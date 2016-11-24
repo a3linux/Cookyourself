@@ -8,6 +8,7 @@ from django.db.models import Q
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator
+from django.urls import reverse
 
 from haystack.forms import ModelSearchForm
 from haystack.query import EmptySearchQuerySet
@@ -245,7 +246,7 @@ def add_ingredient(request, id):
         cart_detail.amount += 1
         cart_detail.save()
     else:
-        cart_detail = RelationBetweenCartIngredient.objects.create(cart=cart, ingredient=ingredient, amount=0)
+        RelationBetweenCartIngredient.objects.create(cart=cart, ingredient=ingredient, amount=1)
     return HttpResponse("")
 
 
@@ -315,33 +316,7 @@ def del_ingredient(request, id):
     except ObjectDoesNotExist:
         errors.append('The item does not exist in the cart of user:%s' % user.name)
 
-    ingredients = Ingredient.objects.all()
-    if not ingredients:
-        raise Http404
-
-    ingredient_list = []
-    total_price = 0
-    for ingredient in ingredients:
-        obj = RelationBetweenCartIngredient.objects.filter(cart=cart, ingredient=ingredient)
-        if not obj:
-            continue
-        detail = RelationBetweenCartIngredient.objects.get(cart=cart, ingredient=ingredient)
-        unit = detail.unit
-        rate = 1.0
-        if unit:
-            rate = unit.rate
-        amount = detail.amount
-        ingredient_list.append(ingredient)
-        price = ingredient.price * amount * rate
-        total_price += price
-
-    context = {
-        "ingredients": ingredient_list,
-        "price": total_price,
-        "errors": errors
-    }
-
-    return render(request, 'shoppinglist.html', context)
+    return redirect(reverse('shoppinglist'))
 
 
 @login_required
