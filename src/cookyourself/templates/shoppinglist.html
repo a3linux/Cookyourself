@@ -91,9 +91,9 @@
       <div class="jumbotron jumbotron-wide clearfix inline-headers align-h3-to-p">
         <h3>Send it to me</h3>
         <div class="form-group">
-          <input type="text" class="form-control" id="email">
+          <input id="email" type="text" class="form-control">
         </div>
-        <button class="btn btn-warning btn-lg pull-right" href="#" type="submit">
+        <button class="btn btn-warning btn-lg pull-right" onclick="sendMail(); return false" type="submit">
           <span class="glyphicon glyphicon-envelope"></span>Send
         </button>
       </div>

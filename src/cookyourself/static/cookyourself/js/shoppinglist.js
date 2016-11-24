@@ -15,12 +15,36 @@ function sendRequest() {
     req.send();
 }
 
-// Callback function reserved for each request readystatechange.
-// it will eventually parse the XML response for the request
-function handleResponse() {
-    if (req.readyState != 4 || req.status != 200) {
-        return;
-    }
+function validateEmail(email) {
+  var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(email);
+}
+
+function validate() {
+  // $("#email").text("");
+  var email = $("#email").val();
+  if (validateEmail(email)) {
+    // $("#email").text(email + " is valid :)");
+    $("#email").css("color", "green");
+  } else {
+    // $("#email").text(email + " is not valid :(");
+    $("#email").css("color", "red");
+  }
+  return false;
+}
+
+function sendMail() {
+    validate();
+    var link = "mailto:yunpengx@andrew.cmu.edu"
+             // + "?cc=myCCaddress@example.com"
+             + "&subject=" + escape("This is my subject")
+             + "&body=" + escape(document.getElementById('email').value)
+    ;
+
+    window.location.href = link;
+}
+
+function shoppingListDisplay() {
     // Removes the old shopping list items
     var list = document.getElementById("shopping-list");
     while (list.hasChildNodes()) {
@@ -49,6 +73,15 @@ function handleResponse() {
         newIngre.innerHTML = "<strong>" + amount + "&nbsp;" + "($" + price + ")" + "&nbsp;" + name + "&nbsp;" + "</strong><a class=\"pull-right icon-remove-parent\" href=\"/cookyourself/del_ingredient/" + id + "\">X</a> ";
         list.appendChild(newIngre);
     }
+}
+
+// Callback function reserved for each request readystatechange.
+// it will eventually parse the XML response for the request
+function handleResponse() {
+    if (req.readyState != 4 || req.status != 200) {
+        return;
+    }
+    shoppingListDisplay();
 }
 // causes the sendRequest to run every 8 seconds
 window.setInterval(sendRequest, 800);
