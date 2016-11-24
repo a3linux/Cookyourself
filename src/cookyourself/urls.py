@@ -18,5 +18,5 @@ urlpatterns = [
     url(r'^update_posts/?$', cookyourself.views.update_posts),
     url(r'^filter/(?P<id>\d+)$', cookyourself.views.filter, name='filter'),
     url(r'^search/', cookyourself.views.search, name='haystack_search'),
-    url(r'^print_list', cookyourself.views.print_list, name='print_list'),
+    url(r'^print_list/', cookyourself.views.print_list, name='print_list'),
 ]

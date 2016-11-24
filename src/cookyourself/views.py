@@ -366,20 +366,22 @@ def get_shoppinglist(request):
     }
     return HttpResponse(json.dumps(context), content_type='application/json')
 
+@login_required
 def print_list(request):
     # Create the HttpResponse object with the appropriate PDF headers.
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'filename="shoppinglist.pdf"'
 
-    if not request.user:
+    if False:
         products = [('name', 10) for i in range(10)]
-    else:
-        products = []
-        userProfile = UserProfile.objects.get(user=request.user)
-        cart = userProfile.cart
-        rel = RelationBetweenCartIngredient.objects.filter(cart=cart).select_related()
-        for r in rel:
-            products.append((r.ingredient.name, r.ingredient.price * r.amount * r.unit.rate))
+
+    products = []
+    userProfile = UserProfile.objects.get(user=request.user)
+    cart = userProfile.cart
+    rel = RelationBetweenCartIngredient.objects.filter(cart=cart).select_related()
+    for r in rel:
+        rate = r.unit.rate if r.unit else 1.0
+        products.append((r.ingredient.name, r.ingredient.price * r.amount * rate))
 
     pdfgen.gen_shoplist_pdf(response, products)
     return response
