@@ -4,6 +4,8 @@
 
 //send a new request to update the shopping list
 var req;
+var email_list = [];
+
 function sendRequest() {
     if (window.XMLHttpRequest) {
         req = new XMLHttpRequest();
@@ -21,27 +23,37 @@ function validateEmail(email) {
 }
 
 function validate() {
-  // $("#email").text("");
   var email = $("#email").val();
   if (validateEmail(email)) {
-    // $("#email").text(email + " is valid :)");
     $("#email").css("color", "green");
+    return true;
   } else {
-    // $("#email").text(email + " is not valid :(");
     $("#email").css("color", "red");
+    window.alert("Please input a valid email address!")
   }
   return false;
 }
 
 function sendMail() {
-    validate();
-    var link = "mailto:yunpengx@andrew.cmu.edu"
-             // + "?cc=myCCaddress@example.com"
-             + "&subject=" + escape("This is my subject")
-             + "&body=" + escape(document.getElementById('email').value)
-    ;
+    ret = validate();
+    if (!ret) {
+        return;
+    }
 
-    window.location.href = link;
+    var email = $("#email").val();
+    var subject = "Your shopping list from Cookyourself team";
+    var body = "Hi,\n" +  
+                "The following is the shopping list you created on Cookyourself:\n"
+                %s. The total price is:
+                Thanks for your support Cookyourself, we will continue offer our best service to you.
+                The Cookyourself Team" % (user_name, '\n'.join(name_list), price)"
+    var body = "This is the email body!";
+    $(location).attr('href', "mailto:" + email + "?"
+            + "&subject="
+            + encodeURIComponent("This is my subject")
+            + "&body=" 
+            + encodeURIComponent("This is my body")
+            );
 }
 
 function shoppingListDisplay() {
@@ -67,9 +79,9 @@ function shoppingListDisplay() {
         var price = ingredients[i].price;
         var amount = ingredients[i].amount;
 
+
         var newIngre = document.createElement("li");
         newIngre.className += "list-group-item";
-        // newIngre.innerHTML = name + "<span class=\"pull-right icon-remove-parent\"><button class=\"btn-list-remove\" href=\"/cookyourself/del_ingredient/" + id + "\"><span class=\"glyphicon glyphicon-remove icon-remove\"></span></button></span>";
         newIngre.innerHTML = "<strong>" + amount + "&nbsp;" + "($" + price + ")" + "&nbsp;" + name + "&nbsp;" + "</strong><a class=\"pull-right icon-remove-parent\" href=\"/cookyourself/del_ingredient/" + id + "\">X</a> ";
         list.appendChild(newIngre);
     }

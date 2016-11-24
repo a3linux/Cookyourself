@@ -5,14 +5,14 @@ function addIngredient(iid) {
         .done(function (data) {
             //updateComment(id);
             //hide the + button or make it grey?
-            console.log("ingredient added:" + iid + "for dish:" + did);
+            //console.log("ingredient added:" + iid + "for dish:" + did);
         });
 }
 
 function eventsHandle() {
     $("#ingre-list").on("click", ".glyphicon", function (event) {
         var iid = $(this).attr("id");
-        console.log("iid:" + iid);
+        //console.log("iid:" + iid);
         //addAllIngredient();
         addIngredient(iid);
     });

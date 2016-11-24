@@ -229,8 +229,7 @@ def add_ingredient(request, iid): #did: dish id, iid: ingredient id
     errors = []
     user = request.user
     if request.method != 'POST' or 'dishid' not in request.POST:
-        target = "cookyourself/dish/" + str(did)
-        return redirect(target)
+        return HttpResponse("")
     else:
         did = request.POST['dishid']
 
@@ -263,8 +262,7 @@ def add_ingredient(request, iid): #did: dish id, iid: ingredient id
         cart_detail.save()
     else:
         RelationBetweenCartIngredient.objects.create(cart=cart, ingredient=ingredient, amount=ingre_amount)
-
-    target = "cookyourself/dish/" + str(did)
+    target = "/cookyourself/dish/" + str(did)
     return redirect(target)
 
 
@@ -360,10 +358,10 @@ def get_shoppinglist(request):
         detail = RelationBetweenCartIngredient.objects.get(cart=cart, ingredient=ingredient)
         ingre['name'] = ingredient.name
         ingre['id'] = ingredient.id
-        ingre['price'] = float("{0:.2f}".format(ingredient.price))
+        ingre_price = ingredient.price * detail.amount
+        ingre['price'] = float("{0:.2f}".format(ingre_price))
         ingre['amount'] = detail.amount
         ingredient_list.append(ingre)
-        # print ("name:%s, price: %0.2f, amount:%d, rate:%0.2f" % (ingredient.name, ingredient.price, detail.amount, rate))
         price = ingredient.price * detail.amount
         total_price += price
     total_price=float("{0:.2f}".format(total_price))
