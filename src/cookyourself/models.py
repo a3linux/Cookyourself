@@ -127,8 +127,14 @@ class RelationBetweenDishIngredient(models.Model):
     unit = models.ForeignKey(Unit, blank=True, null=True)
 
     def __str__(self):
-        return str(self.dish) + " requires {:.2f} ".format(self.amount) + \
-        str(self.unit.name) + ' of ' + str(self.ingredient)
+        dish = str(self.dish)
+        amount = self.amount
+        unit = self.unit.name if self.unit else None
+        ingred = str(self.ingredient)
+        if unit:
+            return "{} requires {:.2f} {} of {}".format(dish, amount, unit, ingred)
+        else:
+            return "{} requires {:.2f} {}".format(dish, amount, ingred)
 
 class CrawlerRecord(models.Model):
     url = models.URLField()
