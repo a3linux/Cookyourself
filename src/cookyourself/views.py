@@ -381,7 +381,9 @@ def print_list(request):
     rel = RelationBetweenCartIngredient.objects.filter(cart=cart).select_related()
     for r in rel:
         rate = r.unit.rate if r.unit else 1.0
-        products.append((r.ingredient.name, r.ingredient.price * r.amount * rate))
+        if rate != 1:
+            raise ValueError(str(r))
+        products.append((r.ingredient.name, r.ingredient.price*r.amount*rate))
 
     pdfgen.gen_shoplist_pdf(response, products)
     return response
