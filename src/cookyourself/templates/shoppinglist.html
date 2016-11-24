@@ -53,7 +53,7 @@
 
         <ul id="shopping-list" class="list-group">
              {% for ingredient in ingredients %}
-          <li href="#" class="list-group-item">{{ ingredient.name }}
+             <li href="#" class="list-group-item"><strong>{{ ingredient.name }}</strong>
             <a class="pull-right icon-remove-parent">X</a>
           </li>
             {% endfor %}
@@ -95,8 +95,8 @@
 {#            <p class="text-right">$30</p>#}
 {#          </div>#}
 {#        </div>#}
-        <h3>Total</h3>
-        <span class="pull-right"><p id="total_price">${{ price }}</p></span>
+        <h3>Total ($)</h3>
+        <span class="pull-right"><p id="total_price">{{ price }}</p></span>
       </div>
 
       <div class="jumbotron jumbotron-wide clearfix inline-headers align-h3-to-p">

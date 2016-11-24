@@ -33,17 +33,20 @@ function handleResponse() {
     var total_price = data["price"];
 
     var price_obj = document.getElementById("total_price");
+    price_obj.className += "text";
     price_obj.innerHTML = total_price;
 
     // Adds each new ingredient item to the shopping list
     for (var i = 0; i < ingredients.length; i++) {
         var id = ingredients[i].id;
         var name = ingredients[i].name;
+        var price = ingredients[i].price;
+        var amount = ingredients[i].amount;
 
         var newIngre = document.createElement("li");
         newIngre.className += "list-group-item";
         // newIngre.innerHTML = name + "<span class=\"pull-right icon-remove-parent\"><button class=\"btn-list-remove\" href=\"/cookyourself/del_ingredient/" + id + "\"><span class=\"glyphicon glyphicon-remove icon-remove\"></span></button></span>";
-        newIngre.innerHTML = name + "<a class=\"pull-right icon-remove-parent\" href=\"/cookyourself/del_ingredient/" + id + "\">X</a> ";
+        newIngre.innerHTML = "<strong>" + amount + "&nbsp;" + "($" + price + ")" + "&nbsp;" + name + "&nbsp;" + "</strong><a class=\"pull-right icon-remove-parent\" href=\"/cookyourself/del_ingredient/" + id + "\">X</a> ";
         list.appendChild(newIngre);
     }
 }

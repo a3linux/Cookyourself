@@ -284,7 +284,7 @@ def shoppinglist(request):
         ingredient_list.append(ingredient)
         price = ingredient.price * detail.amount * rate
         total_price += price
-
+    total_price=float("{0:.2f}".format(total_price))
     context = {
         "ingredients": ingredient_list,
         "price": total_price,
@@ -352,11 +352,13 @@ def get_shoppinglist(request):
             rate = unit.rate
         ingre['name'] = ingredient.name
         ingre['id'] = ingredient.id
+        ingre['price'] = float("{0:.2f}".format(ingredient.price))
+        ingre['amount'] = detail.amount
         ingredient_list.append(ingre)
         # print ("name:%s, price: %0.2f, amount:%d, rate:%0.2f" % (ingredient.name, ingredient.price, detail.amount, rate))
         price = ingredient.price * detail.amount * rate
         total_price += price
-
+    total_price=float("{0:.2f}".format(total_price))
     context = {
         "ingredients": ingredient_list,
         "price": total_price,
