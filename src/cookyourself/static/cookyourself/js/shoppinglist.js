@@ -4,7 +4,7 @@
 
 //send a new request to update the shopping list
 var req;
-
+var shoppingInventory = "";
 function sendRequest() {
     if (window.XMLHttpRequest) {
         req = new XMLHttpRequest();
@@ -33,22 +33,6 @@ function validate() {
     return false;
 }
 
-function generateShoppingInventory() {
-    var data = JSON.parse(req.responseText);
-    var ingredients = data["ingredients"];
-    var total_price = data["price"];
-    var list = [];
-
-    for (var i = 0; i < ingredients.length; i++) {
-        var item = "";
-        item = [ingredients[i].amount, ingredients[i].price, ingredients[i].name].join("\t");
-        list.append(item);
-    }
-    var shoppingInventory = list.join("\n");
-    shoppingInventory += "The total price is: \t" + total_price + "\n";
-    return shoppingInventory;
-}
-
 function sendMail() {
     ret = validate();
     if (!ret) {
@@ -57,9 +41,8 @@ function sendMail() {
 
     var email = $("#email").val();
     var subject = "Your shopping list from Cookyourself team";
-    var shoppingInventory = generateShoppingInventory();
     var body = "Hi,\n" +
-        "The following is the shopping list you created on Cookyourself:\n"
+        "The following is the shopping list you created on Cookyourself:\n\n"
         + shoppingInventory +
         "Thanks for your support Cookyourself, we will continue offer our best service to you.\n" +
         "The Cookyourself Team";
@@ -87,19 +70,26 @@ function shoppingListDisplay() {
     price_obj.className += "text";
     price_obj.innerHTML = total_price;
 
+    var tmp = [];
+    shoppingInventory = "";
     // Adds each new ingredient item to the shopping list
     for (var i = 0; i < ingredients.length; i++) {
         var id = ingredients[i].id;
         var name = ingredients[i].name;
         var price = ingredients[i].price;
         var amount = ingredients[i].amount;
-
+        var item = "";
+        var price_item = ['($', price, ')'].join("");
+        item = [amount, price_item, name].join("\t");
+        tmp.push(item);
 
         var newIngre = document.createElement("li");
         newIngre.className += "list-group-item";
         newIngre.innerHTML = "<strong>" + amount + "&nbsp;" + "($" + price + ")" + "&nbsp;" + name + "&nbsp;" + "</strong><a class=\"pull-right icon-remove-parent\" href=\"/cookyourself/del_ingredient/" + id + "\">X</a> ";
         list.appendChild(newIngre);
     }
+    shoppingInventory = tmp.join("\n");
+    shoppingInventory += "\nThe total price is: $" + total_price + "\n\n";
 }
 
 // Callback function reserved for each request readystatechange.
