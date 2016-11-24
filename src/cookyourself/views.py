@@ -16,7 +16,6 @@ from haystack.query import EmptySearchQuerySet
 import urllib
 import json
 import random
-import string
 
 from cookyourself.models import *
 from cookyourself.forms import *
@@ -369,11 +368,19 @@ def get_shoppinglist(request):
 
 def print_list(request):
     # Create the HttpResponse object with the appropriate PDF headers.
-    filename = ''.join([random.choice(string.ascii_letters + string.digits) for n in xrange(16)]) 
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'filename="{}.pdf"'.format(filename)
+    response['Content-Disposition'] = 'filename="shoppinglist.pdf"'
 
-    products = [('name', 10) for i in range(10)]
+    if not request.user:
+        products = [('name', 10) for i in range(10)]
+    else:
+        products = []
+        userProfile = UserProfile.objects.get(user=request.user)
+        cart = userProfile.cart
+        rel = RelationBetweenCartIngredient.objects.filter(cart=cart).select_related()
+        for r in rel:
+            products.append((r.ingredient.name, r.ingredient.price * r.amount * r.unit.rate))
+
     pdfgen.gen_shoplist_pdf(response, products)
     return response
 
