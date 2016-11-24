@@ -1,6 +1,7 @@
-function addIngredient(did, iid) {
+function addIngredient(iid) {
     var csrftoken = getCookie('csrftoken');
-    $.post("/cookyourself/add_ingredient/" + did + "/" + iid, {csrfmiddlewaretoken: csrftoken})
+    var did = document.getElementById("dish_id").value;
+    $.post("/cookyourself/add_ingredient/" + iid, {dishid: did, csrfmiddlewaretoken: csrftoken})
         .done(function (data) {
             //updateComment(id);
             //hide the + button or make it grey?
@@ -10,11 +11,10 @@ function addIngredient(did, iid) {
 
 function eventsHandle() {
     $("#ingre-list").on("click", ".glyphicon", function (event) {
-        var did = document.getElementById("dish_id").value;
         var iid = $(this).attr("id");
-        console.log("did:" +did + "iid:" + iid);
+        console.log("iid:" + iid);
         //addAllIngredient();
-        addIngredient(did, iid);
+        addIngredient(iid);
     });
 }
 

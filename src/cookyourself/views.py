@@ -225,9 +225,15 @@ def profile(request, id=0):
 
 @login_required
 @transaction.atomic
-def add_ingredient(request, did, iid): #did: dish id, iid: ingredient id
+def add_ingredient(request, iid): #did: dish id, iid: ingredient id
     errors = []
     user = request.user
+    if request.method != 'POST' or 'dishid' not in request.POST:
+        target = "cookyourself/dish/" + str(did)
+        return redirect(target)
+    else:
+        did = request.POST['dishid']
+
     userProfile = UserProfile.objects.filter(user=user)
     if len(userProfile) == 0:
         errors.append('This user does not exist')
