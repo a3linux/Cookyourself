@@ -4,7 +4,6 @@
 
 //send a new request to update the shopping list
 var req;
-var email_list = [];
 
 function sendRequest() {
     if (window.XMLHttpRequest) {
@@ -18,20 +17,36 @@ function sendRequest() {
 }
 
 function validateEmail(email) {
-  var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return re.test(email);
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
 }
 
 function validate() {
-  var email = $("#email").val();
-  if (validateEmail(email)) {
-    $("#email").css("color", "green");
-    return true;
-  } else {
-    $("#email").css("color", "red");
-    window.alert("Please input a valid email address!")
-  }
-  return false;
+    var email = $("#email").val();
+    if (validateEmail(email)) {
+        $("#email").css("color", "green");
+        return true;
+    } else {
+        $("#email").css("color", "red");
+        window.alert("Please input a valid email address!")
+    }
+    return false;
+}
+
+function generateShoppingInventory() {
+    var data = JSON.parse(req.responseText);
+    var ingredients = data["ingredients"];
+    var total_price = data["price"];
+    var list = [];
+
+    for (var i = 0; i < ingredients.length; i++) {
+        var item = "";
+        item = [ingredients[i].amount, ingredients[i].price, ingredients[i].name].join("\t");
+        list.append(item);
+    }
+    var shoppingInventory = list.join("\n");
+    shoppingInventory += "The total price is: \t" + total_price + "\n";
+    return shoppingInventory;
 }
 
 function sendMail() {
@@ -42,18 +57,18 @@ function sendMail() {
 
     var email = $("#email").val();
     var subject = "Your shopping list from Cookyourself team";
-    var body = "Hi,\n" +  
-                "The following is the shopping list you created on Cookyourself:\n"
-                %s. The total price is:
-                Thanks for your support Cookyourself, we will continue offer our best service to you.
-                The Cookyourself Team" % (user_name, '\n'.join(name_list), price)"
-    var body = "This is the email body!";
+    var shoppingInventory = generateShoppingInventory();
+    var body = "Hi,\n" +
+        "The following is the shopping list you created on Cookyourself:\n"
+        + shoppingInventory +
+        "Thanks for your support Cookyourself, we will continue offer our best service to you.\n" +
+        "The Cookyourself Team";
     $(location).attr('href', "mailto:" + email + "?"
-            + "&subject="
-            + encodeURIComponent("This is my subject")
-            + "&body=" 
-            + encodeURIComponent("This is my body")
-            );
+        + "&subject="
+        + encodeURIComponent(subject)
+        + "&body="
+        + encodeURIComponent(body)
+    );
 }
 
 function shoppingListDisplay() {
