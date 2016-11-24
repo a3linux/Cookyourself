@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.db import transaction
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import login, logout
@@ -226,9 +226,14 @@ def profile(request, id=0):
 
 @login_required
 @transaction.atomic
-def add_ingredient(request, id):
+def add_ingredient(request, iid): #did: dish id, iid: ingredient id
     errors = []
     user = request.user
+    if request.method != 'POST' or 'dishid' not in request.POST:
+        return HttpResponse("")
+    else:
+        did = request.POST['dishid']
+
     userProfile = UserProfile.objects.filter(user=user)
     if len(userProfile) == 0:
         errors.append('This user does not exist')
@@ -240,15 +245,26 @@ def add_ingredient(request, id):
     else:
         cart = Cart(user=userProfile)
         cart.save()
-    ingredient = Ingredient.objects.get(id=id)
+    dish = get_object_or_404(Dish, id=did)
+    ingredient = get_object_or_404(Ingredient, id=iid)
+    dish_detail = RelationBetweenDishIngredient.objects.filter(dish=dish, ingredient=ingredient)
+    ingre_amount = 0 # default
+    if dish_detail:
+        dish_detail = dish_detail[0]
+        unit = dish_detail.unit
+        rate = 1
+        if unit:
+            rate = dish_detail.unit.rate
+        ingre_amount = rate * dish_detail.amount
     cart_detail = RelationBetweenCartIngredient.objects.filter(cart=cart, ingredient=ingredient)
     if cart_detail:
         cart_detail = cart_detail[0]
-        cart_detail.amount += 1
+        cart_detail.amount += ingre_amount
         cart_detail.save()
     else:
-        RelationBetweenCartIngredient.objects.create(cart=cart, ingredient=ingredient, amount=1)
-    return HttpResponse("")
+        RelationBetweenCartIngredient.objects.create(cart=cart, ingredient=ingredient, amount=ingre_amount)
+    target = "/cookyourself/dish/" + str(did)
+    return redirect(target)
 
 
 @login_required
@@ -277,20 +293,14 @@ def shoppinglist(request):
         if not obj:
             continue
         detail = RelationBetweenCartIngredient.objects.get(cart=cart, ingredient=ingredient)
-        unit = detail.unit
-        rate = 1.0
-        if unit:
-            rate = unit.rate
-
         ingredient_list.append(ingredient)
-        price = ingredient.price * detail.amount * rate
+        price = ingredient.price * detail.amount
         total_price += price
     total_price=float("{0:.2f}".format(total_price))
     context = {
         "ingredients": ingredient_list,
         "price": total_price,
     }
-
     return render(request, 'shoppinglist.html', context)
 
 
@@ -347,17 +357,13 @@ def get_shoppinglist(request):
         if not obj:
             continue
         detail = RelationBetweenCartIngredient.objects.get(cart=cart, ingredient=ingredient)
-        unit = detail.unit
-        rate = 1.0
-        if unit:
-            rate = unit.rate
         ingre['name'] = ingredient.name
         ingre['id'] = ingredient.id
-        ingre['price'] = float("{0:.2f}".format(ingredient.price))
+        ingre_price = ingredient.price * detail.amount
+        ingre['price'] = float("{0:.2f}".format(ingre_price))
         ingre['amount'] = detail.amount
         ingredient_list.append(ingre)
-        # print ("name:%s, price: %0.2f, amount:%d, rate:%0.2f" % (ingredient.name, ingredient.price, detail.amount, rate))
-        price = ingredient.price * detail.amount * rate
+        price = ingredient.price * detail.amount
         total_price += price
     total_price=float("{0:.2f}".format(total_price))
     context = {

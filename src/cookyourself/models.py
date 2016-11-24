@@ -124,7 +124,7 @@ class RelationBetweenDishIngredient(models.Model):
     dish = models.ForeignKey(Dish, on_delete=models.CASCADE, related_name='dish')
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE, related_name='ingredient')
     amount = models.FloatField(blank=True, null=True)
-    unit = models.ForeignKey(Unit, blank=True, null=True)
+    unit = models.ForeignKey(Unit, blank=True, null=True) #original cup, bottle
 
     def __str__(self):
         dish = str(self.dish)
@@ -156,8 +156,8 @@ class Cart(models.Model):
 class RelationBetweenCartIngredient(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='cart')
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE, related_name='ingre')
-    amount = models.FloatField(blank=True, null=True)
-    unit = models.ForeignKey(Unit, blank=True, null=True)
+    amount = models.IntegerField(blank=True, null=True)
+    unit = models.ForeignKey(Unit, blank=True, null=True)  #general unit, g
 
     def __str__(self):
         cart = str(self.cart)

@@ -1,19 +1,20 @@
-function addIngredient(id) {
+function addIngredient(iid) {
     var csrftoken = getCookie('csrftoken');
-    $.post("/cookyourself/add_ingredient/" + id, {csrfmiddlewaretoken: csrftoken})
+    var did = document.getElementById("dish_id").value;
+    $.post("/cookyourself/add_ingredient/" + iid, {dishid: did, csrfmiddlewaretoken: csrftoken})
         .done(function (data) {
             //updateComment(id);
             //hide the + button or make it grey?
-            console.log("ingredient added:" + id);
+            //console.log("ingredient added:" + iid + "for dish:" + did);
         });
 }
 
 function eventsHandle() {
     $("#ingre-list").on("click", ".glyphicon", function (event) {
-        var id = $(this).attr("id");
-        // console.log(id);
+        var iid = $(this).attr("id");
+        //console.log("iid:" + iid);
         //addAllIngredient();
-        addIngredient(id);
+        addIngredient(iid);
     });
 }
 
