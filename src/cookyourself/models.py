@@ -7,7 +7,7 @@ from django.template import Template, Context, loader
 
 # Create your models here.
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, related_name='user',blank=True, null=True, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, related_name='profile',blank=True, null=True, on_delete=models.CASCADE)
     userid = models.CharField(max_length=1024, blank=True, null=True)
     rank = models.IntegerField(blank=True, null=True)
     photo = models.ImageField(upload_to='img/', blank=True, null=True)
