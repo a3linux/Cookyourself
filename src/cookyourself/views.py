@@ -129,10 +129,55 @@ def loadmore(request, id=0):
     return HttpResponse(json.dumps(context), content_type='application/json')
 
 
-def search(request, template='search/search.html', load_all=True, 
-        form_class=ModelSearchForm, searchqueryset=None, extra_context=None, 
+def search(request, template='main.html', load_all=True,
+        form_class=ModelSearchForm, searchqueryset=None, extra_context=None,
         results_per_page=None):
-    
+    query = ''
+    results = EmptySearchQuerySet()
+    dishsets = []
+    if request.GET.get('q'):
+        form = form_class(request.GET, searchqueryset=searchqueryset, load_all=load_all)
+
+        if form.is_valid():
+            query = form.cleaned_data['q']
+            results = form.search()
+    else:
+        form = form_class(searchqueryset=searchqueryset, load_all=load_all)
+
+    paginator = Paginator(results, results_per_page or RESULTS_PER_PAGE)
+    try:
+        page = paginator.page(int(request.GET.get('page', 1)))
+    except InvalidPage:
+        raise Http404("No such page of results!")
+
+    for result in page.object_list:
+        dish = result.object
+        img = DishImage.objects.filter(dish=dish)
+        if not img:
+            continue
+
+        d = dict()
+        d['url'] = urllib.parse.unquote(img[0].image.url)
+        d['id'] = dish.id
+        d['name'] = dish.name
+        dishsets.append(d)
+
+    print(dishsets)
+    context = {
+        # 'form': form,
+        # 'page': page,
+        # 'paginator': paginator,
+        # 'query': query,
+        # 'suggestion': None,
+        'sets': dishsets,
+    }
+    return render(request, template, context)
+
+
+def search_debug(request, template='search/search.html', load_all=True,
+        form_class=ModelSearchForm, searchqueryset=None, extra_context=None,
+        results_per_page=None):
+
     query = ''
     results = EmptySearchQuerySet()
     if request.GET.get('q'):

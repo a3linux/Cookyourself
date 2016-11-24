@@ -20,17 +20,17 @@ $(document).ready(function () {
    $.getScript('//connect.facebook.net/en_US/sdk.js', function(){
     FB.init({
        appId      : '945239262274790',
-      cookie     : true,  // enable cookies to allow the server to access 
+      cookie     : true,  // enable cookies to allow the server to access
                         // the session
        xfbml      : true,  // parse social plugins on this page
        version    : 'v2.8' // use graph api version 2.8
-    }); 
-    checkLoginState(); 
+    });
+    checkLoginState();
   });
   document.getElementById("timestamp").innerHTML = String(new Date().getFullYear());
   eventHandle();
   // CSRF set-up copied from Django docs
-  function getCookie(name) {  
+  function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie != '') {
         var cookies = document.cookie.split(';');
@@ -54,23 +54,23 @@ $(document).ready(function () {
 });
 
 function eventHandle(){
-  $("#fb-login").on("click", function( event ) { 
+  $("#fb-login").on("click", function( event ) {
         event.preventDefault();
         FB.login(function(response){
          // console.log("fb-login");
           //console.log(response);
-          checkLoginState();     
+          checkLoginState();
 
         },{scope: 'public_profile,email,user_location'});
-   });
-    $("#fb-signup").on("click", function( event ) { 
+  });
+  $("#fb-signup").on("click", function( event ) {
         event.preventDefault();
         FB.login(function(response){
               checkLoginState();
-              
+
         }, {scope: 'public_profile,email,user_location'});
-   });
-    $("#fb-logout").on("click", function( event ) { 
+  });
+  $("#fb-logout").on("click", function( event ) {
         event.preventDefault();
         FB.logout(function(response){
            // Handle the response object
@@ -79,10 +79,21 @@ function eventHandle(){
           // console.log(current_url);
            if (current_url=="http://54.244.78.192/cookyourself/" || current_url=="http://54.244.78.192/")
             checkLoginState();
-           else 
-            window.location.href = "/cookyourself";        
-        }); 
-   }); 
+           else
+            window.location.href = "/cookyourself";
+        });
+  });
+  $('#navbar-search-input').keypress(function(event){
+    // If RNTER key is pressed
+    if (event.which == 13){
+      event.preventDefault();
+      var target = event.target||event.srcElement;
+      var content = target.value.trim();
+      if(content) {
+        window.location.replace("/cookyourself/search/?q="+content);
+      }
+    }
+  });
 }
 
 function getUserInfo(callback) {
@@ -101,7 +112,7 @@ function getUserInfo(callback) {
     }
     if(response.location){
       l=response.location.name;
-    }  
+    }
     callback(addUser);
   });
 }
@@ -112,7 +123,7 @@ function GetPic(callback) {
      // console.log(response);
         /* handle the result */
       p_url=response.data['url'];
-      document.getElementById("portrait").src = p_url; 
+      document.getElementById("portrait").src = p_url;
       $('#more').hide();
       $('#portrait').show();
       document.getElementById("user_photo").style= "padding-top: 8px; padding-bottom: 8px;";
@@ -133,17 +144,17 @@ function addUser(){
       gender: g,
       location:l
     })
-    .done(function(data) 
-      { 
-       // console.log("login success"); 
+    .done(function(data)
+      {
+       // console.log("login success");
         var usrid=data['usrid'];
         document.getElementById("profile_link").href ="/cookyourself/profile/"+ usrid;
-      }); 
+      });
 }
 
 function logoutUser() {
   $.post("/cookyourself/logout_user")
-  //.done(function() { //console.log("logout success"); }); 
+  //.done(function() { //console.log("logout success"); });
 }
 
 
@@ -157,36 +168,36 @@ function logoutUser() {
     // for FB.getLoginStatus().
     if (response.status === 'connected') {
       // Logged into your app and Facebook.
-      $("#fb-logout").show(); 
+      $("#fb-logout").show();
       $("#profile").show();
-      $("#fb-login").hide(); 
+      $("#fb-login").hide();
       $("#fb-signup").hide();
       getUserInfo(GetPic);
 
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
-      $("#fb-signup").show(); 
-      $("#fb-login").hide(); 
+      $("#fb-signup").show();
+      $("#fb-login").hide();
       $("#profile").hide();
-      $("#fb-logout").hide(); 
+      $("#fb-logout").hide();
       $('#portrait').hide();
       $('#more').show();
       $('#portrait').removeAttr('src');
       //document.getElementById("portrait").style= "width: 33px; height: 18px;";
-      document.getElementById("user_photo").style= "padding-top: 14px; padding-bottom: 2px;";  
+      document.getElementById("user_photo").style= "padding-top: 14px; padding-bottom: 2px;";
     } else {
       // The person is not logged into Facebook, so we're not sure if
       // they are logged into this app or not.
-        $("#fb-signup").show(); 
+        $("#fb-signup").show();
         $("#fb-login").show();
-        $("#fb-logout").hide(); 
+        $("#fb-logout").hide();
         $("#profile").hide();
         $('#portrait').hide();
         $('#more').show();
         $('#portrait').removeAttr('src');
         //document.getElementById("portrait").style= "width: 33px; height: 18px;";
         document.getElementById("user_photo").style= "padding-top: 14px; padding-bottom: 2px;";
-        //document.getElementById("user_photo").src="";  
+        //document.getElementById("user_photo").src="";
     }
   }
 
@@ -200,9 +211,9 @@ function logoutUser() {
     });
   }
 
-  
 
-  // Now that we've initialized the JavaScript SDK, we call 
+
+  // Now that we've initialized the JavaScript SDK, we call
   // FB.getLoginStatus().  This function gets the state of the
   // person visiting this page and can return one of three states to
   // the callback you provide.  They can be:

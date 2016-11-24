@@ -12,7 +12,7 @@
   <!-- jQuery library -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   {% load static from staticfiles %}
-  
+
   <script src="{% static 'cookyourself/js/jquery-3.1.1.min.js' %}" type="text/javascript"></script>
   <!-- Latest compiled JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -50,11 +50,12 @@
           <span class="icon-bar"></span>
         </button>
 
-      <a class="navbar-left" href="# "><img alt="Cookyourself" height="50px"
-        src="{% static 'cookyourself/images/cookyourself_logo.png' %}"></a>
+        <a class="navbar-left" href="#">
+          <img alt="Cookyourself" height="50px" src="{% static 'cookyourself/images/cookyourself_logo.png' %}">
+        </a>
         <a class="navbar-brand" href="{% url 'index' %}">Cookyourself</a>
         <form class="navbar-left navbar-search">
-          <input type="text" class="form-control" placeholder="Find a recipe">
+          <input id="navbar-search-input" type="text" class="form-control" placeholder="Find a recipe">
         </form>
       </div>
 
