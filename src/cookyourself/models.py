@@ -116,7 +116,7 @@ class Comment(models.Model):
 class Unit(models.Model):
     name = models.CharField(max_length=128)
     rate = models.FloatField(blank=True, null=True)
-
+    
     def __str_(self):
         return self.name
 
@@ -128,7 +128,7 @@ class RelationBetweenDishIngredient(models.Model):
 
     def __str__(self):
         return str(self.dish) + " requires {:.2f} ".format(self.amount) + \
-        str(self.unit) + ' of ' + str(self.ingredient)
+        str(self.unit.name) + ' of ' + str(self.ingredient)
 
 class CrawlerRecord(models.Model):
     url = models.URLField()
