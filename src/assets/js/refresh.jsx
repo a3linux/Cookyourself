@@ -39,6 +39,10 @@ function get_rank_id() {
     return 0;
 }
 
+function get_query() {
+    return document.getElementById("query_id").value;
+}
+
 function deleteAllCookies() {
     var cookies = document.cookie.split(";");
 
@@ -48,6 +52,23 @@ function deleteAllCookies() {
         var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
         document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
     }
+}
+
+// CSRF set-up copied from Django docs
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
 }
 
 var Dish = React.createClass({
@@ -98,6 +119,7 @@ var DishList = React.createClass({
             all: [],            //used to store all the dishes
             dishes: [],         //used to store dishes
             id: 0,              //used to keep the query id
+            page: 1,            //used to keep the page num
             alreadyLogin: 0,    //already login to the page
             loading: 0          //the status of loading: 0 - not loading, 1 - loading, 2 - nothing to load
         };
@@ -158,7 +180,11 @@ var DishList = React.createClass({
         // Empty the current array. This will trigger a render
         this.setState({dishes: [], loading: 1});
         var newCookie = [];
-        $.get(url).done(function (data) {
+        var csrftoken = getCookie('csrftoken');
+        var query = get_query();
+        var oldPage = this.state.page;
+        $.post(url, {query: query, page: oldPage, csrfmiddlewaretoken: csrftoken})
+            .done(function (data) {
             if (!data || !data.sets || !data.sets.length) {
                 // console.log("no more dishes");
                 self.setState({loading: 2});
@@ -188,7 +214,7 @@ var DishList = React.createClass({
 
             // update the component's state. This will trigger a render
             self.setState({all: self.state.all.concat(dishes), loading: 0,
-                alreadyLogin: 1, id: newId});
+                alreadyLogin: 1, id: newId, page: oldPage+1});
         });
     },
 

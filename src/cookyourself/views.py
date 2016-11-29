@@ -12,6 +12,7 @@ from django.urls import reverse
 
 from haystack.forms import ModelSearchForm
 from haystack.query import EmptySearchQuerySet
+from django.core.paginator import InvalidPage
 
 import urllib
 import json
@@ -22,8 +23,8 @@ from cookyourself.forms import *
 from cookyourself import pdfgen
 
 GLOBAL_LOADMORE_NUM = 18
-GLOBAL_FILTER_START = 2
-GLOBAL_RANK_LIST_NUM = 8 #update with rank_list
+GLOBAL_FILTER_START = 3
+GLOBAL_RANK_LIST_NUM = 9 #update with rank_list
 RESULTS_PER_PAGE = getattr(settings, 'HAYSTACK_SEARCH_RESULTS_PER_PAGE', 20)
 
 
@@ -37,6 +38,7 @@ def get_rank_or_filter(id):
     if (ret < 0):
         return ret
     rank_list = [
+        "search",
         # popularity
         "-popularity",  # popularity ascending
         "popularity",  # popularity descending
@@ -66,7 +68,7 @@ def get_dish_objects(id):
     return dishes
 
 
-def make_view(id=0):
+def make_view(id=1):
     dishsets = []
     dishes = get_dish_objects(id)
     if not dishes or dishes == -1:
@@ -87,7 +89,7 @@ def make_view(id=0):
     return dishsets
 
 
-def get_dishes(cookies, id=0):
+def get_dishes(cookies, id=1):
     dishsets = []
     dishes = get_dish_objects(id)
     if not dishes or dishes == -1:
@@ -113,8 +115,8 @@ def get_dishes(cookies, id=0):
 
 # Create your views here.
 def index(request):
-    dishsets = make_view(0)  # default is popularity ascending
-    context = {'sets': dishsets}
+    default_rank_id = 1 #popularity ascending
+    context = {'rank': default_rank_id}
     return render(request, 'main.html', context)
 
 
@@ -123,34 +125,63 @@ def loadmore(request, id=0):
     if (ret < 0):
         raise Http404
     context = {}
-    cookies = request.COOKIES.get('dishes')  # updated in refresh.jsx, used to maintain list of showing pic
-    dishsets = get_dishes(cookies, id)
+    if int(id) != 0:
+        cookies = request.COOKIES.get('dishes')  # updated in refresh.jsx, used to maintain list of showing pic
+        dishsets = get_dishes(cookies, id)
+    else:
+        query = request.POST.get('query')
+        page = request.POST.get('page')
+        dishsets = search(req=query, page=page)
     context['sets'] = dishsets
     return HttpResponse(json.dumps(context), content_type='application/json')
 
 
-def search(request, template='main.html', load_all=True,
-        form_class=ModelSearchForm, searchqueryset=None, extra_context=None,
-        results_per_page=None):
+def filter(request, id=0):
     query = ''
-    results = EmptySearchQuerySet()
-    dishsets = []
+    ret = check_id(id)
+    if (ret < 0):
+        raise Http404
+    if int(id) == 0:
+        query = get_query(request)
+    context = {'rank': id, 'query': query}
+    return render(request, 'main.html', context)
+
+
+def get_query(request, load_all=True, form_class=ModelSearchForm, searchqueryset=None):
+    query = ''
     if request.GET.get('q'):
         form = form_class(request.GET, searchqueryset=searchqueryset, load_all=load_all)
-
         if form.is_valid():
             query = form.cleaned_data['q']
-            results = form.search()
+
+    return query
+
+
+def search(req, load_all=True,
+        form_class=ModelSearchForm, searchqueryset=None, extra_context=None,
+        results_per_page=None, page=1):
+    # query = ''
+    results = EmptySearchQuerySet()
+    dishsets = []
+    buf = dict()
+    buf['q'] = req
+    form = form_class(buf, searchqueryset=searchqueryset, load_all=load_all)
+    if form.is_valid():
+        # query = form.cleaned_data['q']
+        results = form.search()
     else:
         form = form_class(searchqueryset=searchqueryset, load_all=load_all)
 
     paginator = Paginator(results, results_per_page or RESULTS_PER_PAGE)
     try:
-        page = paginator.page(int(request.GET.get('page', 1)))
+        page = paginator.page(int(page))
     except InvalidPage:
-        raise Http404("No such page of results!")
-
+        # raise Http404("No such page of results!")
+        return dishsets
+    cnt = 0
     for result in page.object_list:
+        if cnt >= GLOBAL_LOADMORE_NUM:
+            break
         dish = result.object
         img = DishImage.objects.filter(dish=dish)
         if not img:
@@ -161,17 +192,9 @@ def search(request, template='main.html', load_all=True,
         d['id'] = dish.id
         d['name'] = dish.name
         dishsets.append(d)
+        cnt += 1
 
-    print(dishsets)
-    context = {
-        # 'form': form,
-        # 'page': page,
-        # 'paginator': paginator,
-        # 'query': query,
-        # 'suggestion': None,
-        'sets': dishsets,
-    }
-    return render(request, template, context)
+    return dishsets
 
 
 def search_debug(request, template='search/search.html', load_all=True,
@@ -208,14 +231,6 @@ def search_debug(request, template='search/search.html', load_all=True,
     if extra_context:
         context.update(extra_context)
     return render(request, template, context)
-
-def filter(request, id=0):
-    ret = check_id(id)
-    if (ret < 0):
-        raise Http404
-    dishsets = make_view(id)
-    context = {'sets': dishsets, 'rank': id}
-    return render(request, 'main.html', context)
 
 
 def dish(request, id=0):

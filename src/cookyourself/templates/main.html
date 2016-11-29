@@ -21,6 +21,7 @@
   <div class="container">
     <div class="row">
 			<input type="hidden" id="rank_id" name="rank" value="{{ rank }}">
+	    <input type="hidden" id="query_id" name="query" value="{{ query }}">
       <div class="btn-group btn-group-justified" role="group" aria-label="...">
         <div class="btn-group" role="group">
           <button type="button" class="btn btn-warning dropdown-toggle" id="dropdownMenu1"
@@ -29,9 +30,9 @@
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li><a href="{% url 'filter' 5 %}">American</a></li>
-            <li><a href="{% url 'filter' 6 %}">Scottish</a></li>
-            <li><a href="{% url 'filter' 7 %}">Russian</a></li>
+            <li><a href="{% url 'filter' 6 %}">American</a></li>
+            <li><a href="{% url 'filter' 7 %}">Scottish</a></li>
+            <li><a href="{% url 'filter' 8 %}">Russian</a></li>
           </ul>
         </div>
 
@@ -42,8 +43,8 @@
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li><a href="{% url 'filter' 0 %}">Low to high</a></li>
-            <li><a href="{% url 'filter' 1 %}">High to Low</a></li>
+            <li><a href="{% url 'filter' 1 %}">Low to high</a></li>
+            <li><a href="{% url 'filter' 2 %}">High to Low</a></li>
           </ul>
         </div>
 
@@ -54,9 +55,9 @@
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li><a href="{% url 'filter' 2 %}">Cookies</a></li>
-            <li><a href="{% url 'filter' 3 %}">Chocolate</a></li>
-						<li><a href="{% url 'filter' 4 %}">Pies</a></li>
+            <li><a href="{% url 'filter' 3 %}">Cookies</a></li>
+            <li><a href="{% url 'filter' 4 %}">Chocolate</a></li>
+						<li><a href="{% url 'filter' 5 %}">Pies</a></li>
           </ul>
         </div>
       </div>
