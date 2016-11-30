@@ -42,7 +42,7 @@ class Style(models.Model):
 
 class Dish(models.Model):
     name = models.CharField(max_length=128)
-    description = models.CharField(max_length=256, blank=True, null=True)
+    description = models.TextField(max_length=1024, blank=True, null=True)
     style = models.ForeignKey(Style, blank=True, null=True)
     popularity = models.IntegerField(default=0)
     # Not sure whether it should be optinal field (Posts)
@@ -64,7 +64,7 @@ class Tutorial(models.Model):
         return "Tutorial for " + str(self.dish)
 
 class Instruction(models.Model):
-    content = models.CharField(max_length=1024)
+    content = models.TextField(max_length=1024)
     tutorial = models.ForeignKey(Tutorial, blank=True, null=True)
 
     def __str__(self):

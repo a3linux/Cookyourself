@@ -78,6 +78,7 @@ WSGI_APPLICATION = 'webapps.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
+
 """
 DATABASES = {
     'default': {
@@ -86,7 +87,6 @@ DATABASES = {
     }
 }
 """
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
