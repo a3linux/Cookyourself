@@ -27,11 +27,11 @@ for ingred in ingreds:
 
     while query:
         time.sleep(1)
-        soup = BeautifulSoup(amazon.search(query), 'html.parser')
-
-        products = [item.text for item in soup.select('itemattributes title')]
-        urls = [item.text for item in soup.select('item detailpageurl')]
         try:
+            soup = BeautifulSoup(amazon.search(query), 'html.parser')
+
+            products = [item.text for item in soup.select('itemattributes title')]
+            urls = [item.text for item in soup.select('item detailpageurl')]
             prices = [to_float(item.text.replace('$','')) for item in soup.select('offersummary formattedprice')]
         except Exception as e:
             print(e)
@@ -60,7 +60,8 @@ for ingred in ingreds:
             try:
                 tmp = price/factor
                 ppu = tmp
-            except TypeError as e:
+            except Exception as e:
+                print(e)
                 continue
 
             if ppu < min_ppu:
@@ -68,11 +69,11 @@ for ingred in ingreds:
                 target = result
 
         if target:
-            print(query + ": " + str(min_ppu))
+            print(query.encode('ascii', 'ignore').decode('ascii') + ": " + str(min_ppu))
 
             ingred.price = min_ppu
             ingred.save()
             break
         else:
-            print(query + ": price info is not found.")
+            print(query.encode('ascii', 'ignore').decode('ascii') + ": price info is not found.")
             query = " ".join(query.split(' ')[1:])

@@ -31,7 +31,7 @@ class Ingredient(models.Model):
     price = models.FloatField(blank=True, null=True)
 
     def __str__(self):
-        return self.name
+        return self.name.decode('ascii', 'ignore')
 
 class Style(models.Model):
     name = models.CharField(max_length=128)

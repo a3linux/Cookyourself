@@ -78,11 +78,23 @@ WSGI_APPLICATION = 'webapps.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
-
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+"""
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'cookyourself',
+        'USER': 'ubuntu',
+        'PASSWORD': 'ubuntu',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 
@@ -94,8 +106,8 @@ HAYSTACK_CONNECTIONS = {
 }
 
 CRONJOBS = [
-    ('*/5 * * * * . $HOME/.bash_profile;', 'cookyourself.periodic.periodical_crawler', '>> /tmp/periodical_job.log'),
-    #('* * * * * . $HOME/.bash_profile;', 'cookyourself.debug.debug', '>> /tmp/cron_debug.log'),
+    ('*/5 * * * * . $HOME/.secret_key;', 'cookyourself.periodic.periodical_crawler', '>> /tmp/periodical_job.log'),
+    #('* * * * * . $HOME/.secret_key;', 'cookyourself.debug.debug', '>> /tmp/cron_debug.log'),
 ]
 
 # Password validation
