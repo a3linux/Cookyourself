@@ -15,6 +15,6 @@ for dish in dishes:
         continue
         
     video_url = BASE_URL + video_id
-    dish.tutorial.video = video_url
+    dish.tutorial.video = video_id
     print(dish.name + ": " + video_url)
     dish.tutorial.save()

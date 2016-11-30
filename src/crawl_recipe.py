@@ -1,8 +1,8 @@
 import os, sys
 
+from cookyourself.models import *
 from cookyourself.myutil import *
 from cookyourself.crawler import AllRecipeCrawler
-from cookyourself.models import *
 
 CRAWLER_LOG = 'crawl_recipe.log'
 BEGINNING_INDEX_OF_RECIPE = 10000

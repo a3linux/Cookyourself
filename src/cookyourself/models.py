@@ -38,7 +38,7 @@ class Style(models.Model):
     parent = models.ForeignKey("self", blank=True, null=True)
 
     def __str__(self):
-        return "Style" + self.name
+        return self.name
 
 class Dish(models.Model):
     name = models.CharField(max_length=128)
@@ -116,7 +116,7 @@ class Comment(models.Model):
 class Unit(models.Model):
     name = models.CharField(max_length=128)
     rate = models.FloatField(blank=True, null=True)
-    
+
     def __str_(self):
         return self.name
 
@@ -168,4 +168,3 @@ class RelationBetweenCartIngredient(models.Model):
             return "{} has {:.2f} {} of {}".format(cart, amount, unit, ingred)
         else:
             return "{} has {:.2f} {}".format(cart, amount, ingred)
-

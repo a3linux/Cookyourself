@@ -19,8 +19,8 @@ parser = PriceParser()
 ingreds = Ingredient.objects.all()
 for ingred in ingreds:
     query = ingred.name
-    if 'optional' in query:
-        query = " ".join(query.split(' ')[:-1])
+    if '(' in query:
+        query = query.split('(')[0]
 
     if ingred.price:
         continue

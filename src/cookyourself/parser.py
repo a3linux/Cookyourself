@@ -59,9 +59,6 @@ def generate_unit_set():
     # units.add('pinches')
     return units
 
-def convert_str_to_float(input_str):
-    pass
-
 class PriceParser:
     reg00 = r".*?[ \(]?[pP][aA][cC][kK] [oO][fF] (?P<pack>[0-9]+)\)?"
     reg01 = r".*?[ \(]?[bB][oO][xX] [oO][fF] (?P<pack>[0-9]+)"

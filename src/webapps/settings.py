@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    'django_crontab',
     'haystack',
     'webpack_loader',
     'cookyourself',
@@ -91,6 +92,11 @@ HAYSTACK_CONNECTIONS = {
         'PATH': os.path.join(os.path.dirname(__file__), 'whoosh_index'),
     },
 }
+
+CRONJOBS = [
+    ('*/5 * * * * . $HOME/.bash_profile;', 'cookyourself.periodic.periodical_crawler', '>> /tmp/periodical_job.log'),
+    #('* * * * * . $HOME/.bash_profile;', 'cookyourself.debug.debug', '>> /tmp/cron_debug.log'),
+]
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators

@@ -18,11 +18,11 @@ def integer(s):
         res = int(s)
         return res
     except (ValueError, SyntaxError) as e:
-        eprint(e)
+        return None
 
 def to_float(s):
     try:
-        res = eval(s)
+        res = eval(s.lstrip('0'))
         return res
     except (ValueError, SyntaxError) as e:
-        traceback.print_exc()
+        return None
