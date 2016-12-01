@@ -23,7 +23,11 @@
       {% for style in styles %}
       <li class="breadcrumb-item">{{style}}</li>
       {% endfor %}
+      {% if dish.style %}
       <li class="breadcrumb-item active">{{dish.style.name}}</li>
+      {% else %}
+      <li class="breadcrumb-item active">{{dish.name}}</li>
+      {% endif %}
     </ol>
   </div>
 

@@ -215,12 +215,14 @@ def dish(request, id=0):
                 else:
                     dic = {'ingredient': ingredient, 'amount': amount}
                 ingre_sets.append(dic)
+        
         styles = []
-        p_style = dish.style.parent
-        while (p_style):
-            styles = [p_style.name] + styles
-            p_style = p_style.parent
-        styles = styles[-2:]
+        if dish.style:
+            p_style = dish.style.parent
+            while (p_style):
+                styles = [p_style.name] + styles
+                p_style = p_style.parent
+                styles = styles[-2:]
 
         posts = Post.objects.filter(dish=dish)
         length = len(posts)
