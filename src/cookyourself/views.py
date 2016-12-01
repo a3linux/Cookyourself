@@ -41,8 +41,8 @@ def get_rank_or_filter(id):
     rank_list = [
         "search",
         # popularity
-        "popularity",  # popularity descending
-        "-popularity",  # popularity ascending
+        "-popularity",  # popularity descending
+        "popularity",  # popularity ascending
         # category
         "Cookies",
         "Chocolate",
