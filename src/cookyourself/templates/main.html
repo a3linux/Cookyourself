@@ -63,6 +63,10 @@
 		</div>
 		</br>
 
+        <div>
+            {% csrf_token %}
+        </div>
+
 		<div id="content"></div>
 		{% render_bundle 'main' %}
 	</div>
