@@ -168,14 +168,6 @@ class RelationBetweenDishIngredient(models.Model):
         else:
             return "{} requires {:.2f} {}".format(dish, amount, ingred)
 
-class CrawlerRecord(models.Model):
-    url = models.URLField()
-    # Current date & time will be added EVERY time the record is saved.
-    updated_on = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return url + ", Last updated on " + str(self.pdated_on)
-
 class Cart(models.Model):
     user = models.OneToOneField(UserProfile, on_delete=models.CASCADE, related_name='cart')
     ingredients = models.ManyToManyField(Ingredient,
