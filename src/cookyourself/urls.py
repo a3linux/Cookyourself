@@ -24,4 +24,5 @@ urlpatterns = [
     url(r'^filter/(?P<id>\d+)$', cookyourself.views.filter, name='filter'),
     url(r'^search/', cookyourself.views.filter),
     url(r'^print_list/', cookyourself.views.print_list, name='print_list'),
+    url(r'^error$', cookyourself.views.error, name='error'),
 ]
