@@ -2,86 +2,69 @@
 {% load static from staticfiles %}
 {% load render_bundle from webpack_loader %}
 {% block individual_css %}
-  <link href="{% static 'cookyourself/css/main.css' %}" rel="stylesheet">
+	<link href="{% static 'cookyourself/css/main.css' %}" rel="stylesheet">
 {% endblock %}
 {% block individual_js %}
-  <script src="{% static 'cookyourself/js/image.js' %}" type="text/javascript"></script>
+	<script src="{% static 'cookyourself/js/image.js' %}" type="text/javascript"></script>
 {% endblock %}
 
 {% block main_body %}
-  <div id="main_background" class="jumbotron jumbotron-main">
-    <br><br>
-    <h2 class="text-center">If, for the sake of love and delicacy, I must pay. I'd rather give my life
-      away.</br></br>
-      <small>― adapted from Sándor Petőfi</small>
-    </h2>
-  </div>
-  <div id="status">
-  </div>
-  <div class="container">
-    <div class="row">
+	<div id="main_background" class="jumbotron jumbotron-main">
+		<br><br>
+		<h2 class="text-center">If, for the sake of love and delicacy, I must pay. I'd rather give my life
+			away.</br></br>
+			<small>― adapted from Sándor Petőfi</small>
+		</h2>
+	</div>
+	<div id="status">
+	</div>
+	<div class="container">
+		<div class="row">
 			<input type="hidden" id="rank_id" name="rank" value="{{ rank }}">
-	    <input type="hidden" id="query_id" name="query" value="{{ query }}">
-      <div class="btn-group btn-group-justified" role="group" aria-label="...">
-        <div class="btn-group" role="group">
-          <button type="button" class="btn btn-warning dropdown-toggle" id="dropdownMenu1"
-                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            Dish style
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li><a href="{% url 'filter' 6 %}">American</a></li>
-            <li><a href="{% url 'filter' 7 %}">Scottish</a></li>
-            <li><a href="{% url 'filter' 8 %}">Russian</a></li>
-          </ul>
-        </div>
+			<input type="hidden" id="query_id" name="query" value="{{ query }}">
+			<div class="btn-group btn-group-justified" role="group" aria-label="...">
+				<div class="btn-group" role="group">
+					<button type="button" class="btn btn-warning dropdown-toggle" id="dropdownMenu1"
+					        data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						Popularity
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+						<li><a href="{% url 'filter' 1 %}">High to low</a></li>
+						<li><a href="{% url 'filter' 2 %}">Low to high</a></li>
+					</ul>
+				</div>
 
-        <div class="btn-group" role="group">
-          <button type="button" class="btn btn-warning dropdown-toggle" id="dropdownMenu1"
-                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            Popularity
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li><a href="{% url 'filter' 1 %}">High to low</a></li>
-            <li><a href="{% url 'filter' 2 %}">Low to high</a></li>
-          </ul>
-        </div>
+				<div class="btn-group" role="group">
+					<button type="button" class="btn btn-warning dropdown-toggle" id="dropdownMenu1"
+					        data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						Time
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+						<li><a href="{% url 'filter' 3 %}">New to old</a></li>
+						<li><a href="{% url 'filter' 4 %}">Old to new</a></li>
+					</ul>
+				</div>
 
-        <div class="btn-group" role="group">
-          <button type="button" class="btn btn-warning dropdown-toggle" id="dropdownMenu1"
-                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            Category
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li><a href="{% url 'filter' 3 %}">Cookies</a></li>
-            <li><a href="{% url 'filter' 4 %}">Chocolate</a></li>
-						<li><a href="{% url 'filter' 5 %}">Pies</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
+				<div class="btn-group" role="group">
+					<button type="button" class="btn btn-warning dropdown-toggle" id="dropdownMenu1"
+					        data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						Dish style
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+						<li><a href="{% url 'filter' 5 %}">American</a></li>
+						<li><a href="{% url 'filter' 6 %}">Scottish</a></li>
+						<li><a href="{% url 'filter' 7 %}">Russian</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		</br>
 
-    </br>
-
-{#    <div class="row">#}
-{#    {% for set in sets %}#}
-{#      <div class="col-xs-12 col-md-4 col-lg-4">#}
-{#        <a href="{% url 'dish' set.dish.id %}">#}
-{#          <img class="img-thumbnail main_pic" width="100%" height="100%"#}
-{#               src="{{ set.image }}" alt="Dish">#}
-{#        </a>#}
-{#        <hr>#}
-{#        <h5 class="text-center">#}
-{#          {{set.dish.name}}#}
-{#        </h5>#}
-{#      </div>#}
-{#      {% endfor %}#}
-{#    </div>#}
-
-   <div id="content"></div>
-        {% render_bundle 'main' %}
-  </div>
+		<div id="content"></div>
+		{% render_bundle 'main' %}
+	</div>
 
 {% endblock %}

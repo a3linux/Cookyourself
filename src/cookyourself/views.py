@@ -22,8 +22,8 @@ from cookyourself.forms import *
 from cookyourself import pdfgen
 
 GLOBAL_LOADMORE_NUM = 18
-GLOBAL_FILTER_START = 3
-GLOBAL_RANK_LIST_NUM = 9  # update with rank_list
+GLOBAL_FILTER_START = 5
+GLOBAL_RANK_LIST_NUM = 8  # update with rank_list
 RESULTS_PER_PAGE = getattr(settings, 'HAYSTACK_SEARCH_RESULTS_PER_PAGE', 20)
 
 
@@ -39,14 +39,10 @@ def get_rank_or_filter(id):
         return ret
     rank_list = [
         "search",
-        # popularity
         "-popularity",  # popularity descending
         "popularity",  # popularity ascending
-        # category
-        "Cookies",
-        "Chocolate",
-        "Pies",
-        # the style id shall be maintained the same with the value defined in main.html
+        "-created_on", # created_on descending
+        "created_on", # created_on ascending
         "American",  # style American
         "Scottish",  # style Indian
         "Russian",  # style Russian
