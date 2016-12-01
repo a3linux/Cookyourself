@@ -35,7 +35,7 @@
         </div>
         <div
             class="col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-4 col-lg-offset-0 text-center dish-info">
-          <p> {{dish.name}} </p>
+          <h3> {{dish.name}} </h3>
           <h4>
             {% for star in stars %}
             <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
@@ -50,7 +50,7 @@
           <h5> Created on: {{dish.created_on}} </h5>
           <h5> Style: {{dish.style.name}} </h5>
           <h5> Calories: {{dish.calories}} </h5>
-          <span> Upvoted:</span> <span id="popularity">{{dish.popularity}}</span>
+          <h5> Upvoted: <span id="popularity">{{dish.popularity}}</span></h5>
           <h5 class="description">"{{dish.description}}"
           </h5>
         </div>
