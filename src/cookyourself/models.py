@@ -8,12 +8,13 @@ from django.template import Template, Context, loader
 # Create your models here.
 class UserProfile(models.Model):
     user = models.OneToOneField(User, related_name='profile',blank=True, null=True, on_delete=models.CASCADE)
-    userid = models.CharField(max_length=1024, blank=True, null=True)
+    userid = models.CharField(max_length=2048, blank=True, null=True)
     rank = models.IntegerField(blank=True, null=True)
     photo = models.ImageField(upload_to='img/', blank=True, null=True)
-    gender = models.CharField(max_length=10, blank=True, null=True)
+    url = models.CharField(max_length=1024, blank=True, null=True)
+    gender = models.CharField(max_length=128, blank=True, null=True)
     join_in = models.DateTimeField(default=timezone.now, blank=True)
-    location = models.CharField(max_length=30, blank=True, null=True)
+    location = models.CharField(max_length=128, blank=True, null=True)
 
     def __str__(self):
         return str(self.user)

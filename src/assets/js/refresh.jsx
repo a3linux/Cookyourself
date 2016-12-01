@@ -183,7 +183,7 @@ var DishList = React.createClass({
         var csrftoken = getCookie('csrftoken');
         var query = get_query();
         var oldPage = this.state.page;
-        $.post(url, {query: query, page: oldPage, csrfmiddlewaretoken: csrftoken})
+        $.get(url, {query: query, page: oldPage})
             .done(function (data) {
             if (!data || !data.sets || !data.sets.length) {
                 // console.log("no more dishes");

@@ -129,8 +129,8 @@ def loadmore(request, id=0):
         cookies = request.COOKIES.get('dishes')  # updated in refresh.jsx, used to maintain list of showing pic
         dishsets = get_dishes(cookies, id)
     else:
-        query = request.POST.get('query')
-        page = request.POST.get('page')
+        query = request.GET.get('query')
+        page = request.GET.get('page')
         dishsets = search(req=query, page=page)
     context['sets'] = dishsets
     return HttpResponse(json.dumps(context), content_type='application/json')
@@ -461,7 +461,7 @@ def add_user(request):
         fuser = UserProfile.objects.filter(userid=uid)
         if not fuser:
             username = request.POST.get('username', None)
-            photo = request.POST.get('url', None)
+            url = request.POST.get('url', None)
             gender = request.POST.get('gender', None)
             location = request.POST.get('location', None)
             email = request.POST.get('email', None)
@@ -469,7 +469,7 @@ def add_user(request):
             if email:
                 new_user.email = email
             new_user.save()
-            new_user_profile = UserProfile(user=new_user, userid=uid, photo=photo, gender=gender, location=location)
+            new_user_profile = UserProfile(user=new_user, userid=uid, url=url, gender=gender, location=location)
             new_user_profile.save()
             login(request, new_user)
         else:
