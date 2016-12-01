@@ -335,8 +335,7 @@ def add_ingredient(request, iid):  # did: dish id, iid: ingredient id
     if cart:
         cart = Cart.objects.get(user=userProfile)
     else:
-        cart = Cart(user=userProfile)
-        cart.save()
+        errors.append('The user cart does not exist')
     dish = get_object_or_404(Dish, id=did)
     ingredient = get_object_or_404(Ingredient, id=iid)
     dish_detail = RelationBetweenDishIngredient.objects.filter(dish=dish, ingredient=ingredient)
@@ -505,6 +504,8 @@ def add_user(request):
             new_user.save()
             new_user_profile = UserProfile(user=new_user, userid=uid, url=url, gender=gender, location=location)
             new_user_profile.save()
+            cart = Cart(user=new_user_profile)
+            cart.save()
             login(request, new_user)
         else:
             fuser = UserProfile.objects.get(userid=uid)
