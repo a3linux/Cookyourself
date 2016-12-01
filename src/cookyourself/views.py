@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404, JsonResponse
-from django.db.models import Q
+from django.db.models import Q, Max
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator
@@ -17,6 +17,7 @@ from django.core.paginator import InvalidPage
 import urllib
 import json
 import random
+import math
 
 from cookyourself.models import *
 from cookyourself.forms import *
@@ -40,8 +41,8 @@ def get_rank_or_filter(id):
     rank_list = [
         "search",
         # popularity
-        "-popularity",  # popularity ascending
         "popularity",  # popularity descending
+        "-popularity",  # popularity ascending
         # category
         "Cookies",
         "Chocolate",
@@ -50,8 +51,6 @@ def get_rank_or_filter(id):
         "American",  # style American
         "Scottish",  # style Indian
         "Russian",  # style Russian
-        # "-price",  # price ascending
-        # "price",  # price descending
     ]
     return rank_list[int(id)]
 
@@ -245,7 +244,6 @@ def dish(request, id=0):
         tutorial = Tutorial.objects.get(dish=dish)
         instructions = Instruction.objects.filter(tutorial=tutorial)
         ingredients = dish.ingredients.all()
-        # tutorial & instruction?
         ingre_sets = []
         for ingredient in ingredients:
             detail = RelationBetweenDishIngredient.objects.filter(dish=dish, ingredient=ingredient)[0]
@@ -258,18 +256,78 @@ def dish(request, id=0):
                 else:
                     dic = {'ingredient': ingredient, 'amount': amount}
                 ingre_sets.append(dic)
+        styles=[]
+        p_style=dish.style.parent
+        while(p_style):
+            styles=[p_style.name]+styles
+            p_style=p_style.parent
+        styles=styles[-2:]
+
         posts = Post.objects.filter(dish=dish)
+        length=len(posts)
         init = {'dish': dish}
         form = PostForm.createPostForm(init)
-        context = {'dish': dish, 'isets': ingre_sets, 'tutorial': tutorial, 'form': form,
-                   'image': image, 'instructions': instructions, 'posts': posts}
+        saved= 0
+        user=request.user
+        if not user.is_anonymous:
+            profile=UserProfile.objects.filter(user=user)
+            if profile:
+                favorites=profile[0].favorites
+                if favorites.filter(id=dish.id):
+                    saved = 1
+        star=calc_star(id)
+        stars=[]
+        for i in range(star):
+            stars.append(1)
+        no_stars=[]
+        if star!=5:
+            for i in range(5-star):
+                no_stars.append(1)
+
+        context = {'dish': dish, 'isets': ingre_sets, 'tutorial': tutorial, 
+                   'form': form,  'image': image, 'instructions': instructions, 
+                   'posts': posts, 'len': length, 'styles': styles, 
+                   'saved': saved, 'stars': stars, 'no_stars': no_stars}
 
     return render(request, 'dish.html', context)
 
+def calc_star(id):
+    dish=Dish.objects.get(id=id)
+    max_pop = Dish.objects.all().aggregate(Max('popularity'))['popularity__max']
+    if not max_pop:
+        return 0
+    else:
+        pop=dish.popularity
+        star=math.ceil(pop/max_pop*5)
+        return star
 
-def recommendation(request):
-    return render(request, 'recommendation.html')
+def upvote_dish(request):
+    if request.method != 'POST' or 'dishid' not in request.POST:
+        return HttpResponse("")
+    else:
+        did = request.POST['dishid']
+    dish = get_object_or_404(Dish, id=did)
+    dish.popularity+=1
+    dish.save()
+    context = {
+        "popularity": dish.popularity
+    }
+    return HttpResponse(json.dumps(context), content_type='application/json')
 
+@login_required
+def save_dish(request):
+    if request.method != 'POST' or 'dishid' not in request.POST:
+        return HttpResponse("")
+    else:
+        did = request.POST['dishid']
+    dish = get_object_or_404(Dish, id=did)
+    user=request.user
+    profile= UserProfile.objects.get(user=user)
+    favorites=profile.favorites.all()
+    if not favorites.filter(id=did):
+        profile.favorites.add(dish)
+        profile.save()
+    return HttpResponse("OK")
 
 def profile(request, id=0):
     errors = []
@@ -278,9 +336,20 @@ def profile(request, id=0):
         errors.append('This user does not exist')
         context = {'errors': errors}
     else:
-        user_of_profile = User.objects.get(id=id)
-        profile = UserProfile.objects.get(user=user_of_profile)
-        context = {'profile': profile}
+        user_of_profile= User.objects.get(id=id)
+        profile=UserProfile.objects.get(user=user_of_profile) 
+        init={'owner':user_of_profile }
+        form= MessageForm.createMessageForm(init)
+        favorites=profile.favorites.all()   
+        dishsets = []
+        for dish in favorites:
+            images = DishImage.objects.filter(dish=dish)
+            if images:
+                dic = {'dish': dish, 'image': images[0].image}
+            else:
+                dic = {'dish': dish}
+            dishsets.append(dic)
+        context = {'profile': profile, 'form': form, 'sets': dishsets} 
     return render(request, 'profile.html', context)
 
 
@@ -361,6 +430,7 @@ def shoppinglist(request):
         "ingredients": ingredient_list,
         "price": total_price,
     }
+    context={}
     return render(request, 'shoppinglist.html', context)
 
 
@@ -454,7 +524,6 @@ def print_list(request):
     pdfgen.gen_shoplist_pdf(response, products)
     return response
 
-@csrf_exempt
 def add_user(request):
     uid = request.POST.get('uid', None)
     if uid is not None:
@@ -479,17 +548,16 @@ def add_user(request):
 
         response_text = json.dumps({"usrid": request.user.id})
         return HttpResponse(response_text, content_type="application/json")
-    return HttpResponse("")
+    return redirect('index')
 
 
 @login_required
 def logout_user(request):
     logout(request)
-    return HttpResponse("")
+    return redirect('index')
 
 
 @login_required
-@csrf_exempt
 def create_post(request):
     content = request.POST.get('content')
     dishid = request.POST.get('dish')
@@ -501,38 +569,61 @@ def create_post(request):
     return HttpResponse(response_data, content_type="application/json")
 
 
-@csrf_exempt
+@login_required
+def create_message(request):
+    content=request.POST.get('content')
+    ownerid=request.POST.get('ownerid')
+    user=User.objects.get(id=ownerid)
+    owner=UserProfile.objects.get(user=user)
+    author=UserProfile.objects.get(user=request.user)
+    message=Message(owner=owner, author=author, content=content)
+    message.save()
+    response_data=json.dumps({"content": message.content})
+    return HttpResponse(response_data, content_type="application/json")
+
+@login_required 
+def create_message(request):
+    content=request.POST.get('content')
+    ownerid=request.POST.get('ownerid')
+    user=User.objects.get(id=ownerid)
+    owner=UserProfile.objects.get(user=user)
+    author=UserProfile.objects.get(user=request.user)
+    message=Message(owner=owner, author=author, content=content)
+    message.save()
+    response_data=json.dumps({"content": message.content})
+    return HttpResponse(response_data, content_type="application/json")
+
 def update_posts(request):
-    time = request.POST.get('time')
-    max_time = Post.get_max_time()
+    max_time=Post.get_max_time();
+    time=request.POST.get('time')
     posts = Post.get_posts(time).order_by('-created_on')
     dishid = request.POST.get('dishid', None)
     if dishid:
-        dish = Dish.objects.get(id=dishid)
-        posts = posts.filter(dish=dish)
-    userid = request.POST.get('userid', None)
-    if userid:
-        user = User.objects.get(id=userid)
-        profile = UserProfile.objects.get(user=user)
-        posts = posts.filter(author=profile)
-    context = {"max_time": max_time, "posts": posts}
+        dish=Dish.objects.get(id=dishid)
+        posts=posts.filter(dish=dish)
+    context = {"max_time":max_time, "posts":posts} 
     return render(request, 'posts.json', context, content_type='application/json')
 
+def update_messages(request):
+    max_time=Message.get_max_time();
+    time=request.POST.get('time')
+    messages = Message.get_messages(time).order_by('-created_on')
+    ownerid=request.POST.get('ownerid', None)
+    if ownerid:
+        user=User.objects.get(id=ownerid)
+        owner=UserProfile.objects.get(user=user)
+        messages=messages.filter(owner=owner)
+    context = {"max_time": max_time, "posts":messages} 
+    return render(request, 'posts.json', context, content_type='application/json')
 
 def recommendation(request):
-    last = Dish.objects.count() - 1
-    index1 = random.randint(0, last)
-    # Here's one simple way to keep even distribution for
-    # index2 while still gauranteeing not to match index1.
-    index2 = random.randint(0, last - 1)
-    index3 = random.randint(0, last - 2)
-    if index3 == index2: index3 = last - 1
-    if index2 == index1: index2 = last
-    if index3 == index1: index3 = last
-    dishes = []
-    dishes.append(Dish.objects.all()[index1])
-    dishes.append(Dish.objects.all()[index2])
-    dishes.append(Dish.objects.all()[index3])
+    return render(request, 'recommendation.html')
+
+def change_recommend(request):
+    num = int(request.POST.get('num'))
+    if not num:
+        num=3
+    dishes = randomDish(num)
     dishsets = []
     for dish in dishes:
         images = DishImage.objects.filter(dish=dish)
@@ -542,4 +633,17 @@ def recommendation(request):
             dic = {'dish': dish}
         dishsets.append(dic)
     context = {'sets': dishsets}
-    return render(request, 'recommendation.html', context)
+    return render(request, 'recommends.json', context, content_type='application/json')
+
+def randomDish(num):
+    last = Dish.objects.count() - 1
+    part=int(last/num)-1
+    indexes=[]
+    for i in range(num):
+        index=random.randint(i*part, (i+1)*part)
+        indexes.append(index)
+    dishes = []
+    for index in indexes:
+        dishes.append(Dish.objects.all()[index])
+    return dishes
+

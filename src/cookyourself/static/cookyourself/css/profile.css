@@ -24,3 +24,14 @@
     margin-left: auto;
     margin-right: auto
 }
+#message-content{
+    margin-bottom: 30px;
+}
+.post-hr{
+  border-top: 1px solid #a79e9e;
+}
+
+#dish_name{
+    margin-top:8px;
+    margin-bottom:25px;
+}

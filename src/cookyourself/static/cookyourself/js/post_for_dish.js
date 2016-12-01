@@ -10,7 +10,15 @@ $(document).ready(function () {
     window.setInterval(getUpdates, 5000);
 
   // CSRF set-up copied from Django docs
-  function getCookie(name) {  
+  var csrftoken = getCookie('csrftoken');
+  $.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+    }
+  });
+});
+
+function getCookie(name) {  
     var cookieValue = null;
     if (document.cookie && document.cookie != '') {
         var cookies = document.cookie.split(';');
@@ -24,23 +32,15 @@ $(document).ready(function () {
         }
     }
     return cookieValue;
-  }
-  var csrftoken = getCookie('csrftoken');
-  $.ajaxSetup({
-    beforeSend: function(xhr, settings) {
-        xhr.setRequestHeader("X-CSRFToken", csrftoken);
-    }
-  });
-});
+}
 
 function create_post(){
-	// console.log("create_post");
-	// console.log($('#post-content').val());
-	// console.log($('#post-dish').val())
+	var csrftoken = getCookie('csrftoken');
     $.post("/cookyourself/create_post",
     {
       content: $('#post-content').val(),
-      dish: $('#post-dish').val()
+      dish: $('#post-dish').val(),
+      csrfmiddlewaretoken: csrftoken
     })
     .done(function(data) 
     { 
@@ -52,10 +52,12 @@ function create_post(){
 }
 
 function populateList() {
+    var csrftoken = getCookie('csrftoken');
     $.post("/cookyourself/update_posts",
     {
     	time: "1970-01-01T00:00+00:00",
-    	dishid: $('#post-dish').val()
+    	dishid: $('#post-dish').val(),
+        csrfmiddlewaretoken: csrftoken
     })
     .done(function(data) 
     {
@@ -72,12 +74,14 @@ function populateList() {
 }
 
 function getUpdates() {
+    var csrftoken = getCookie('csrftoken');
     var list = $("#post-list")
     var max_time = list.data("max-time")
     $.post("/cookyourself/update_posts/",
     {
     	time: max_time,
-    	dishid: $('#post-dish').val()
+    	dishid: $('#post-dish').val(),
+        csrfmiddlewaretoken: csrftoken
     })
     .done(function(data) {
         list.data('max-time', data['max-time']);

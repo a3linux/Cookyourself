@@ -1,0 +1,1 @@
+{"dishes":[{% for set in sets %}{%spaceless%}{% include 'recommend.json' %}{%endspaceless%}{% if not forloop.last %}, {% endif %}{% endfor %}]}

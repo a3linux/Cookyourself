@@ -1,10 +1,24 @@
-
 $(document).ready(function () {
-	populateList();
+    populateList();
+    $('#message-form').on ('submit', function(event){
+    //event.preventDefault();
+       console.log("form submitted to js");
+       create_message();
+       return false;
+    });
     window.setInterval(getUpdates, 5000);
 
   // CSRF set-up copied from Django docs
-  function getCookie(name) {  
+  var csrftoken = getCookie('csrftoken');
+  $.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+    }
+  });
+});
+
+
+function getCookie(name) {  
     var cookieValue = null;
     if (document.cookie && document.cookie != '') {
         var cookies = document.cookie.split(';');
@@ -17,26 +31,37 @@ $(document).ready(function () {
             }
         }
     }
-    return cookieValue;
-  }
-  var csrftoken = getCookie('csrftoken');
-  $.ajaxSetup({
-    beforeSend: function(xhr, settings) {
-        xhr.setRequestHeader("X-CSRFToken", csrftoken);
-    }
-  });
-});
+  return cookieValue;
+}
+
+function create_message(){
+    var csrftoken = getCookie('csrftoken');
+    $.post("/cookyourself/create_message",
+    {
+      content: $('#message-content').val(),
+      ownerid: $('#message-owner').val(),
+      csrfmiddlewaretoken: csrftoken
+    })
+    .done(function(data) 
+    { 
+      $('#message-content').val("");
+         console.log("request success");
+         console.log(data);
+        getUpdates();
+    }); 
+}
 
 function populateList() {
-    var list = $("#post-list");
-    var uid= list.attr("data-user");
-    $.post("/cookyourself/update_posts",
+    var csrftoken = getCookie('csrftoken');
+    $.post("/cookyourself/update_messages",
     {
-    	time: "1970-01-01T00:00+00:00",
-    	userid: uid
+        time: "1970-01-01T00:00+00:00",
+        ownerid: $('#message-owner').val(),
+        csrfmiddlewaretoken: csrftoken
     })
     .done(function(data) 
     {
+        var list = $("#message-list");
         list.data('max-time', data['max-time']);
         list.html('')
         for (var i = 0; i < data.posts.length; i++) {
@@ -49,13 +74,14 @@ function populateList() {
 }
 
 function getUpdates() {
-    var list = $("#post-list");
+    var list = $("#message-list");
     var max_time = list.data("max-time");
-    var uid= list.attr("data-user");
-    $.post("/cookyourself/update_posts/",
+    var csrftoken = getCookie('csrftoken');
+    $.post("/cookyourself/update_messages/",
     {
-    	time: max_time,
-    	userid: uid
+        time: max_time,
+        ownerid: $('#message-owner').val(),
+        csrfmiddlewaretoken: csrftoken
     })
     .done(function(data) {
         list.data('max-time', data['max-time']);

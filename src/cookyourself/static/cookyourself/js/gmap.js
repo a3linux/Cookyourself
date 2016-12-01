@@ -2,21 +2,14 @@ var map;
 var markers=new Array();
 var message=document.getElementById("message");
 
-function myMap(position) {
+function myMap() {
   var mapCanvas = document.getElementById("map");
-  console.log(mapCanvas);
-  var userCenter = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
   var mapOptions = {
-    center: userCenter, //from the getLocation
-    zoom: 12, //0 is the earth, larger the zoom is, the map is more zoomed in.
+    center: {lat: 40.441, lng: -79.996},  //default center: Pittsburgh
+    zoom: 13,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   }
   map = new google.maps.Map(mapCanvas, mapOptions);
-  var marker=new google.maps.Marker({position: userCenter});
-  marker.setMap(map);
-  markers.push(marker);
- //console.log("push usercenter");
-  searchStore(userCenter);
 }
 
 function createMarker(place){
@@ -37,7 +30,7 @@ function searchStore(position){
   var request = {
       location: position,
       radius: '500',
-      query: 'Giant Eagle'
+      query: 'market'
     };
     var service = new google.maps.places.PlacesService(map);
     service.textSearch(request, callback);
@@ -52,15 +45,44 @@ function callback(results, status) {
   }
 }
 
-function getLocation() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(myMap, showError);
-    // myMap is the call back function, while show Error is the function
-    // called if geolocation get failed.
-  } else {
-    alert("??");
-    message.innerHTML="Geolocation is not supported by this browser.";
+function usercallback(results, status) {
+  if (status == google.maps.places.PlacesServiceStatus.OK) {
+    //for (var i = 0; i < results.length; i++) {
+      //var place = results[i];
+      redrawMap(results[0]);
+     //}
   }
+}
+function redrawMap(position){
+  var mapCanvas = document.getElementById("map");
+  var userCenter = new google.maps.LatLng(position.geometry.location.lat(), position.geometry.location.lng());
+  var mapOptions = {
+    center: userCenter, //from the getLocation
+    zoom: 12, //0 is the earth, larger the zoom is, the map is more zoomed in.
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  }
+  map = new google.maps.Map(mapCanvas, mapOptions);
+  var marker=new google.maps.Marker({position: userCenter});
+  marker.setMap(map);
+  markers.splice(0, markers.length);
+  markers.push(marker);
+  searchStore(userCenter);
+
+}
+
+function getLocation() {
+  var position=$("#user_location").val();
+  console.log("user_location:"+ position);
+  if (position.length==0){
+    $("#user_location").css("color", "red");
+    window.alert("Please enter your location.");
+    return false;
+  }
+  var request = {
+    query: position
+  }
+  var service = new google.maps.places.PlacesService(map);
+  service.textSearch(request, usercallback);
 }
 
 function drawpath(){
@@ -91,24 +113,7 @@ function drawpath(){
     }
   });
 }
-function showError(error) {
-  switch(error.code) {
-    case error.PERMISSION_DENIED:
-      message.innerHTML = "User denied the request for Geolocation."
-      break;
-    case error.POSITION_UNAVAILABLE:
-      message.innerHTML = "Location information is unavailable."
-      break;
-    case error.TIMEOUT:
-      message.innerHTML = "The request to get user location timed out."
-      break;
-    case error.UNKNOWN_ERROR:
-      message.innerHTML = "An unknown error occurred."
-      break;
-  }
-}
-/*$(document).ready(function () {
-  alert("start!");
-  getLocation();
-  alert("done!");
-});*/
+
+$(document).ready(function () {
+  myMap();
+});

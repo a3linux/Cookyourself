@@ -9,7 +9,7 @@ from cookyourself.models import *
 class PostForm(forms.ModelForm):
     content=forms.CharField(label='', widget=forms.Textarea(
 			    attrs={ 'name': "item", 
-			            'style':"resize: none",
+			            'style':"resize: none; width: 90%;",
 			            'rows':"3", 
 			            'cols':"40%",
 			            'id':'post-content', 
@@ -42,6 +42,23 @@ class DishSearchForm(SearchForm):
             sqs = sqs.filter(discription=queries)
 
         return sqs
+
+class MessageForm(forms.ModelForm):
+	content=forms.CharField(label='', widget=forms.Textarea(
+			    attrs={ 'name': "item", 
+			            'style':"resize: none; width: 90%;",
+			            'rows':"3", 
+			            'cols':"40%",
+			            'id':'message-content', 
+			            'required': True, 
+			            'placeholder': "Leave a message?"}))
+	class Meta:	
+		model=Message
+		fields=('content', 'owner')
+		widgets={'owner': forms.HiddenInput(attrs={'id':'message-owner'})}
+
+	def createMessageForm(init):
+		return MessageForm(initial=init, auto_id=False);
 
 def process_raw_queries(raw):
     return raw

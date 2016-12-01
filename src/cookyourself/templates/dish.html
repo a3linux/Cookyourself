@@ -20,9 +20,10 @@
 
   <div class="container-fluid">
     <ol class="breadcrumb">
-      <li><a href="#">World Cuisine</a></li>
-      <li><a href="#">American</a></li>
-      <li class="active">cookies</li>
+      {% for style in styles %}
+      <li class="breadcrumb-item">{{style}}</li>
+      {% endfor %}
+      <li class="breadcrumb-item active">{{dish.style.name}}</li>
     </ol>
   </div>
 
@@ -36,19 +37,20 @@
             class="col-xs-8 col-xs-offset-2 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-4 col-lg-offset-0 text-center dish-info">
           <p> {{dish.name}} </p>
           <h4>
+            {% for star in stars %}
             <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+            {% endfor %}
+            {% for no_star in no_stars %}
+            <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+            {% endfor %}
           </h4>
 	        <input type="hidden" id="dish_id" name="dish" value="{{ dish.id }}">
-          <h5><a href="#">I made it</a> | <a href="#">2 reviews</a></h5>
-          <h5> Recipe by: <a href="#">{{dish.author}}</a></h5>
+          <input type="hidden" id="saved" name="save_status" value="{{ saved }}">
+          <h5><a href="#comments">{{len}} reviews</a></h5>
           <h5> Created on: {{dish.created_on}} </h5>
-          <h5> Style: {{dish.style}} </h5>
+          <h5> Style: {{dish.style.name}} </h5>
           <h5> Calories: {{dish.calories}} </h5>
-          <h5> Price: {{dish.price}} </h5>
+          <span> Upvoted:</span> <span id="popularity">{{dish.popularity}}</span>
           <h5 class="description">"{{dish.description}}"
           </h5>
         </div>
@@ -67,21 +69,13 @@
       </div>
       <div id="likeNavbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-          <li><a href="#">
-            <span class="glyphicon glyphicon-heart"></span>
+          <li><a id="save">
+            <span id="heart" class="glyphicon glyphicon-heart"></span>
             <span class="nav-item">Save</span>
           </a></li>
-          <li><a href="#">
-            <span class="glyphicon glyphicon-ok"></span>
-            <span class="nav-item">I Made It</span>
-          </a></li>
-          <li><a href="#">
-            <span class="glyphicon glyphicon-new-window"></span>
-            <span class="nav-item">Share</span>
-          </a></li>
-          <li><a href="#">
-            <span class="glyphicon glyphicon-print"></span>
-            <span class="nav-item">Print</span>
+          <li><a id="upvote">
+            <span class="glyphicon glyphicon-thumbs-up"></span>
+            <span class="nav-item">Upvote this recipe</span>
           </a></li>
         </ul>
       </div><!--/.nav-collapse -->
@@ -128,17 +122,17 @@
     </div>
   </div>
 
-  <div class="container">
+  <div class="container" id="comments">
     <h3> Comments </h3>
     <hr>
     <section id="comments_section" class="jumbotron">
 
       <div class="row">
         <form method="post" id="post-form">
-          <div class="col-xs-10 col-sm-5 col-md-5 col-lg-4">
+          <div class="col-xs-12 col-sm-6 col-md-6 col-lg-7">
               {{form}}
           </div>
-          <div class="col-xs-2 col-xs-offset-0 col-sm-5 col-sm-offset-1 col-md-5 col-md-offset-1 col-lg-4 col-lg-offset-1">
+          <div class="col-xs-2 col-xs-offset-0 col-sm-5 col-sm-offset-1 col-md-5 col-md-offset-0 col-lg-5 col-lg-offset-0">
             <input class="btn btn-warning" type="submit" value="Post">
           </div>
           {% csrf_token %}
@@ -146,28 +140,8 @@
       </div>
       <div id="post-list">
       </div>
-
-      <!--{% for post in posts%}
-      <div class="media">
-        <div class="media-left">
-          <a href="#">
-            <img class="media-object" src="{{post.author.photo.url}}"
-                 class="img-rounded"
-                 alt="" height="50px">
-          </a>
-        </div>
-        <div class="media-body">
-          <h4><a href="">{{post.author.user.username}}</a></h4>
-          <small><span class="glyphicon glyphicon-time"></span>&nbsp;{{post.created_on}}</small>
-        </div>
-
-        <h5>
-          {{post.content}}
-        </h5>
-      </div> 
-      {% endfor %}-->
       </section>
-      </div>
+  </div>
 
 {% endblock %}
 {% endif %}

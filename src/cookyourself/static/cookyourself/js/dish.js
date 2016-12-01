@@ -9,6 +9,28 @@ function addIngredient(iid) {
         });
 }
 
+function upvote() {
+    var csrftoken = getCookie('csrftoken');
+    var did = document.getElementById("dish_id").value;
+    $.post("/cookyourself/upvote_dish", {dishid: did, csrfmiddlewaretoken: csrftoken})
+        .done(function (data) {
+            var popularity=data['popularity']
+            //hide the + button or make it grey?
+            $('#popularity').text(popularity);
+            //console.log("dish popularity added:" + did );
+            //console.log("popularity" + popularity);
+        });
+}
+
+function save() {
+    var csrftoken = getCookie('csrftoken');
+    var did = document.getElementById("dish_id").value;
+    $.post("/cookyourself/save_dish", {dishid: did, csrfmiddlewaretoken: csrftoken})
+    .done(function (data) {
+        $('#heart').css("color", "#ea1c1c");
+    });
+}
+
 function eventsHandle() {
     $("#ingre-list").on("click", ".glyphicon", function (event) {
         var iid = $(this).attr("id");
@@ -16,11 +38,26 @@ function eventsHandle() {
         //addAllIngredient();
         addIngredient(iid);
     });
+    $("#upvote").on("click", function(event){
+        upvote();
+    });
+    $("#save").on("click", function(event){
+        save();
+    });
+}
+
+function ifsaved() {
+   var saved = document.getElementById("saved").value;
+   if (saved==1)
+   {
+     $('#heart').css("color", "#ea1c1c");
+   }
+   //console.log("saved: "+ saved);
 }
 
 $(document).ready(function () {
+    ifsaved();
     eventsHandle();
-
     var csrftoken = getCookie('csrftoken');
     $.ajaxSetup({
         beforeSend: function (xhr, settings) {

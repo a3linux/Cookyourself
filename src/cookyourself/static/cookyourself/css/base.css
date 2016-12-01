@@ -178,6 +178,9 @@
 #fb-logout{
   display:none;
 }
+#list{
+  display:none;
+}
 #more{
   width: 33px; 
   height: 18px;

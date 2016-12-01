@@ -8,13 +8,14 @@ from django.template import Template, Context, loader
 # Create your models here.
 class UserProfile(models.Model):
     user = models.OneToOneField(User, related_name='profile',blank=True, null=True, on_delete=models.CASCADE)
-    userid = models.CharField(max_length=2048, blank=True, null=True)
+    userid = models.CharField(max_length=1024, blank=True, null=True)
     rank = models.IntegerField(blank=True, null=True)
     photo = models.ImageField(upload_to='img/', blank=True, null=True)
     url = models.CharField(max_length=1024, blank=True, null=True)
     gender = models.CharField(max_length=128, blank=True, null=True)
     join_in = models.DateTimeField(default=timezone.now, blank=True)
     location = models.CharField(max_length=128, blank=True, null=True)
+    favorites = models.ManyToManyField("Dish",blank=True)
 
     def __str__(self):
         return str(self.user)
@@ -57,6 +58,14 @@ class Dish(models.Model):
     def __str__(self):
         return self.name
 
+    @property
+    def html(self):
+        template= loader.get_template('recommend-dish.html')
+        images = DishImage.objects.filter(dish=self)
+        image=images[0].image
+        context=Context({'dish': self, 'image': image})
+        return template.render(context).replace('\"','\'').replace('\n','')
+
 class Tutorial(models.Model):
     dish = models.OneToOneField(Dish, related_name='tutorial')
     video = models.CharField(max_length=128, blank=True, null=True)
@@ -86,19 +95,41 @@ class Post(models.Model):
     @staticmethod
     def get_posts(time="1970-01-01T00:00+00:00"):
         return Post.objects.filter(created_on__gt=time).distinct()
-
-    # Generates the HTML-representation of a single to-do list item.
-    @property
-    def html(self):
-        template= loader.get_template('post-list.html')
-        #data = {'postid': self.id, 'content':''}
-        #form=CreateNewCommentForm(initial=data)
-        context=Context({'post': self})
-        return template.render(context).replace('\"','\'').replace('\n','')
-
+    
     @staticmethod
     def get_max_time():
         max_time = Post.objects.all().aggregate(Max('created_on'))['created_on__max']
+        if not max_time:
+            max_time = datetime(2000, 1, 6, 15, 8, 24, 78915, tzinfo=timezone.utc)
+        return max_time
+    
+    @property
+    def html(self):
+        template= loader.get_template('post-list.html')
+        context=Context({'post': self})
+        return template.render(context).replace('\"','\'').replace('\n','')
+
+class Message(models.Model):
+    author = models.ForeignKey(UserProfile, related_name='message_author')
+    owner = models.ForeignKey(UserProfile, related_name='message_owner')
+    content = models.TextField(max_length=1024)
+    created_on = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return "Message: " + self.content + ", by " + str(self.author)
+
+    @staticmethod
+    def get_messages(time="1970-01-01T00:00+00:00"):
+        return Message.objects.filter(created_on__gt=time).distinct()
+
+    @property
+    def html(self):
+        template= loader.get_template('post-list.html')
+        context=Context({'post': self})
+        return template.render(context).replace('\"','\'').replace('\n','')
+    @staticmethod
+    def get_max_time():
+        max_time = Message.objects.all().aggregate(Max('created_on'))['created_on__max']
         if not max_time:
             max_time = datetime(2000, 1, 6, 15, 8, 24, 78915, tzinfo=timezone.utc)
         return max_time
@@ -117,7 +148,7 @@ class Comment(models.Model):
 class Unit(models.Model):
     name = models.CharField(max_length=128)
     rate = models.FloatField(blank=True, null=True)
-
+    
     def __str_(self):
         return self.name
 
@@ -169,3 +200,4 @@ class RelationBetweenCartIngredient(models.Model):
             return "{} has {:.2f} {} of {}".format(cart, amount, unit, ingred)
         else:
             return "{} has {:.2f} {}".format(cart, amount, ingred)
+
