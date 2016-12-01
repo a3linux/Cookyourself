@@ -33,6 +33,24 @@ def check_id(id):
     return 0
 
 
+def check_get_request(request, list):
+    if request.method != 'GET':
+        return -1
+    for item in list:
+        if item not in request.GET:
+            return -1
+    return 0
+
+
+def check_post_request(request, list):
+    if request.method != 'POST':
+        return -1
+    for item in list:
+        if item not in request.POST:
+            return -1
+    return 0
+
+
 def get_rank_or_filter(id):
     ret = check_id(id)
     if (ret < 0):
@@ -62,27 +80,6 @@ def get_dish_objects(id):
     return dishes
 
 
-def make_view(id=1):
-    dishsets = []
-    dishes = get_dish_objects(id)
-    if not dishes or dishes == -1:
-        return dishsets
-    # dishsets = [{'dish': dish, 'image': DishImage.objects.filter(dish=dish)[0].image} for dish in dishes]
-    cnt = 0
-    for dish in dishes:
-        if cnt >= GLOBAL_LOADMORE_NUM:
-            break
-        d = {}
-        d['dish'] = dish
-        obj = DishImage.objects.filter(dish=dish)
-        if not obj:
-            continue
-        d['image'] = obj[0].image
-        dishsets.append(d)
-        cnt += 1
-    return dishsets
-
-
 def get_dishes(cookies, id=1):
     dishsets = []
     dishes = get_dish_objects(id)
@@ -109,7 +106,7 @@ def get_dishes(cookies, id=1):
 
 # Create your views here.
 def index(request):
-    default_rank_id = 1  # popularity ascending
+    default_rank_id = 1  # popularity descending
     context = {'rank': default_rank_id}
     return render(request, 'main.html', context)
 
@@ -117,12 +114,16 @@ def index(request):
 def loadmore(request, id=0):
     ret = check_id(id)
     if (ret < 0):
-        raise Http404
+        return redirect(reverse('error'))
     context = {}
     if int(id) != 0:
         cookies = request.COOKIES.get('dishes')  # updated in refresh.jsx, used to maintain list of showing pic
         dishsets = get_dishes(cookies, id)
     else:
+        list = ['query', 'page']
+        if check_get_request(request, list) < 0:
+            return redirect(reverse('error'))
+
         query = request.GET.get('query')
         page = request.GET.get('page')
         dishsets = search(req=query, page=page)
@@ -134,7 +135,7 @@ def filter(request, id=0):
     query = ''
     ret = check_id(id)
     if (ret < 0):
-        raise Http404
+        return redirect(reverse('error'))
     if int(id) == 0:
         query = get_query(request)
     context = {'rank': id, 'query': query}
@@ -187,16 +188,13 @@ def search(req, load_all=True,
         d['name'] = dish.name
         dishsets.append(d)
         cnt += 1
-
     return dishsets
 
 
 def dish(request, id=0):
-    errors = []
     dish = Dish.objects.filter(id=id)
     if len(dish) == 0:
-        errors.append('This dish does not exist')
-        context = {'errors': errors}
+        return redirect(reverse('error'))
     else:
         dish = Dish.objects.get(id=id)
         image = DishImage.objects.filter(dish=dish)[0].image
@@ -265,10 +263,11 @@ def calc_star(id):
 
 
 def upvote_dish(request):
-    if request.method != 'POST' or 'dishid' not in request.POST:
-        return HttpResponse("")
-    else:
-        did = request.POST['dishid']
+    list = ['dishid']
+    if check_post_request(request, list) < 0:
+        return redirect(reverse('error'))
+
+    did = request.POST.get('dishid')
     dish = get_object_or_404(Dish, id=did)
     dish.popularity += 1
     dish.save()
@@ -280,10 +279,11 @@ def upvote_dish(request):
 
 @login_required
 def save_dish(request):
-    if request.method != 'POST' or 'dishid' not in request.POST:
-        return HttpResponse("")
-    else:
-        did = request.POST['dishid']
+    list = ['dishid']
+    if check_post_request(request, list) < 0:
+        return redirect(reverse('error'))
+
+    did = request.POST.get('dishid')
     dish = get_object_or_404(Dish, id=did)
     user = request.user
     profile = UserProfile.objects.get(user=user)
@@ -295,11 +295,9 @@ def save_dish(request):
 
 
 def profile(request, id=0):
-    errors = []
     user = User.objects.filter(id=id)
     if len(user) == 0:
-        errors.append('This user does not exist')
-        context = {'errors': errors}
+        return redirect(reverse('error'))
     else:
         user_of_profile = User.objects.get(id=id)
         profile = UserProfile.objects.get(user=user_of_profile)
@@ -321,23 +319,18 @@ def profile(request, id=0):
 @login_required
 @transaction.atomic
 def add_ingredient(request, iid):  # did: dish id, iid: ingredient id
-    errors = []
-    user = request.user
-    if request.method != 'POST' or 'dishid' not in request.POST:
-        return HttpResponse("")
-    else:
-        did = request.POST['dishid']
+    list = ['dishid']
+    if check_post_request(request, list) < 0:
+        return redirect(reverse('error'))
 
-    userProfile = UserProfile.objects.filter(user=user)
-    if len(userProfile) == 0:
-        errors.append('This user does not exist')
-    else:
-        userProfile = UserProfile.objects.get(user=user)
+    user = request.user
+    did = request.POST.get('dishid')
+    userProfile = UserProfile.objects.get(user=user)
     cart = Cart.objects.filter(user=userProfile)
     if cart:
         cart = Cart.objects.get(user=userProfile)
     else:
-        errors.append('The user cart does not exist')
+        return redirect(reverse('error'))
     dish = get_object_or_404(Dish, id=did)
     ingredient = get_object_or_404(Ingredient, id=iid)
     dish_detail = RelationBetweenDishIngredient.objects.filter(dish=dish, ingredient=ingredient)
@@ -362,19 +355,9 @@ def add_ingredient(request, iid):  # did: dish id, iid: ingredient id
 
 @login_required
 def shoppinglist(request):
-    errors = []
     user = request.user
-    userProfile = UserProfile.objects.filter(user=user)
-    if len(userProfile) == 0:
-        errors.append('This user does not exist')
-    else:
-        userProfile = UserProfile.objects.get(user=user)
-    cart = Cart.objects.filter(user=userProfile)
-    if len(cart) == 0:
-        errors.append('The user cart does not exist')
-    else:
-        cart = Cart.objects.get(user=userProfile)
-
+    userProfile = UserProfile.objects.get(user=user)
+    cart = userProfile.cart
     ingredients = Ingredient.objects.all()
     if not ingredients:
         raise Http404
@@ -401,17 +384,12 @@ def shoppinglist(request):
 @login_required
 @transaction.atomic
 def del_ingredient(request, id):
-    errors = []
     user = request.user
     try:
-        userProfile = UserProfile.objects.filter(user=user)
-        if len(userProfile) == 0:
-            errors.append('This user does not exist')
-        else:
-            userProfile = UserProfile.objects.get(user=user)
+        userProfile = UserProfile.objects.get(user=user)
         cart = Cart.objects.filter(user=userProfile)
         if len(cart) == 0:
-            errors.append('The user cart does not exist')
+            return redirect(reverse('error'))
         else:
             cart = Cart.objects.get(user=userProfile)
         ingredient_to_delete = Ingredient.objects.get(id=id)
@@ -419,45 +397,28 @@ def del_ingredient(request, id):
         cart_detail.amount = 0
         cart_detail.delete()
     except ObjectDoesNotExist:
-        errors.append('The item does not exist in the cart of user:%s' % user.name)
+        return redirect(reverse('error'))
 
     return redirect(reverse('shoppinglist'))
 
 
 @login_required
 def get_shoppinglist(request):
-    errors = []
     user = request.user
-    userProfile = UserProfile.objects.filter(user=user)
-    if len(userProfile) == 0:
-        errors.append('User does not exist')
-    else:
-        userProfile = UserProfile.objects.get(user=user)
-    cart = Cart.objects.filter(user=userProfile)
-    if len(cart) == 0:
-        errors.append('The user cart does not exist')
-    else:
-        cart = Cart.objects.get(user=userProfile)
-
-    ingredients = Ingredient.objects.all()
-    if not ingredients:
-        raise Http404
-
+    userProfile = UserProfile.objects.get(user=user)
+    cart = userProfile.cart
+    rel = RelationBetweenCartIngredient.objects.filter(cart=cart).select_related()
     ingredient_list = []
     total_price = 0
-    for ingredient in ingredients:
+    for r in rel:
         ingre = {}
-        obj = RelationBetweenCartIngredient.objects.filter(cart=cart, ingredient=ingredient)
-        if not obj:
-            continue
-        detail = RelationBetweenCartIngredient.objects.get(cart=cart, ingredient=ingredient)
-        ingre['name'] = ingredient.name
-        ingre['id'] = ingredient.id
-        ingre_price = ingredient.price * detail.amount
+        ingre['name'] = r.ingredient.name
+        ingre['id'] = r.ingredient.id
+        ingre_price = r.ingredient.price * r.amount
         ingre['price'] = float("{0:.2f}".format(ingre_price))
-        ingre['amount'] = detail.amount
+        ingre['amount'] = r.amount
         ingredient_list.append(ingre)
-        price = ingredient.price * detail.amount
+        price = r.ingredient.price * r.amount
         total_price += price
     total_price = float("{0:.2f}".format(total_price))
     context = {
@@ -491,10 +452,18 @@ def print_list(request):
 
 
 def add_user(request):
+    list = ['uid']
+    if check_post_request(request, list) < 0:
+        return redirect(reverse('error'))
+
     uid = request.POST.get('uid', None)
     if uid is not None:
         fuser = UserProfile.objects.filter(userid=uid)
         if not fuser:
+            list = ['username', 'url', 'gender', 'location', 'email']
+            if check_post_request(request, list) < 0:
+                return redirect(reverse('error'))
+
             username = request.POST.get('username', None)
             url = request.POST.get('url', None)
             gender = request.POST.get('gender', None)
@@ -526,9 +495,13 @@ def logout_user(request):
 
 
 def create_post(request):
+    list = ['content', 'dish']
+    if check_post_request(request, list) < 0:
+        return redirect(reverse('error'))
+
     u=request.user
-    content = request.POST.get('content')
-    dishid = request.POST.get('dish')
+    content = request.POST.get('content', None)
+    dishid = request.POST.get('dish', None)
     dish = Dish.objects.get(id=dishid)
     if not u.is_anonymous:
         author=UserProfile.objects.get(user=request.user)
@@ -541,9 +514,13 @@ def create_post(request):
 
 
 def create_message(request):
+    list = ['content', 'ownerid']
+    if check_post_request(request, list) < 0:
+        return redirect(reverse('error'))
+
     u=request.user
-    content=request.POST.get('content')
-    ownerid=request.POST.get('ownerid')
+    content=request.POST.get('content', None)
+    ownerid=request.POST.get('ownerid', None)
     user=User.objects.get(id=ownerid)
     owner=UserProfile.objects.get(user=user)
     if not u.is_anonymous:
@@ -557,8 +534,12 @@ def create_message(request):
 
 
 def update_posts(request):
-    max_time = Post.get_max_time();
-    time = request.POST.get('time')
+    list = ['time', 'dishid']
+    if check_post_request(request, list) < 0:
+        return redirect(reverse('error'))
+
+    max_time = Post.get_max_time()
+    time = request.POST.get('time', None)
     posts = Post.get_posts(time).order_by('-created_on')
     dishid = request.POST.get('dishid', None)
     if dishid:
@@ -569,8 +550,12 @@ def update_posts(request):
 
 
 def update_messages(request):
-    max_time = Message.get_max_time();
-    time = request.POST.get('time')
+    list = ['time', 'ownerid']
+    if check_post_request(request, list) < 0:
+        return redirect(reverse('error'))
+
+    max_time = Message.get_max_time()
+    time = request.POST.get('time', None)
     messages = Message.get_messages(time).order_by('-created_on')
     ownerid = request.POST.get('ownerid', None)
     if ownerid:
@@ -586,6 +571,10 @@ def recommendation(request):
 
 
 def change_recommend(request):
+    list = ['num']
+    if check_post_request(request, list) < 0:
+        return redirect(reverse('error'))
+
     num = int(request.POST.get('num'))
     if not num:
         num = 3
