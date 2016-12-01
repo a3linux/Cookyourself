@@ -522,39 +522,32 @@ def logout_user(request):
     return redirect('index')
 
 
-@login_required
 def create_post(request):
+    u=request.user
     content = request.POST.get('content')
     dishid = request.POST.get('dish')
     dish = Dish.objects.get(id=dishid)
-    author = UserProfile.objects.get(user=request.user)
-    post = Post(dish=dish, author=author, content=content)
+    if not u.is_anonymous:
+        author=UserProfile.objects.get(user=request.user)
+        post = Post(dish=dish, author=author, content=content)
+    else:        
+        post = Post(dish=dish, content=content)
     post.save()
     response_data = json.dumps({"content": post.content})
     return HttpResponse(response_data, content_type="application/json")
 
 
-@login_required
 def create_message(request):
-    content = request.POST.get('content')
-    ownerid = request.POST.get('ownerid')
-    user = User.objects.get(id=ownerid)
-    owner = UserProfile.objects.get(user=user)
-    author = UserProfile.objects.get(user=request.user)
-    message = Message(owner=owner, author=author, content=content)
-    message.save()
-    response_data = json.dumps({"content": message.content})
-    return HttpResponse(response_data, content_type="application/json")
-
-
-@login_required
-def create_message(request):
-    content = request.POST.get('content')
-    ownerid = request.POST.get('ownerid')
-    user = User.objects.get(id=ownerid)
-    owner = UserProfile.objects.get(user=user)
-    author = UserProfile.objects.get(user=request.user)
-    message = Message(owner=owner, author=author, content=content)
+    u=request.user
+    content=request.POST.get('content')
+    ownerid=request.POST.get('ownerid')
+    user=User.objects.get(id=ownerid)
+    owner=UserProfile.objects.get(user=user)
+    if not u.is_anonymous:
+        author=UserProfile.objects.get(user=request.user)
+        message=Message(owner=owner, author=author, content=content)
+    else:        
+        message=Message(owner=owner, content=content)
     message.save()
     response_data = json.dumps({"content": message.content})
     return HttpResponse(response_data, content_type="application/json")

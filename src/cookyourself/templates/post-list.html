@@ -1,14 +1,26 @@
 {% load humanize %}
+{% load static from staticfiles %}
 <div class="media">
   <div class="media-left">
+    {% if post.author %}
     <a href="{% url 'profile' post.author.user.id %}">
       <img class="media-object" src="{{post.author.url}}"
-          class="img-rounded" alt="" height="50px">
+          class="img-rounded" alt="portrait" height="50px">
     </a>
+    {% else %}
+    <a>
+      <img class="media-object" src="{% static 'cookyourself/images/default.png' %}"
+          class="img-rounded" alt="portrait" height="50px">
+    </a>
+    {% endif %}
   </div>
   <div class="media-body">
     <p class="lead">
+    {% if post.author %}
       <a href="{% url 'profile' post.author.user.id %}">{{post.author.user.username}}</a>
+    {% else %}
+      <a>Anonymous User</a>
+    {% endif %}
     </p>
     <small><span class="glyphicon glyphicon-time"></span>&nbsp;{{post.created_on|naturaltime}}</small>
   </div>

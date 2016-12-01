@@ -81,7 +81,7 @@ class Instruction(models.Model):
         return self.content
 
 class Post(models.Model):
-    author = models.ForeignKey(UserProfile)
+    author = models.ForeignKey(UserProfile, on_delete=models.CASCADE, blank=True, null=True)
     # Posts are related to particular dish
     dish = models.ForeignKey(Dish)
     content = models.TextField(max_length=1024)
@@ -110,7 +110,8 @@ class Post(models.Model):
         return template.render(context).replace('\"','\'').replace('\n','')
 
 class Message(models.Model):
-    author = models.ForeignKey(UserProfile, related_name='message_author')
+    author = models.ForeignKey(UserProfile, related_name='message_author', 
+                                      on_delete=models.CASCADE, blank=True, null=True)
     owner = models.ForeignKey(UserProfile, related_name='message_owner')
     content = models.TextField(max_length=1024)
     created_on = models.DateTimeField(auto_now_add=True)
