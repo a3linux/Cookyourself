@@ -2,7 +2,6 @@ $(document).ready(function () {
     populateList();
     $('#message-form').on ('submit', function(event){
     //event.preventDefault();
-       console.log("form submitted to js");
        create_message();
        return false;
     });
@@ -36,19 +35,23 @@ function getCookie(name) {
 
 function create_message(){
     var csrftoken = getCookie('csrftoken');
-    $.post("/cookyourself/create_message",
-    {
-      content: $('#message-content').val(),
-      ownerid: $('#message-owner').val(),
-      csrfmiddlewaretoken: csrftoken
-    })
-    .done(function(data) 
-    { 
-      $('#message-content').val("");
-         console.log("request success");
-         console.log(data);
-        getUpdates();
-    }); 
+    var content= $('#message-content').val();
+    if(content.length!=0){
+        $.post("/cookyourself/create_message",
+        {
+            content: content,
+            ownerid: $('#owner_id').val(),
+            csrfmiddlewaretoken: csrftoken
+        })
+        .done(function(data) 
+        { 
+            if (data['redirect']){
+               window.location.href=data['redirect'];
+            }
+            $('#message-content').val("");
+               getUpdates();
+        }); 
+    }
 }
 
 function populateList() {
@@ -56,11 +59,14 @@ function populateList() {
     $.post("/cookyourself/update_messages",
     {
         time: "1970-01-01T00:00+00:00",
-        ownerid: $('#message-owner').val(),
+        ownerid: $('#owner_id').val(),
         csrfmiddlewaretoken: csrftoken
     })
     .done(function(data) 
     {
+        if (data['redirect']){
+          window.location.href=data['redirect'];
+        }
         var list = $("#message-list");
         list.data('max-time', data['max-time']);
         list.html('')
@@ -80,10 +86,13 @@ function getUpdates() {
     $.post("/cookyourself/update_messages/",
     {
         time: max_time,
-        ownerid: $('#message-owner').val(),
+        ownerid: $('#owner_id').val(),
         csrfmiddlewaretoken: csrftoken
     })
     .done(function(data) {
+        if (data['redirect']){
+          window.location.href=data['redirect'];
+        }
         list.data('max-time', data['max-time']);
         for (var i = 0; i < data.posts.length; i++) {
             var post = data.posts[i];

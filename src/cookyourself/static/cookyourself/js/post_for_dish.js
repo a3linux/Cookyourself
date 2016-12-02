@@ -24,7 +24,6 @@ function getCookie(name) {
         var cookies = document.cookie.split(';');
         for (var i = 0; i < cookies.length; i++) {
             var cookie = jQuery.trim(cookies[i]);
-            // Does this cookie string begin with the name we want?
             if (cookie.substring(0, name.length + 1) == (name + '=')) {
                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                 break;
@@ -36,19 +35,23 @@ function getCookie(name) {
 
 function create_post(){
 	var csrftoken = getCookie('csrftoken');
-    $.post("/cookyourself/create_post",
-    {
-      content: $('#post-content').val(),
-      dish: $('#post-dish').val(),
-      csrfmiddlewaretoken: csrftoken
-    })
-    .done(function(data) 
-    { 
-      $('#post-content').val("");
-	    // console.log("request success");
-	    // console.log(data);
-	    getUpdates();
-    }); 
+    var content= $('#post-content').val();
+    if (content.length!=0){
+       $.post("/cookyourself/create_post",
+       {
+         content: content,
+         dish: $('#dish_id').val(),
+         csrfmiddlewaretoken: csrftoken
+       })
+       .done(function(data) 
+       { 
+         if (data['redirect']){
+            window.location.href=data['redirect'];
+         }
+        $('#post-content').val("");
+          getUpdates();
+        }); 
+    }
 }
 
 function populateList() {
@@ -56,11 +59,14 @@ function populateList() {
     $.post("/cookyourself/update_posts",
     {
     	time: "1970-01-01T00:00+00:00",
-    	dishid: $('#post-dish').val(),
+    	dishid: $('#dish_id').val(),
         csrfmiddlewaretoken: csrftoken
     })
     .done(function(data) 
     {
+        if (data['redirect']){
+          window.location.href=data['redirect'];
+        }
         var list = $("#post-list");
         list.data('max-time', data['max-time']);
         list.html('')
@@ -80,10 +86,13 @@ function getUpdates() {
     $.post("/cookyourself/update_posts/",
     {
     	time: max_time,
-    	dishid: $('#post-dish').val(),
+    	dishid: $('#dish_id').val(),
         csrfmiddlewaretoken: csrftoken
     })
     .done(function(data) {
+        if (data['redirect']){
+         window.location.href=data['redirect'];
+        }
         list.data('max-time', data['max-time']);
         for (var i = 0; i < data.posts.length; i++) {
             var post = data.posts[i];

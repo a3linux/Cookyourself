@@ -3,9 +3,9 @@ function addIngredient(iid) {
     var did = document.getElementById("dish_id").value;
     $.post("/cookyourself/add_ingredient/" + iid, {dishid: did, csrfmiddlewaretoken: csrftoken})
         .done(function (data) {
-            //updateComment(id);
-            //hide the + button or make it grey?
-            //console.log("ingredient added:" + iid + "for dish:" + did);
+            if (data['redirect']){
+                window.location.href=data['redirect'];
+            }
         });
 }
 
@@ -14,21 +14,31 @@ function upvote() {
     var did = document.getElementById("dish_id").value;
     $.post("/cookyourself/upvote_dish", {dishid: did, csrfmiddlewaretoken: csrftoken})
         .done(function (data) {
+            if (data['redirect']){
+                window.location.href=data['redirect'];
+            }
             var popularity=data['popularity']
-            //hide the + button or make it grey?
             $('#popularity').text(popularity);
-            //console.log("dish popularity added:" + did );
-            //console.log("popularity" + popularity);
         });
 }
 
 function save() {
-    var csrftoken = getCookie('csrftoken');
-    var did = document.getElementById("dish_id").value;
-    $.post("/cookyourself/save_dish", {dishid: did, csrfmiddlewaretoken: csrftoken})
-    .done(function (data) {
-        $('#heart').css("color", "#ea1c1c");
-    });
+    var stat = $('#user_status').val();
+    if (stat == 0){
+       alert("Please join us, then you can save your favorite recipe!");
+    }
+    else {
+        var csrftoken = getCookie('csrftoken');
+        var did = document.getElementById("dish_id").value;
+        $.post("/cookyourself/save_dish", {dishid: did, csrfmiddlewaretoken: csrftoken})
+        .done(function (data) {
+            if (data['redirect']){
+                window.location.href=data['redirect'];
+            }
+            $('#heart').css("color", "#ea1c1c"); 
+        });
+    }
+    
 }
 
 function eventsHandle() {
@@ -36,7 +46,13 @@ function eventsHandle() {
         var iid = $(this).attr("id");
         //console.log("iid:" + iid);
         //addAllIngredient();
-        addIngredient(iid);
+        var stat = $('#user_status').val();
+        if (stat ==0 ){
+            alert("Please join us, then you can make a shopping list!");
+        }
+        else{
+            addIngredient(iid);
+        }
     });
     $("#upvote").on("click", function(event){
         upvote();

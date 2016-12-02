@@ -50,12 +50,7 @@ function eventHandle(){
         event.preventDefault();
         FB.logout(function(response){
            // Handle the response object
-           logoutUser();
-           var current_url=window.location.href;
-           if (current_url=="http://54.244.78.192/cookyourself/" || current_url=="http://54.244.78.192/")
-            checkLoginState();
-           else 
-            window.location.href = "/cookyourself";        
+           logoutUser();   
         }); 
    });
    $('#navbar-search-input').keypress(function(event){
@@ -113,14 +108,26 @@ function addUser(){
     })
     .done(function(data) 
       { 
-        var usrid=data['usrid'];
-        document.getElementById("profile_link").href ="/cookyourself/profile/"+ usrid;
+        if (data['redirect']){
+          window.location.href=data['redirect'];
+        }
+        if (data['usrid']){
+          var usrid=data['usrid'];
+          document.getElementById("profile_link").href ="/cookyourself/profile/"+ usrid;
+        }
+        
     }); 
 }
 
 function logoutUser() {
   var csrftoken = getCookie('csrftoken');
-  $.post("/cookyourself/logout_user", {csrfmiddlewaretoken: csrftoken}) 
+  $.post("/cookyourself/logout_user", {csrfmiddlewaretoken: csrftoken})
+  .done(function(data)
+  {
+    if(data['redirect']){
+      window.location.href=data['redirect'];
+    }
+  });    
 }
 
 
@@ -133,6 +140,7 @@ function logoutUser() {
       $("#list").show();
       $("#fb-login").hide(); 
       $("#fb-signup").hide();
+      document.getElementById("user_status").value=1;
       getUserInfo(GetPic);
 
     } else if (response.status === 'not_authorized') {
@@ -145,7 +153,7 @@ function logoutUser() {
       $('#portrait').hide();
       $('#more').show();
       $('#portrait').removeAttr('src');
-      //document.getElementById("portrait").style= "width: 33px; height: 18px;";
+      document.getElementById("user_status").value=0;
       document.getElementById("user_photo").style= "padding-top: 14px; padding-bottom: 2px;";  
     } else {
       // The person is not logged into Facebook, so we're not sure if
@@ -158,6 +166,7 @@ function logoutUser() {
         $('#portrait').hide();
         $('#more').show();
         $('#portrait').removeAttr('src');
+        document.getElementById("user_status").value=0;
         //document.getElementById("portrait").style= "width: 33px; height: 18px;";
         document.getElementById("user_photo").style= "padding-top: 14px; padding-bottom: 2px;";
     }

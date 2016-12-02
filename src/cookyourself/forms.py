@@ -7,21 +7,10 @@ from haystack.forms import SearchForm
 from cookyourself.models import *
 
 class PostForm(forms.ModelForm):
-    content=forms.CharField(label='', widget=forms.Textarea(
-			    attrs={ 'name': "item", 
-			            'style':"resize: none; width: 90%;",
-			            'rows':"3", 
-			            'cols':"40%",
-			            'id':'post-content', 
-			            'required': True, 
-			            'placeholder': "How do you like the recipe?"}))
     class Meta:
         model=Post
-        fields=('content', 'dish')
-        widgets={'dish': forms.HiddenInput(attrs={'id':'post-dish'})}
+        fields=('content',)
 
-    def createPostForm(init):
-        return PostForm(initial=init, auto_id=False);
 
 # template for customize our own search form
 # ref: http://django-haystack.readthedocs.io/en/v2.4.1/views_and_forms.html
@@ -44,21 +33,10 @@ class DishSearchForm(SearchForm):
         return sqs
 
 class MessageForm(forms.ModelForm):
-	content=forms.CharField(label='', widget=forms.Textarea(
-			    attrs={ 'name': "item", 
-			            'style':"resize: none; width: 90%;",
-			            'rows':"3", 
-			            'cols':"40%",
-			            'id':'message-content', 
-			            'required': True, 
-			            'placeholder': "Leave a message?"}))
+	content=forms.CharField(max_length = 200, label='')
 	class Meta:	
 		model=Message
-		fields=('content', 'owner')
-		widgets={'owner': forms.HiddenInput(attrs={'id':'message-owner'})}
-
-	def createMessageForm(init):
-		return MessageForm(initial=init, auto_id=False);
+		fields=('content',)
 
 def process_raw_queries(raw):
     return raw

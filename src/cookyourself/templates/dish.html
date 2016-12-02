@@ -52,10 +52,16 @@
           <input type="hidden" id="saved" name="save_status" value="{{ saved }}">
           <h5><a href="#comments">{{len}} reviews</a></h5>
           <h5> Created on: {{dish.created_on}} </h5>
+          {% if dish.style %}
           <h5> Style: {{dish.style.name}} </h5>
+          {% endif %}
+          {% if dish.calories %}
           <h5> Calories: {{dish.calories}} </h5>
+          {% endif %}
           <h5> Upvoted: <span id="popularity">{{dish.popularity}}</span></h5>
+          {% if dish.description %}
           <h5 class="description">"{{dish.description}}"
+          {% endif %}
           </h5>
         </div>
       </div>
@@ -134,10 +140,10 @@
       <div class="row">
         <form method="post" id="post-form">
           <div class="col-xs-12 col-sm-6 col-md-6 col-lg-7">
-              {{form}}
+              <textarea class="form-control" name="content" id="post-content" rows="3" cols="40%" placeholder="How do you like the recipe?"></textarea>
           </div>
           <div class="col-xs-2 col-xs-offset-0 col-sm-5 col-sm-offset-1 col-md-5 col-md-offset-0 col-lg-5 col-lg-offset-0">
-            <input class="btn btn-warning" type="submit" value="Post">
+            <input class="btn btn-warning" type="submit" value="Post" id="submit">
           </div>
           {% csrf_token %}
         </form>

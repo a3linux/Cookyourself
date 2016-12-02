@@ -224,11 +224,11 @@ def dish(request, id=0):
 
         posts = Post.objects.filter(dish=dish)
         length = len(posts)
-        init = {'dish': dish}
-        form = PostForm.createPostForm(init)
         saved = 0
+        can_save=0
         user = request.user
         if not user.is_anonymous:
+            can_save = 1
             profile = UserProfile.objects.filter(user=user)
             if profile:
                 favorites = profile[0].favorites
@@ -244,9 +244,10 @@ def dish(request, id=0):
                 no_stars.append(1)
 
         context = {'dish': dish, 'isets': ingre_sets, 'tutorial': tutorial,
-                   'form': form, 'image': image, 'instructions': instructions,
+                   'image': image, 'instructions': instructions,
                    'posts': posts, 'len': length, 'styles': styles,
-                   'saved': saved, 'stars': stars, 'no_stars': no_stars}
+                   'stars': stars,  'no_stars': no_stars,
+                   'saved': saved, 'can_save': can_save }
 
     return render(request, 'dish.html', context)
 
@@ -265,7 +266,8 @@ def calc_star(id):
 def upvote_dish(request):
     list = ['dishid']
     if check_post_request(request, list) < 0:
-        return redirect(reverse('error'))
+        response_data = json.dumps({"redirect": '/cookyourself/error'})
+        return HttpResponse(response_data, content_type="application/json")
 
     did = request.POST.get('dishid')
     dish = get_object_or_404(Dish, id=did)
@@ -281,17 +283,25 @@ def upvote_dish(request):
 def save_dish(request):
     list = ['dishid']
     if check_post_request(request, list) < 0:
-        return redirect(reverse('error'))
-
+        response_data = json.dumps({"redirect": '/cookyourself/error'})
+        return HttpResponse(response_data, content_type="application/json")
     did = request.POST.get('dishid')
-    dish = get_object_or_404(Dish, id=did)
+    dish=Dish.objects.filter(id=did)
+    if len(dish)==0:
+        response_data = json.dumps({"redirect": '/cookyourself/error'})
+        return HttpResponse(response_data, content_type="application/json")
+    dish = Dish.objects.get(id=did)
     user = request.user
+    profile = UserProfile.objects.filter(user=user)
+    if len(profile) == 0:
+        response_data = json.dumps({"redirect": '/cookyourself/error'})
+        return HttpResponse(response_data, content_type="application/json")
     profile = UserProfile.objects.get(user=user)
     favorites = profile.favorites.all()
     if not favorites.filter(id=did):
         profile.favorites.add(dish)
         profile.save()
-    return HttpResponse("OK")
+    return HttpResponse("")
 
 
 def profile(request, id=0):
@@ -301,8 +311,6 @@ def profile(request, id=0):
     else:
         user_of_profile = User.objects.get(id=id)
         profile = UserProfile.objects.get(user=user_of_profile)
-        init = {'owner': user_of_profile}
-        form = MessageForm.createMessageForm(init)
         favorites = profile.favorites.all()
         dishsets = []
         for dish in favorites:
@@ -312,7 +320,7 @@ def profile(request, id=0):
             else:
                 dic = {'dish': dish}
             dishsets.append(dic)
-        context = {'profile': profile, 'form': form, 'sets': dishsets}
+        context = {'profile': profile, 'sets': dishsets}
     return render(request, 'profile.html', context)
 
 
@@ -321,7 +329,8 @@ def profile(request, id=0):
 def add_ingredient(request, iid):  # did: dish id, iid: ingredient id
     list = ['dishid']
     if check_post_request(request, list) < 0:
-        return redirect(reverse('error'))
+        response_data = json.dumps({"redirect": '/cookyourself/error'})
+        return HttpResponse(response_data, content_type="application/json")
 
     user = request.user
     did = request.POST.get('dishid')
@@ -330,7 +339,8 @@ def add_ingredient(request, iid):  # did: dish id, iid: ingredient id
     if cart:
         cart = Cart.objects.get(user=userProfile)
     else:
-        return redirect(reverse('error'))
+        response_data = json.dumps({"redirect": '/cookyourself/error'})
+        return HttpResponse(response_data, content_type="application/json")
     dish = get_object_or_404(Dish, id=did)
     ingredient = get_object_or_404(Ingredient, id=iid)
     dish_detail = RelationBetweenDishIngredient.objects.filter(dish=dish, ingredient=ingredient)
@@ -349,8 +359,7 @@ def add_ingredient(request, iid):  # did: dish id, iid: ingredient id
         cart_detail.save()
     else:
         RelationBetweenCartIngredient.objects.create(cart=cart, ingredient=ingredient, amount=ingre_amount)
-    target = "/cookyourself/dish/" + str(did)
-    return redirect(target)
+    return HttpResponse("")
 
 
 @login_required
@@ -454,73 +463,83 @@ def print_list(request):
 def add_user(request):
     list = ['uid']
     if check_post_request(request, list) < 0:
-        return redirect(reverse('error'))
+        response_data = json.dumps({"redirect": '/cookyourself/error'})
+        return HttpResponse(response_data, content_type="application/json")
 
-    uid = request.POST.get('uid', None)
-    if uid is not None:
-        fuser = UserProfile.objects.filter(userid=uid)
-        if not fuser:
-            list = ['username', 'url', 'gender', 'location', 'email']
-            if check_post_request(request, list) < 0:
-                return redirect(reverse('error'))
+    uid = request.POST.get('uid')
+    fuser = UserProfile.objects.filter(userid=uid)
+    if not fuser:
+        username = request.POST.get('username', None)
+        url = request.POST.get('url', None)
+        gender = request.POST.get('gender', None)
+        location = request.POST.get('location', None)
+        email = request.POST.get('email', None)
+        new_user = User(username=username)
+        if email:
+            new_user.email = email
+        new_user.save()
+        new_user_profile = UserProfile(user=new_user, userid=uid, url=url, gender=gender, location=location)
+        new_user_profile.save()
+        cart = Cart(user=new_user_profile)
+        cart.save()
+        login(request, new_user)
+    else:
+        fuser = UserProfile.objects.get(userid=uid)
+        user = fuser.user
+        login(request, user)
 
-            username = request.POST.get('username', None)
-            url = request.POST.get('url', None)
-            gender = request.POST.get('gender', None)
-            location = request.POST.get('location', None)
-            email = request.POST.get('email', None)
-            new_user = User(username=username)
-            if email:
-                new_user.email = email
-            new_user.save()
-            new_user_profile = UserProfile(user=new_user, userid=uid, url=url, gender=gender, location=location)
-            new_user_profile.save()
-            cart = Cart(user=new_user_profile)
-            cart.save()
-            login(request, new_user)
-        else:
-            fuser = UserProfile.objects.get(userid=uid)
-            user = fuser.user
-            login(request, user)
-
-        response_text = json.dumps({"usrid": request.user.id})
-        return HttpResponse(response_text, content_type="application/json")
-    return redirect('index')
+    response_text = json.dumps({"usrid": request.user.id})
+    return HttpResponse(response_text, content_type="application/json")
 
 
 @login_required
 def logout_user(request):
     logout(request)
-    return redirect('index')
+    response_data = json.dumps({"redirect": '/cookyourself/'})
+    return HttpResponse(response_data, content_type="application/json")
 
 
 def create_post(request):
+    response_data=''
     list = ['content', 'dish']
     if check_post_request(request, list) < 0:
-        return redirect(reverse('error'))
-
-    u=request.user
-    content = request.POST.get('content', None)
-    dishid = request.POST.get('dish', None)
-    dish = Dish.objects.get(id=dishid)
-    if not u.is_anonymous:
-        author=UserProfile.objects.get(user=request.user)
-        post = Post(dish=dish, author=author, content=content)
-    else:        
-        post = Post(dish=dish, content=content)
-    post.save()
-    response_data = json.dumps({"content": post.content})
+        response_data = json.dumps({"redirect": '/cookyourself/error'})
+        return HttpResponse(response_data, content_type="application/json")
+    content=request.POST.get('content')
+    dic={'content': content}
+    form = PostForm(dic)
+    if form.is_valid():
+        u=request.user
+        content = form.cleaned_data['content']
+        dishid=request.POST.get('dish')
+        dish = Dish.objects.filter(id=dishid)
+        if len(dish)==0:
+            response_data = json.dumps({"redirect": '/cookyourself/error'})
+            return HttpResponse(response_data, content_type="application/json")
+        dish = Dish.objects.get(id=dishid)
+        if not u.is_anonymous:
+           author=UserProfile.objects.get(user=request.user)
+           post = Post(dish=dish, author=author, content=content)
+        else:        
+           post = Post(dish=dish, content=content)
+        post.save()
+        response_data = json.dumps({"content": post.content})
     return HttpResponse(response_data, content_type="application/json")
 
 
 def create_message(request):
+    response_data=''
     list = ['content', 'ownerid']
     if check_post_request(request, list) < 0:
-        return redirect(reverse('error'))
-
+        response_data = json.dumps({"redirect": '/cookyourself/error'})
+        return HttpResponse(response_data, content_type="application/json")
     u=request.user
-    content=request.POST.get('content', None)
-    ownerid=request.POST.get('ownerid', None)
+    content=request.POST.get('content')
+    ownerid=request.POST.get('ownerid')
+    user=User.objects.filter(id=ownerid)
+    if len(user)==0:
+        response_data = json.dumps({"redirect": '/cookyourself/error'})
+        return HttpResponse(response_data, content_type="application/json")
     user=User.objects.get(id=ownerid)
     owner=UserProfile.objects.get(user=user)
     if not u.is_anonymous:
@@ -536,13 +555,17 @@ def create_message(request):
 def update_posts(request):
     list = ['time', 'dishid']
     if check_post_request(request, list) < 0:
-        return redirect(reverse('error'))
-
+        response_data = json.dumps({"redirect": '/cookyourself/error'})
+        return HttpResponse(response_data, content_type="application/json")
     max_time = Post.get_max_time()
     time = request.POST.get('time', None)
     posts = Post.get_posts(time).order_by('-created_on')
     dishid = request.POST.get('dishid', None)
     if dishid:
+        dish = Dish.objects.filter(id=dishid)
+        if len(dish)==0:
+            response_data = json.dumps({"redirect": '/cookyourself/error'})
+            return HttpResponse(response_data, content_type="application/json")
         dish = Dish.objects.get(id=dishid)
         posts = posts.filter(dish=dish)
     context = {"max_time": max_time, "posts": posts}
@@ -552,13 +575,17 @@ def update_posts(request):
 def update_messages(request):
     list = ['time', 'ownerid']
     if check_post_request(request, list) < 0:
-        return redirect(reverse('error'))
-
+        response_data = json.dumps({"redirect": '/cookyourself/error'})
+        return HttpResponse(response_data, content_type="application/json")
     max_time = Message.get_max_time()
     time = request.POST.get('time', None)
     messages = Message.get_messages(time).order_by('-created_on')
     ownerid = request.POST.get('ownerid', None)
     if ownerid:
+        user = User.objects.filter(id=ownerid)
+        if len(user)==0:
+            response_data = json.dumps({"redirect": '/cookyourself/error'})
+            return HttpResponse(response_data, content_type="application/json")
         user = User.objects.get(id=ownerid)
         owner = UserProfile.objects.get(user=user)
         messages = messages.filter(owner=owner)
@@ -571,13 +598,11 @@ def recommendation(request):
 
 
 def change_recommend(request):
-    list = ['num']
-    if check_post_request(request, list) < 0:
-        return redirect(reverse('error'))
-
-    num = int(request.POST.get('num'))
+    num = request.POST.get('num', None)
     if not num:
         num = 3
+    else:
+        num=int(num)
     dishes = randomDish(num)
     dishsets = []
     for dish in dishes:

@@ -62,7 +62,7 @@
         <ul class="nav navbar-nav navbar-right">
           <li><a href="{% url 'recommendation' %}">Recommend</a></li>
           <li class="dropdown">
-            <a id="user_photo" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><p id="more">More</p><img id="portrait" alt="more"></a>
+            <a id="user_photo" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><p id="more">Join us</p><img id="portrait" alt="more"></a>
             <ul class="dropdown-menu">
               <li id="fb-signup"><a>Sign up using Facebook</a></li>
               <li id="fb-login"><a>Log in using Facebook</a></li>
@@ -83,7 +83,7 @@
       {% endblock %}
     </div>
   <!-- </div> -->
-
+  <input type="hidden" id="user_status" name="user" value=0>
   <footer id="base-footer">
     <div class="second-bar">
       <div class="container">

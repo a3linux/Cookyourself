@@ -26,6 +26,8 @@
 }
 #message-content{
     margin-bottom: 30px;
+    resize: none; 
+    width: 90%;
 }
 .post-hr{
   border-top: 1px solid #a79e9e;
@@ -34,4 +36,8 @@
 #dish_name{
     margin-top:8px;
     margin-bottom:25px;
+}
+
+#submit{
+    margin-bottom: 30px;
 }
