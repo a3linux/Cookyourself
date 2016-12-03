@@ -75,6 +75,9 @@ def price_crawler():
         query = ingred.name
         if '(' in query:
             query = query.split('(')[0]
+        
+        if ':' in query:
+            query = query.split(':')[0]
 
         if ingred.price:
             continue
