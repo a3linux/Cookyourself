@@ -12,7 +12,7 @@
 	<div id="main_background" class="jumbotron jumbotron-main">
 		<br><br>
 		<h2 class="text-center">If, for the sake of love and delicacy, I must pay. I'd rather give my life
-			away.</br></br>
+			away.<br><br>
 			<small>― adapted from Sándor Petőfi</small>
 		</h2>
 	</div>
@@ -36,24 +36,24 @@
 				</div>
 
 				<div class="btn-group" role="group">
-					<button type="button" class="btn btn-warning dropdown-toggle" id="dropdownMenu1"
+					<button type="button" class="btn btn-warning dropdown-toggle" id="dropdownMenu2"
 					        data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 						Time
 						<span class="caret"></span>
 					</button>
-					<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+					<ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
 						<li><a href="{% url 'filter' 3 %}">New to old</a></li>
 						<li><a href="{% url 'filter' 4 %}">Old to new</a></li>
 					</ul>
 				</div>
 
 				<div class="btn-group" role="group">
-					<button type="button" class="btn btn-warning dropdown-toggle" id="dropdownMenu1"
+					<button type="button" class="btn btn-warning dropdown-toggle" id="dropdownMenu3"
 					        data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 						Dish style
 						<span class="caret"></span>
 					</button>
-					<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+					<ul class="dropdown-menu" aria-labelledby="dropdownMenu3">
 						<li><a href="{% url 'filter' 5 %}">American</a></li>
 						<li><a href="{% url 'filter' 6 %}">Scottish</a></li>
 						<li><a href="{% url 'filter' 7 %}">Russian</a></li>
@@ -61,7 +61,7 @@
 				</div>
 			</div>
 		</div>
-		</br>
+		<br>
 
         <div>
             {% csrf_token %}

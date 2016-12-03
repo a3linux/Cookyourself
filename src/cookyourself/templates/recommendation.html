@@ -1,38 +1,37 @@
 {% extends "base.html" %}
 {% load static from staticfiles %}
 {% block title %}
-  <title>Recommendation</title>
+	<title>Recommendation</title>
 {% endblock %}
 {% block individual_css %}
-  <link href="{% static 'cookyourself/css/recommendation.css' %}" rel="stylesheet">
+	<link href="{% static 'cookyourself/css/recommendation.css' %}" rel="stylesheet">
 {% endblock %}
 {% block individual_js %}
-  <script src="{% static 'cookyourself/js/image.js' %}" type="text/javascript"></script>
-  <script src="{% static 'cookyourself/js/recommend.js' %}" type="text/javascript"></script>
+	<script src="{% static 'cookyourself/js/image.js' %}" type="text/javascript"></script>
+	<script src="{% static 'cookyourself/js/recommend.js' %}" type="text/javascript"></script>
 {% endblock %}
 
 {% block main_body %}
-  <div class="container">
-    <div class="page-header">
-      <h1>Recommendation<br>
-        <small>Every accomplishment starts with the decision to try.</small>
-      </h1>
-    </div>
-    <div class="scrollbar">
-      <div class="handle"></div>
-    </div>
-    <div class="frame" container-fluid tab-content">
-      <div class="row">
-        <div class="slidee" id="recommend_list">  
-       </div> 
-       </div>
-      </div>
-        <div class="text-center">
-           <button class="btn btn-warning" id="again">Not your dish?</button>
-        </div>
-    </div>
-    </div>
-    <div>
-      {% csrf_token %}
-    </div>
+	<div class="container">
+		<div class="page-header">
+			<h1>Recommendation<br>
+				<small>Every accomplishment starts with the decision to try.</small>
+			</h1>
+		</div>
+		<div class="scrollbar">
+			<div class="handle"></div>
+		</div>
+		<div class="frame container-fluid tab-content">
+			<div class="row">
+				<div class="slidee" id="recommend_list">
+				</div>
+			</div>
+		</div>
+		<div class="text-center">
+			<button class="btn btn-warning" id="again">Not your dish?</button>
+		</div>
+	</div>
+	<div>
+		{% csrf_token %}
+	</div>
 {% endblock %}
