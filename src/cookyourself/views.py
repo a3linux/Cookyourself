@@ -364,35 +364,16 @@ def add_ingredient(request, iid):  # did: dish id, iid: ingredient id
 
 @login_required
 def shoppinglist(request):
-    user = request.user
-    userProfile = UserProfile.objects.get(user=user)
-    cart = userProfile.cart
-    ingredients = Ingredient.objects.all()
-    if not ingredients:
-        raise Http404
-
-    ingredient_list = []
-    total_price = 0
-    for ingredient in ingredients:
-        obj = RelationBetweenCartIngredient.objects.filter(cart=cart, ingredient=ingredient)
-        if not obj:
-            continue
-        detail = RelationBetweenCartIngredient.objects.get(cart=cart, ingredient=ingredient)
-        ingredient_list.append(ingredient)
-        price = ingredient.price * detail.amount
-        total_price += price
-    total_price = float("{0:.2f}".format(total_price))
-    context = {
-        "ingredients": ingredient_list,
-        "price": total_price,
-    }
-    context = {}
-    return render(request, 'shoppinglist.html', context)
+    return render(request, 'shoppinglist.html')
 
 
 @login_required
 @transaction.atomic
-def del_ingredient(request, id):
+def del_ingredient(request):
+    list = ['iid']
+    if check_post_request(request, list) < 0:
+        response_data = json.dumps({"redirect": '/cookyourself/error'})
+        return HttpResponse(response_data, content_type="application/json")
     user = request.user
     try:
         userProfile = UserProfile.objects.get(user=user)
@@ -401,14 +382,19 @@ def del_ingredient(request, id):
             return redirect(reverse('error'))
         else:
             cart = Cart.objects.get(user=userProfile)
-        ingredient_to_delete = Ingredient.objects.get(id=id)
+        iid= request.POST.get('iid')
+        ingredient_to_delete = Ingredient.objects.filter(id=iid)
+        if len(ingredient_to_delete)==0:
+            response_data = json.dumps({"redirect": '/cookyourself/error'})
+            return HttpResponse(response_data, content_type="application/json")
+        ingredient_to_delete = Ingredient.objects.get(id=iid)
         cart_detail = RelationBetweenCartIngredient.objects.filter(cart=cart, ingredient=ingredient_to_delete)[0]
         cart_detail.amount = 0
         cart_detail.delete()
     except ObjectDoesNotExist:
-        return redirect(reverse('error'))
-
-    return redirect(reverse('shoppinglist'))
+        response_data = json.dumps({"redirect": '/cookyourself/error'})
+        return HttpResponse(response_data, content_type="application/json")
+    return HttpResponse("")
 
 
 @login_required

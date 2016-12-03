@@ -11,7 +11,7 @@ urlpatterns = [
     url(r'^change_recommend$', cookyourself.views.change_recommend),
     url(r'^profile/(?P<id>\d+)$', cookyourself.views.profile, name='profile'),
     url(r'^add_ingredient/(?P<iid>\d+)$', cookyourself.views.add_ingredient, name='add_ingredient'),
-    url(r'^del_ingredient/(?P<id>\d+)$', cookyourself.views.del_ingredient, name='del_ingredient'),
+    url(r'^del_ingredient$', cookyourself.views.del_ingredient, name='del_ingredient'),
     url(r'^upvote_dish$', cookyourself.views.upvote_dish),
     url(r'^save_dish$', cookyourself.views.save_dish),
     url(r'^get_shoppinglist$', cookyourself.views.get_shoppinglist, name='get_shoppinglist'),

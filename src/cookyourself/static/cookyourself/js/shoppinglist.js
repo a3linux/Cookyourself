@@ -3,8 +3,43 @@
  */
 
 //send a new request to update the shopping list
+
+$(document).ready(function () {
+    eventsHandle();
+    var csrftoken = getCookie('csrftoken');
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    });
+    window.setInterval(sendRequest, 800);
+});
+
+function eventsHandle() {
+    $("#shopping-list").on("click", "#delete", function (event) {
+        var iid = $(this).attr("data");
+        delete_ingredient(iid);
+    });   
+}
+
+function delete_ingredient(iid) {
+    var csrftoken = getCookie('csrftoken');
+    $.post("/cookyourself/del_ingredient",
+       {
+         iid: iid,
+         csrfmiddlewaretoken: csrftoken
+       })
+       .done(function(data) 
+       { 
+          if (data['redirect']){
+            window.location.href=data['redirect'];
+          }
+          sendRequest();
+       }); 
+}
 var req;
 var shoppingInventory = "";
+
 function sendRequest() {
     if (window.XMLHttpRequest) {
         req = new XMLHttpRequest();
@@ -84,8 +119,8 @@ function shoppingListDisplay() {
         tmp.push(item);
 
         var newIngre = document.createElement("li");
-        newIngre.className += "list-group-item";
-        newIngre.innerHTML = "<strong>" + amount + "&nbsp;" + "($" + price + ")" + "&nbsp;" + name + "&nbsp;" + "</strong><a class=\"pull-right icon-remove-parent\" href=\"/cookyourself/del_ingredient/" + id + "\">X</a> ";
+        newIngre.setAttribute("class", "list-group-item");
+        newIngre.innerHTML = "<strong>" + amount + "&nbsp;" + "($" + price + ")" + "&nbsp;" + name + "&nbsp;" + "</strong><a class=\"pull-right icon-remove-parent\" id=\"delete\" data=" + id + ">X</a> ";
         list.appendChild(newIngre);
     }
     shoppingInventory = tmp.join("\n");
@@ -100,5 +135,22 @@ function handleResponse() {
     }
     shoppingListDisplay();
 }
-// causes the sendRequest to run every 8 seconds
-window.setInterval(sendRequest, 800);
+
+function getCookie(name) {  
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+
+
+
