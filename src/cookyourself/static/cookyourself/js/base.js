@@ -31,6 +31,7 @@ $(document).ready(function () {
   eventHandle();  
 });
 
+
 function eventHandle(){
   $("#fb-login").on("click", function( event ) { 
         event.preventDefault();
@@ -167,27 +168,15 @@ function logoutUser() {
         $('#more').show();
         $('#portrait').removeAttr('src');
         document.getElementById("user_status").value=0;
-        //document.getElementById("portrait").style= "width: 33px; height: 18px;";
         document.getElementById("user_photo").style= "padding-top: 14px; padding-bottom: 2px;";
     }
   }
 
 
   // This function is called when someone finishes with the Login
-  // Button.  See the onlogin handler attached to it in the sample
-  // code below.
-  function checkLoginState() {
-    FB.getLoginStatus(function(response) {
-      statusChangeCallback(response);
-    });
-  }
-
-
-
-  // Now that we've initialized the JavaScript SDK, we call
-  // FB.getLoginStatus().  This function gets the state of the
-  // person visiting this page and can return one of three states to
-  // the callback you provide.  They can be:
+  // Button.  
+  // Gets the state of the person visiting this page and can return
+  // one of three states to the callback you provide.  They can be:
   //
   // 1. Logged into your app ('connected')
   // 2. Logged into Facebook, but not your app ('not_authorized')
@@ -195,9 +184,13 @@ function logoutUser() {
   //    your app or not.
   //
   // These three cases are handled in the callback function.
+  function checkLoginState() {
+    FB.getLoginStatus(function(response) {
+      statusChangeCallback(response);
+    });
+  }
 
-
-  // CSRF set-up copied from Django docs
+// CSRF set-up copied from Django docs
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie != '') {

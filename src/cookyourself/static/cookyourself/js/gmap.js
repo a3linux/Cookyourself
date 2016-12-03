@@ -1,9 +1,13 @@
+/**
+ * Created by wennad.
+ */
 var map;
 var markers=new Array();
 var message=document.getElementById("message");
 
 function myMap() {
   var mapCanvas = document.getElementById("map");
+  mapCanvas.style="width:100%; height:180px"
   var mapOptions = {
     center: {lat: 40.441, lng: -79.996},  //default center: Pittsburgh
     zoom: 13,
@@ -14,11 +18,9 @@ function myMap() {
 
 function createMarker(place){
   var l = new google.maps.LatLng(place.geometry.location.lat(),place.geometry.location.lng());
-  //var marker=new google.maps.Marker({position: location, animation: google.maps.Animation.BOUNCE});
   var marker=new google.maps.Marker({position: l});
   marker.setMap(map);
   markers.push(marker);
-  //console.log("push store location");
   var infowindow = new google.maps.InfoWindow({
     content: place.name
   });
@@ -38,21 +40,16 @@ function searchStore(position){
 
 function callback(results, status) {
   if (status == google.maps.places.PlacesServiceStatus.OK) {
-    //for (var i = 0; i < results.length; i++) {
-      //var place = results[i];
-      createMarker(results[0]);
-     //}
+    createMarker(results[0]);
   }
 }
 
 function usercallback(results, status) {
   if (status == google.maps.places.PlacesServiceStatus.OK) {
-    //for (var i = 0; i < results.length; i++) {
-      //var place = results[i];
       redrawMap(results[0]);
-     //}
   }
 }
+
 function redrawMap(position){
   var mapCanvas = document.getElementById("map");
   var userCenter = new google.maps.LatLng(position.geometry.location.lat(), position.geometry.location.lng());
@@ -96,10 +93,8 @@ function drawpath(){
   });
 
   var src=markers[0].position;
-  //console.log(src);
   var des=markers[1].position;
 
-  //console.log(des);
   poly.setPath(path);
   service.route({
     origin: src,

@@ -1,4 +1,6 @@
-
+/**
+ * Created by wennad.
+ */
 $(document).ready(function () {
 	populateList();
 	$('#post-form').on ('submit', function(event){

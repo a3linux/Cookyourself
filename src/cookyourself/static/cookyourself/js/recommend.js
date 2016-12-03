@@ -1,3 +1,6 @@
+/**
+ * Created by wennad.
+ */
 var num=3;
 var d;
 function recommend(num) {

@@ -1,5 +1,6 @@
 /**
  * Created by yunpengx on 11/16/16.
+ * Modified by wennad on 12/2/16--delete ingredients
  */
 
 //send a new request to update the shopping list

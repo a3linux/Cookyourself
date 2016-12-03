@@ -1,3 +1,6 @@
+/**
+ * Created by wennad.
+ */
 function addIngredient(iid) {
     var csrftoken = getCookie('csrftoken');
     var did = document.getElementById("dish_id").value;
@@ -44,8 +47,6 @@ function save() {
 function eventsHandle() {
     $("#ingre-list").on("click", ".glyphicon", function (event) {
         var iid = $(this).attr("id");
-        //console.log("iid:" + iid);
-        //addAllIngredient();
         var stat = $('#user_status').val();
         if (stat ==0 ){
             alert("Please join us, then you can make a shopping list!");
@@ -68,7 +69,6 @@ function ifsaved() {
    {
      $('#heart').css("color", "#ea1c1c");
    }
-   //console.log("saved: "+ saved);
 }
 
 $(document).ready(function () {
@@ -89,7 +89,6 @@ function getCookie(name) {
         var cookies = document.cookie.split(';');
         for (var i = 0; i < cookies.length; i++) {
             var cookie = jQuery.trim(cookies[i]);
-            // Does this cookie string begin with the name we want?
             if (cookie.substring(0, name.length + 1) == (name + '=')) {
                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                 break;
