@@ -69,7 +69,6 @@ function redrawMap(position){
 
 function getLocation() {
   var position=$("#user_location").val();
-  console.log("user_location:"+ position);
   if (position.length==0){
     $("#user_location").css("color", "red");
     window.alert("Please enter your location.");

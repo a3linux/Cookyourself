@@ -121,7 +121,7 @@ function shoppingListDisplay() {
 
         var newIngre = document.createElement("li");
         newIngre.setAttribute("class", "list-group-item");
-        newIngre.innerHTML = "<strong>" + amount + "&nbsp;" + "($" + price + ")" + "&nbsp;" + name + "&nbsp;" + "</strong><a class=\"pull-right icon-remove-parent\" id=\"delete\" data=" + id + ">X</a> ";
+        newIngre.innerHTML = "<strong>" + amount + "g"+ "&nbsp;" + "($" + price + ")" + "&nbsp;" + name + "&nbsp;" + "</strong><a class=\"pull-right icon-remove-parent\" id=\"delete\" data=" + id + ">X</a> ";
         list.appendChild(newIngre);
     }
     shoppingInventory = tmp.join("\n");
