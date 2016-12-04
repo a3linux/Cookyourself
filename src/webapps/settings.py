@@ -19,15 +19,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '92ij#!t%v(hvpais9z0t4y-_a*4^y1&^5#6fzs@ts=0e0t@xd_'
+SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['54.244.78.192',
-                '172.31.20.18',
-                 'localhost',
-                 '127.0.0.1'
+                 '172.31.20.18',
+                 '127.0.0.1',
                  ]
 
 # Application definition
@@ -92,8 +91,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'cookyourself',
-        'USER': 'ubuntu',
-        'PASSWORD': 'ubuntu',
+        'USER': os.environ['COOKYOURSELF_DB_ACCOUNT'],
+        'PASSWORD': os.environ['COOKYOURSELF_DB_PASSWD'],
         'HOST': 'localhost',
         'PORT': '',
     }
@@ -108,7 +107,6 @@ HAYSTACK_CONNECTIONS = {
 
 CRONJOBS = [
     ('*/5 * * * * . $HOME/.secret_key;', 'cookyourself.periodic.periodical_crawler', '>> /tmp/periodical_job.log'),
-    #('* * * * * . $HOME/.secret_key;', 'cookyourself.debug.debug', '>> /tmp/cron_debug.log'),
 ]
 
 # Password validation
