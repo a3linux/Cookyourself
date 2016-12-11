@@ -1,4 +1,4 @@
-#profile_dishes_container {
+.profile_dishes_container {
     margin-top: 10px;
     margin-bottom: 10px;
 }
@@ -33,7 +33,7 @@
   border-top: 1px solid #a79e9e;
 }
 
-#dish_name{
+.dish_name{
     margin-top:8px;
     margin-bottom:25px;
 }

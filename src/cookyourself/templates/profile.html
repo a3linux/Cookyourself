@@ -17,7 +17,7 @@
     <div class="row">
       <div class="col-xs-12 col-md-4 col-lg-4">
           <img src={{profile.url}} class="img-rounded"
-          id="profile_image">
+          id="profile_image" alt="profile image">
           <input type="hidden" id="owner_id" name="owner" value="{{ profile.user.id }}">
       </div>
       <div class="col-xs-6 col-md-8 col-lg-4">
@@ -37,19 +37,19 @@
     </div>
   </section>
 
-  <div id="profile_dishes_container">
+  <div class="profile_dishes_container">
     <div class="btn-group btn-group-justified" role="group" aria-label="...">
       <div class="btn-group" role="group">
         <button type="button" class="btn btn-warning" data-toggle="tab" href="#profile-favorites">Favorites</button>
       </div>
       <div class="btn-group" role="group">
-        <button type="button" class="btn btn-warning" data-toggle="tab" href="#profile-comments">Comments</button>
+        <button type="button" class="btn btn-warning" data-toggle="tab" href="#profile-comments">Message Board</button>
       </div>
     </div>
     <br>
   </div>
 
-  <div id="profile_dishes_container" class="tab-content">
+  <div class="profile_dishes_container tab-content">
     <div id="profile-favorites" class="tab-pane fade in active">
       <div class="row">
       {% for set in sets %}
@@ -57,7 +57,7 @@
           <a href="{% url 'dish' set.dish.id %}">
             <canvas id="{{ set.image }}" class="img-thumbnail myCanvas" width="533" height="300"></canvas>
           </a> 
-          <h5 class="text-center" id="dish_name">
+          <h5 class="text-center dish_name">
             {{set.dish.name}}
           </h5>
         </div>
@@ -73,7 +73,7 @@
         <div class="row">
         <form method="post" id="message-form">
           <div class="col-xs-12 col-sm-6 col-md-6 col-lg-7">
-              <textarea class="form-control" name="content" id="message-content" rows="3" cols="40%" placeholder="Leave a message?"></textarea>
+              <textarea class="form-control" name="content" id="message-content" rows="3" placeholder="Leave a message?" style="cols: 40%"></textarea>
           </div>
           <div class="col-xs-2 col-xs-offset-0 col-sm-5 col-sm-offset-1 col-md-5 col-md-offset-0 col-lg-5 col-lg-offset-0">
             <input class="btn btn-warning" type="submit" value="Post" id="submit">

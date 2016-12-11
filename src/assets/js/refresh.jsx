@@ -232,7 +232,7 @@ var DishList = React.createClass({
             </div>
         } else {
             refreshButton = <div className="col-xs-12 col-md-12 col-lg-12 div-refresh">
-                <a className="btn-refresh outline" onClick={this.refresh}>Over all...</a>
+                <a className="btn-refresh outline" onClick={this.refresh}>No more...</a>
             </div>
         }
         // Return the component content. dishes can be rendered by looping through.
